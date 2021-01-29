@@ -2,22 +2,23 @@ from Fin_Data import Fin_Data
 import pandas as pd
 
 # Class Fin_Select, inheritance from Fin_Data
-class Fin_Select(Fin_Data):
+class Fin_Select:
     '''
     # Financial Data Scrapper Made by Gavin Loo 2021.
     Uses data from MarketWatch.com
     Selects data from dataFrame provided by Fin_Data class. Then returns output.
 
-    Args = ticker(str), year(int), item(str)
+    Args = year(int), item(str)
     '''
-    def __init__(self, ticker, year, item):
+
+    def __init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe'):
         '''
-        Initialize Fin_Select class, intialize ticker, year and item for DataFrame extraction.
+        Initialize Fin_Select class from Fin_Data (and other __init__ arguments) for DataFrame extraction.
         
         '''
+        # Gets Fin_Data class inherits __init__ args
         self.ticker = ticker
-        self.year = year
-        self.item = item
+        self.PATH = PATH
 
 
     def __repr__(self):
@@ -26,7 +27,7 @@ class Fin_Select(Fin_Data):
         # Returns str
         '''
 
-        return (f'{self.__class__.__name__}('f'{self.ticker!r}, {self.year!r}, {self.item!r}')
+        return (f'{self.__class__.__name__}('f'{self.ticker!r}')
 
 
     def __str__(self):
@@ -35,49 +36,70 @@ class Fin_Select(Fin_Data):
         # Returns str
         '''
 
-        return f'Selecting {self.item} data, Year {self.year} for stock {self.ticker}.'
+        return f'Selecting {self.ticker} financial data.'
 
     
-    def select_isolate(self, from_df):
+    def select_isolate(self, from_df, year=None, item=None):
         '''
         Select's dataframe specific column and row for respective class arguments.
         # Returns str
         '''
-        val = from_df.loc[f'{self.item}',f'{self.year}']
-        return val
+        if year and item != None:
+            try:
+                val = from_df.loc[f'{item}',f'{year}']
+                return val
+            except KeyError:
+                print('Input does not exist. Please double check args year and item again.')
 
+        else:
+            return None
 
-    def select_year(self, from_df):
+    def select_year(self, from_df, year=None):
         '''
         Select's dataframe column for respective class arguments.
         # Returns pd.Series of rows
         '''
-        val = from_df.loc[f'{self.year}']
-        return val
+        if year != None:
+            try:
+                val = from_df.loc[f'{year}']
+                return val
+            except KeyError:
+                print('Input does not exist. Please double check args year and item again.')
+
+        
+        else:
+            return None
     
 
-    def select_item(self, from_df):
+    def select_item(self, from_df, item=None):
         '''
         Select's dataframe row for respective class arguments.
         # Returns pd.Series of rows
         '''
-        val = from_df.loc[f'{self.item}']
-        return val
+        if item != None:
+            try:
+                val = from_df.loc[f'{item}']
+                return val
+            except KeyError:
+                print('Input does not exist. Please double check args year and item again.')
+        
+        else: 
+            return None
 
 
-ticker = 'D05'
-stock = Fin_Data(ticker)
-select = Fin_Select(ticker, 2020, 'EPS (Diluted)')
-income_statement = stock.income_statement()
+# ticker = 'D05'
+# stock = Fin_Data(ticker)
+# select = Fin_Select(ticker, 2020, 'EPS (Diluted)')
+# income_statement = stock.income_statement()
 
-sales = select.select_item(income_statement)
-sales_2020 = sales[-1]
-print(sales_2020)
-print(type(sales_2020))
-print(type(sales))
+# sales = select.select_item(income_statement)
+# sales_2020 = sales[-1]
+# print(sales_2020)
+# print(type(sales_2020))
+# print(type(sales))
 
-print(select)
-stock.driver_end()
+# print(select)
+# stock.driver_end()
 
 
 

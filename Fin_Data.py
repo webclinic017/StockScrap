@@ -119,7 +119,7 @@ class Fin_Data:
             self.driver.implicitly_wait(5)
 
             # xpath for stock name
-            name_loc = '//h1[contains(@class, 'company__name')]'
+            name_loc = "//h1[contains(@class, 'company__name')]"
 
             # get name val and convert to text
             val = self.driver.find_elements_by_xpath(name_loc).text
@@ -144,7 +144,7 @@ class Fin_Data:
             self.driver.implicitly_wait(5)
 
             # xpath for stock industry
-            name_loc = '//li[contains(@class, 'kv__item w100')][1]/span'
+            name_loc = "//li[contains(@class, 'kv__item w100')][1]/span"
 
             # get industry val and convert to text
             val = self.driver.find_elements_by_xpath(name_loc).text
@@ -169,7 +169,7 @@ class Fin_Data:
             self.driver.implicitly_wait(5)
 
             # xpath for stock industry
-            name_loc = '//li[contains(@class, 'kv__item w100')][2]/span'
+            name_loc = "//li[contains(@class, 'kv__item w100')][2]/span"
 
             # get industry val and convert to text
             val = self.driver.find_elements_by_xpath(name_loc).text
@@ -278,8 +278,8 @@ class Fin_Data:
             # SET Index as {ticker} MAIN PAGE DATA
             quote_df = quote_df.rename_axis(f'{self.ticker} Main Page Data')
 
-            print("Main Page Data:")
-            print(quote_df)
+            # print("Main Page Data:")
+            # print(quote_df)
 
             driver.implicitly_wait(5)
 
@@ -376,8 +376,8 @@ class Fin_Data:
             income_df = income_df.drop(columns='ITEM')
 
             # Output to run
-            print("Income Statement Table:")
-            print(income_df)
+            # print("Income Statement Table:")
+            # print(income_df)
 
             # Returns dataframe
             return income_df
@@ -472,8 +472,8 @@ class Fin_Data:
             assets_df = assets_df.drop(columns='ITEM')
 
             # Output to run
-            print("Assets Balance Sheet Table: ")
-            print(assets_df)
+            # print("Assets Balance Sheet Table: ")
+            # print(assets_df)
 
             # Returns dataframe
             return assets_df
@@ -565,8 +565,8 @@ class Fin_Data:
             lia_df = lia_df.drop(columns='ITEM')
 
             # Output to run
-            print("Liabilities Balance Sheet Table: ")
-            print(lia_df)
+            # print("Liabilities Balance Sheet Table: ")
+            # print(lia_df)
 
             # Returns dataframe
             return lia_df
@@ -660,8 +660,8 @@ class Fin_Data:
             opr_df = opr_df.drop(columns='ITEM')
 
             # Output to run
-            print("Operating Activies, Cash Flow Table: ")
-            print(opr_df)
+            # print("Operating Activies, Cash Flow Table: ")
+            # print(opr_df)
 
             # Returns dataframe
             return opr_df
@@ -755,8 +755,8 @@ class Fin_Data:
             inv_df = inv_df.drop(columns='ITEM')
 
             # Output to run
-            print("Investing Activies, Cash Flow Table: ")
-            print(inv_df)
+            # print("Investing Activies, Cash Flow Table: ")
+            # print(inv_df)
 
             # Returns dataframe
             return inv_df
@@ -850,8 +850,8 @@ class Fin_Data:
             fin_df = fin_df.drop(columns='ITEM')
 
             # Output to run
-            print("Financing Activies, Cash Flow Table: ")
-            print(fin_df)
+            # print("Financing Activies, Cash Flow Table: ")
+            # print(fin_df)
 
             # Returns dataframe
             return fin_df
