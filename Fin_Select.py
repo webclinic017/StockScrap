@@ -54,21 +54,21 @@ class Fin_Select:
         else:
             return None
 
-    def select_year(self, from_df, year=None):
-        '''
-        Select's dataframe column for respective class arguments.
-        # Returns pd.Series of rows
-        '''
-        if year != None:
-            try:
-                val = from_df.loc[f'{year}']
-                return val
-            except KeyError:
-                print('Input does not exist. Please double check args year and item again.')
+    # def select_year(self, from_df, year=None):
+    #     '''
+    #     Select's dataframe column for respective class arguments.
+    #     # Returns pd.Series of rows
+    #     '''
+    #     if year != None:
+    #         try:
+    #             val = from_df.loc[:, f'{year}']
+    #             return val
+    #         except KeyError:
+    #             print('Input does not exist. Please double check args year and item again.')
 
         
-        else:
-            return None
+    #     else:
+    #         return None
     
 
     def select_item(self, from_df, item=None):

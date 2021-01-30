@@ -38,9 +38,10 @@ class FData(Fin_Data, Fin_Extract):
     
 
 ### Example ### 
-stock = FData('TSLA')
+stock = FData('GOOG')
 df = stock.income_statement()
-data = stock.select_item(df, 'Income Tax - Deferred Foreign')
+print(df)
+data = stock.select_item(df, item='Basic Shares Outstanding')
 val = stock.extract(data)
 
 # data = '-'

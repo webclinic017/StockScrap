@@ -163,6 +163,7 @@ class Fin_Extract(Fin_Select):
             new_val = [np.nan if x==0 else x for x in new_val]           
             # Check what kind of data was inputted
             type_check = max(new_val)
+            print(new_val)
 
             dtype_ = 0
             if type(type_check) == int:
