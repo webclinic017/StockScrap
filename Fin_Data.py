@@ -77,7 +77,7 @@ class Fin_Data:
         self.driver.get(URL)
 
         # Implicit Buffer
-        self.driver.implicitly_wait(5)
+        self.driver.implicitly_wait(3)
 
         # xpath for check_price
         check_price = "//h3[contains(@class, 'intraday__price')]/bg-quote"
@@ -97,7 +97,7 @@ class Fin_Data:
         
         finally: 
             # Buffer
-            time.sleep(5)
+            time.sleep(3)
 
         # Returns True or False depending whether self.ticker exists in database.
         return exist
@@ -116,7 +116,7 @@ class Fin_Data:
             self.driver.get(URL)
 
             # Implicit Buffer
-            self.driver.implicitly_wait(5)
+            self.driver.implicitly_wait(3)
 
             # xpath for stock name
             name_loc = "//h1[contains(@class, 'company__name')]"
@@ -141,7 +141,7 @@ class Fin_Data:
             self.driver.get(URL)
 
             # Implicit Buffer
-            self.driver.implicitly_wait(5)
+            self.driver.implicitly_wait(3)
 
             # xpath for stock industry
             name_loc = "//li[contains(@class, 'kv__item w100')][1]/span"
@@ -166,7 +166,7 @@ class Fin_Data:
             self.driver.get(URL)
 
             # Implicit Buffer
-            self.driver.implicitly_wait(5)
+            self.driver.implicitly_wait(3)
 
             # xpath for stock industry
             name_loc = "//li[contains(@class, 'kv__item w100')][2]/span"
@@ -191,7 +191,7 @@ class Fin_Data:
             self.driver.get(URL)
 
             # Implicit Buffer
-            self.driver.implicitly_wait(5)
+            self.driver.implicitly_wait(3)
 
             # xpath for price
             check_price = "//h3[contains(@class, 'intraday__price')]/bg-quote"
@@ -218,7 +218,7 @@ class Fin_Data:
         exist = self.check_ticker()
         if exist == True:
             # Buffer of 5 seconds
-            time.sleep(5)
+            time.sleep(3)
 
             # URL Settings and initialise driver as self.driver
             URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}?mod=mw_quote_tab'
@@ -228,7 +228,7 @@ class Fin_Data:
             driver.get(URL)
 
             # Buffer of 5 seconds for website to load
-            driver.implicitly_wait(5)
+            driver.implicitly_wait(3)
 
             # get xpath values for main page
             # Main values
@@ -281,7 +281,7 @@ class Fin_Data:
             # print("Main Page Data:")
             # print(quote_df)
 
-            driver.implicitly_wait(5)
+            driver.implicitly_wait(3)
 
             # Returns dataframe table
             return quote_df
@@ -308,7 +308,7 @@ class Fin_Data:
             driver.get(URL)
 
             # Buffer
-            driver.implicitly_wait(5)
+            driver.implicitly_wait(3)
 
             # get xpath values for income statement page
             # table element
@@ -403,7 +403,7 @@ class Fin_Data:
             driver.get(URL)
 
             # Buffer
-            driver.implicitly_wait(5)
+            driver.implicitly_wait(3)
 
             ######## ASSETS TABLE ########
             # get xpath values for assets, balance sheet statement page
@@ -592,7 +592,7 @@ class Fin_Data:
             driver.get(URL)
 
             # Buffer
-            driver.implicitly_wait(5)
+            driver.implicitly_wait(3)
 
             # get xpath values for operating activities, cash flow statement page
             # table element
@@ -687,7 +687,7 @@ class Fin_Data:
             driver.get(URL)
 
             # Buffer
-            driver.implicitly_wait(5)
+            driver.implicitly_wait(3)
 
             # get xpath values for investing activities, cash flow statement page
             # table element
@@ -782,7 +782,7 @@ class Fin_Data:
             driver.get(URL)
 
             # Buffer
-            driver.implicitly_wait(5)
+            driver.implicitly_wait(3)
 
             # get xpath values for financing activities, cash flow statement page
             # table element
@@ -867,7 +867,7 @@ class Fin_Data:
         '''
 
         self.balance_sheet_assets()
-        time.sleep(2)
+        time.sleep(3)
         self.balance_sheet_lia()
         
         return 'Printed balance sheet successfully.'

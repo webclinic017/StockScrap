@@ -38,15 +38,14 @@ class FData(Fin_Data, Fin_Extract):
     
 
 ### Example ### 
-stock = FData('MSFT')
+stock = FData('TSLA')
 df = stock.income_statement()
-rev = stock.select_item(df, item='Sales/Revenue')
-prc = stock.select_item(df, item='Sales Growth')
-array = stock.cell_true_val(rev)
-array2 = stock.cell_true_val(prc)
+data = stock.select_item(df, 'Income Tax - Deferred Foreign')
+val = stock.extract(data)
 
-print(array)
-print(array2)
+# data = '-'
+# val = stock.extract(data)
+print(val)
 stock.driver_end()
 
 

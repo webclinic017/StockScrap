@@ -35,7 +35,7 @@ class Fin_Extract(Fin_Select):
         'T' : 1_000_000_000_000,
         '%' : 0.01,
         '(' : -1,
-        '-' : None
+        '-' : 1
     }
 
     # Initializes Fin_Extract class inherits __init__ args
@@ -88,13 +88,13 @@ class Fin_Extract(Fin_Select):
     def str_to_val(self, cell_val):
         '''
         Converts string with symbols to value.
-        # Returns float64
+        # Returns int64
         '''
         # List of symbols in cells
         sym_in_cell = self.determine_symbol(cell_val)
 
         # Get Multiplier List
-        multiplier_list = []
+        multiplier_list = [1]
         for sym in sym_in_cell:
             m_val = self.dict_symbols.get(sym)
             multiplier_list.append(m_val)
@@ -110,36 +110,43 @@ class Fin_Extract(Fin_Select):
         
         # Other symbol to remove
         formatted_val = formatted_val.replace(')', '')
+
+        if '%' in sym_in_cell:
+            # Get true cell value
+            val = float(formatted_val) * multiplier
         
-        # Get true cell value
-        val = float(formatted_val) * multiplier
-        val = int(val)
+        elif '-' in sym_in_cell:
+            # Val is none
+            val = 0
+
+        else:
+            # Get true cell value
+            val = float(formatted_val) * multiplier
+            val = int(val)
 
         return val
 
-    def cell_true_val(self, cell_val):
+    def extract(self, cell_val):
         '''
         Determines value in table cell. Must cell value or pandas Series, 
         symbol = str, cell_val = str
-        # Returns float64
+        # Returns int64, float64 or pandas Series of int64, float64
         '''
-        # If input is a string, and not % or -
-        if type(cell_val) == str and ('%' and '-') not in self.determine_symbol(cell_val):
-            val = self.str_to_val(cell_val)
-            val = int(val)
-            return val
 
-        if type(cell_val) == str and '%' in self.determine_symbol(cell_val):
+        # If input is a string
+        if type(cell_val) == str:
             val = self.str_to_val(cell_val)
-            val = float(val)
+
             return val
         
-        if type(cell_val) == str and '-' in self.determine_symbol(cell_val):
-            return None
-        
-        # If input is a pandas Series, not % or -
-        if isinstance(cell_val, pd.Series) and ('%' and '-') not in self.determine_symbol(cell_val):
+        # If input is a pandas Series
+        if isinstance(cell_val, pd.Series):
+            # Initial data series name
+            name = cell_val.name
+
+            # Series of cells selected
             series = cell_val
+
             # Get list from series
             old_val = series.tolist()
 
@@ -147,49 +154,30 @@ class Fin_Extract(Fin_Select):
             # Iterate inside list
             for element in old_val:
                 val = self.str_to_val(element)
-                val = int(val)
                 new_val.append(val)
 
-            print(new_val)
             # Get index list
             list_index = series.index.values.tolist()
+
+            # If any element = 0, change to numpy.NaN
+            new_val = [np.nan if x==0 else x for x in new_val]           
+            # Check what kind of data was inputted
+            type_check = max(new_val)
+
+            dtype_ = 0
+            if type(type_check) == int:
+                dtype_ = np.int64
             
-            new_series = pd.Series(new_val, index=list_index, dtype=np.int64)
-            return new_series
-
-        # If input is a pandas Series, %
-        if isinstance(cell_val, pd.Series) and '%' in self.determine_symbol(cell_val):
-            series = cell_val
-            # Get list from series
-            old_val = series.tolist()
-
-            new_val = []
-            # Iterate inside list
-            for element in old_val:
-                val = self.str_to_val(element)
-                val = float(val)
-                new_val.append(val)
-
-            print(new_val)
-            # Get index list
-            list_index = series.index.values.tolist()
+            elif type(type_check) == float:
+                dtype_ = np.float64
             
-            new_series = pd.Series(new_val, index=list_index, dtype=np.float64)
-            return new_series
+            else:
+                print('No successful int/float data type check. Please check inputted data again.')
 
-        # If input is a pandas Series, -
-        if isinstance(cell_val, pd.Series) and '-' in self.determine_symbol(cell_val):
-            series = cell_val
-            # Get list from series
-            old_val = series.tolist()
-
-            print(new_val)
-            # Get index list
-            list_index = series.index.values.tolist()
-            
-            new_series = pd.Series(0, index=list_index, dtype=np.int64)
+            # Create new pandas Series using new extracted values.
+            new_series = pd.Series(new_val, index=list_index, dtype=dtype_, name=name)
             return new_series
         
         else:
-            return 'Symbol not defined. Please check dataframe again.'                
+            return 'Error extracting data. Please check items, year, ticker again.'                
         
