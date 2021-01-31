@@ -206,6 +206,296 @@ class Fin_Data:
 
         else:
             raise ValueError('Ticker does not exist. Please check again.')
+    
+    
+    def valuations(self):
+        '''
+        Get current valuations of the stock.
+        # returns pandas DataFrame
+        '''
+
+        exist = self.check_ticker()
+        if exist == True:
+            # URL to check for valuations table.
+            URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
+
+            # Navigate to PROFILE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
+
+            # xpath for header, columns and values
+            header = "//div[contains(@class, 'column column--primary')]/div[2]/div[1]/header/h2/span"
+            # loop through tr to get vals
+            column = "//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr/td[1]"
+            
+            # loop through tr to get vals
+            data = "//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr/td[2]"
+
+            # Scraped Data
+            column_loc = self.driver.find_elements_by_xpath(column)
+            data_loc = self.driver.find_elements_by_xpath(data)
+
+            # Get length of columns
+            column_len = len(column_loc)
+            data_len = len(data_loc)
+
+            # Lists to add into dataframe
+            column_list = []
+            data_list = []
+
+            # Get index of dataframe
+            for i in range(1, column_len + 1):
+                column = self.driver.find_element_by_xpath(f"//div[contains(@class, 'olumn column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[1]").text
+                column_list.append(column)
+            
+            for i in range(1, data_len + 1):
+                data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[2]").text
+                data_list.append(data)
+            
+            # Create dataframe for viewing
+            val_df = pd.DataFrame(data_list, index=column_list, columns= ['Data'])
+
+            # Set Index as {ticker} Valuations
+            val_df = val_df.rename_axis(f'{self.ticker} Valuations')
+
+            return val_df
+
+        else:
+            raise ValueError('Ticker does not exist. Please check again.')
+
+
+    def efficiency(self):
+        '''
+        Get current efficiency of the stock.
+        # returns pandas DataFrame
+        '''
+
+        exist = self.check_ticker()
+        if exist == True:
+            # URL to check for efficiency table.
+            URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
+
+            # Navigate to PROFILE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
+
+            # xpath for header, columns and values
+            header = "//div[contains(@class, 'column column--primary')]/div[2]/div[2]/header/h2/span"
+            # loop through tr to get vals
+            column = "//div[contains(@class, 'column column--primary')]/div[2]/div[2]/table/tbody/tr/td[1]"
+            
+            # loop through tr to get vals
+            data = "//div[contains(@class, 'column column--primary')]/div[2]/div[2]/table/tbody/tr/td[2]"
+
+            # Scraped Data
+            column_loc = self.driver.find_elements_by_xpath(column)
+            data_loc = self.driver.find_elements_by_xpath(data)
+
+            # Get length of columns
+            column_len = len(column_loc)
+            data_len = len(data_loc)
+
+            # Lists to add into dataframe
+            column_list = []
+            data_list = []
+
+            # Get index of dataframe
+            for i in range(1, column_len + 1):
+                column = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[1]").text
+                column_list.append(column)
+            
+            for i in range(1, data_len + 1):
+                data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[2]").text
+                data_list.append(data)
+            
+            # Create dataframe for viewing
+            eff_df = pd.DataFrame(data_list, index=column_list, columns= ['Data'])
+
+            # Set Index as {ticker} Efficiency
+            eff_df = eff_df.rename_axis(f'{self.ticker} Efficiency')
+
+            return eff_df
+
+        else:
+            raise ValueError('Ticker does not exist. Please check again.')
+
+
+    def liquidity(self):
+        '''
+        Get current liquidity of the stock.
+        # returns pandas DataFrame
+        '''
+
+        exist = self.check_ticker()
+        if exist == True:
+            # URL to check for liquidity table.
+            URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
+
+            # Navigate to PROFILE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
+
+            # xpath for header, columns and values
+            header = "//div[contains(@class, 'column column--primary')]/div[2]/div[3]/header/h2/span"
+            # loop through tr to get vals
+            column = "//div[contains(@class, 'column column--primary')]/div[2]/div[3]/table/tbody/tr/td[1]"
+            
+            # loop through tr to get vals
+            data = "//div[contains(@class, 'column column--primary')]/div[2]/div[3]/table/tbody/tr/td[2]"
+
+            # Scraped Data
+            column_loc = self.driver.find_elements_by_xpath(column)
+            data_loc = self.driver.find_elements_by_xpath(data)
+
+            # Get length of columns
+            column_len = len(column_loc)
+            data_len = len(data_loc)
+
+            # Lists to add into dataframe
+            column_list = []
+            data_list = []
+
+            # Get index of dataframe
+            for i in range(1, column_len + 1):
+                column = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[1]").text
+                column_list.append(column)
+            
+            for i in range(1, data_len + 1):
+                data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[2]").text
+                data_list.append(data)
+            
+            # Create dataframe for viewing
+            liq_df = pd.DataFrame(data_list, index=column_list, columns= ['Data'])
+
+            # Set Index as {ticker} Liquidity
+            liq_df = liq_df.rename_axis(f'{self.ticker} Liquidity')
+
+            return liq_df
+
+        else:
+            raise ValueError('Ticker does not exist. Please check again.')
+
+
+    def profitability(self):
+        '''
+        Get current profitability of the stock.
+        # returns pandas DataFrame
+        '''
+
+        exist = self.check_ticker()
+        if exist == True:
+            # URL to check for profitability table.
+            URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
+
+            # Navigate to PROFILE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
+
+            # xpath for header, columns and values
+            header = "//div[contains(@class, 'column column--primary')]/div[3]/div[1]//header/h2/span"
+            # loop through tr to get vals
+            column = "//div[contains(@class, 'column column--primary')]/div[3]/div[1]/table/tbody/tr/td[1]"
+            
+            # loop through tr to get vals
+            data = "//div[contains(@class, 'column column--primary')]/div[3]/div[1]/table/tbody/tr/td[2]"
+
+            # Scraped Data
+            column_loc = self.driver.find_elements_by_xpath(column)
+            data_loc = self.driver.find_elements_by_xpath(data)
+
+            # Get length of columns
+            column_len = len(column_loc)
+            data_len = len(data_loc)
+
+            # Lists to add into dataframe
+            column_list = []
+            data_list = []
+
+            # Get index of dataframe
+            for i in range(1, column_len + 1):
+                column = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[1]").text
+                column_list.append(column)
+            
+            for i in range(1, data_len + 1):
+                data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[2]").text
+                data_list.append(data)
+            
+            # Create dataframe for viewing
+            pft_df = pd.DataFrame(data_list, index=column_list, columns= ['Data'])
+
+            # Set Index as {ticker} profitability
+            pft_df = pft_df.rename_axis(f'{self.ticker} Profitability')
+
+            return pft_df
+
+        else:
+            raise ValueError('Ticker does not exist. Please check again.')
+
+
+    def captialization(self):
+        '''
+        Get current captialization of the stock.
+        # returns pandas DataFrame
+        '''
+
+        exist = self.check_ticker()
+        if exist == True:
+            # URL to check for profitability table.
+            URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
+
+            # Navigate to PROFILE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
+
+            # xpath for header, columns and values
+            header = "//div[contains(@class, 'column column--primary')]/div[3]/div[2]//header/h2/span"
+            # loop through tr to get vals
+            column = "//div[contains(@class, 'column column--primary')]/div[3]/div[2]/table/tbody/tr/td[1]"
+            
+            # loop through tr to get vals
+            data = "//div[contains(@class, 'column column--primary')]/div[3]/div[2]/table/tbody/tr/td[2]"
+
+            # Scraped Data
+            column_loc = self.driver.find_elements_by_xpath(column)
+            data_loc = self.driver.find_elements_by_xpath(data)
+
+            # Get length of columns
+            column_len = len(column_loc)
+            data_len = len(data_loc)
+
+            # Lists to add into dataframe
+            column_list = []
+            data_list = []
+
+            # Get index of dataframe
+            for i in range(1, column_len + 1):
+                column = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[1]").text
+                column_list.append(column)
+            
+            for i in range(1, data_len + 1):
+                data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[2]").text
+                data_list.append(data)
+            
+            # Create dataframe for viewing
+            cap_df = pd.DataFrame(data_list, index=column_list, columns= ['Data'])
+
+            # Set Index as {ticker} captialization
+            cap_df = cap_df.rename_axis(f'{self.ticker} Captialization')
+
+            return cap_df
+
+        else:
+            raise ValueError('Ticker does not exist. Please check again.')
 
 
     def main_page(self):
@@ -866,9 +1156,11 @@ class Fin_Data:
         # Returns str
         '''
 
-        self.balance_sheet_assets()
+        asset = self.balance_sheet_assets()
         time.sleep(3)
-        self.balance_sheet_lia()
+        lia = self.balance_sheet_lia()
+        print(asset)
+        print(lia)
         
         return 'Printed balance sheet successfully.'
     
@@ -879,11 +1171,14 @@ class Fin_Data:
         # Returns str
         '''
 
-        self.cash_flow_opr()
+        opr = self.cash_flow_opr()
         time.sleep(2)
-        self.cash_flow_inv()
+        inv = self.cash_flow_inv()
         time.sleep(2)
-        self.cash_flow_fin()
+        fin = self.cash_flow_fin()
+        print(opr)
+        print(inv)
+        print(fin)
 
         return 'Printed cash flow statement successfully.'
 

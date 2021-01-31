@@ -39,15 +39,8 @@ class FData(Fin_Data, Fin_Extract):
 
 ### Example ### 
 stock = FData('GOOG')
-df = stock.income_statement()
-print(df)
-data = stock.select_item(df, item='Basic Shares Outstanding')
-val = stock.extract(data)
+df = stock.valuations()
 
-# data = '-'
-# val = stock.extract(data)
-print(val)
 stock.driver_end()
-
 
 
