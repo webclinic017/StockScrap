@@ -1,15 +1,47 @@
 from Stock_Data import Stock_Data
+import pandas as pd
+from datetime import datetime
+import pprint
 
-ticker_list = [
-    'GOOG',
-    'AAPL',
-    'NVDA',
-    'AMZN',
-    'NFLX'
-]
+# Imports selenium errors and exceptions.
+from selenium.common.exceptions import *
 
-for ticker in ticker_list:
-    stock = Stock_Data(ticker)
-    stock.download()
+# Start time of code
+start_time = datetime.now()
+
+# Split list into multiple lists
+def chunks(lst, n):
+    """Yield successive n-sized chunks from lst."""
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n]
 
 
+# List of S&P500 Companies
+components = r'C:\Users\Dennis Loo.000\Desktop\Value_Investing_Screener\Ticker_List\S&P500 Components.csv'
+
+error_list = []
+
+with open(components, 'r') as sp500:
+
+    # Read CSV
+    df = pd.read_csv(sp500)
+    df = df.set_index('Ticker')
+
+    # chunks of 10 lists
+    components_list = df.index.tolist()
+    components_chunks = list(chunks(components_list, 10))
+    components_len = len(components_chunks) # Len = 51
+
+
+    # If stock does not exist, add into error_list
+    for ticker in df.index:
+        stock = Stock_Data(ticker)
+        try:
+            stock.download()
+        except ValueError:
+            error_list.append(ticker)
+        
+
+time_taken = datetime.now() - start_time
+print(f'Error List = {error_list}')
+print(f'---Time taken = {time_taken}---')
