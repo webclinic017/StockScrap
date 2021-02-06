@@ -1,11 +1,13 @@
 from TData import TData
 from FData import FData
+from to_json import ToJson
 import pandas as pd
 import numpy as np
 import datetime as datetime
+from pathlib import Path
 
 
-class Stock_Data(TData, FData):
+class Stock_Data(TData, FData, ToJson):
 
     def __init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', candle_interval=1, print=False):
         '''
@@ -59,4 +61,74 @@ class Stock_Data(TData, FData):
         series = pd.Series(sel_price, index=date_list, name=f'Beginning of Fiscal Year Date and Corresponding Prices for {self.ticker}')
 
         return series
+
+
+    def stock_info(self):
+        '''
+        Summarises all the main info in a stock into a dataframe.
+        # Returns pandas Series
+        '''
+
+        # Name, Sector, Industry, 
+        name = self.name()
+        sector = self.sector()
+        industry = self.industry()
+
+        index = ['Name', 'Sector', 'Industry']
+        val = [name, sector, industry]
+
+        # Create pandas Series using index list and val list.
+        stock_s = pd.Series(val, index, dtype=str, name=f'{self.ticker} Information')
+
+        return stock_s
+
+
+    def export(self):
+        '''
+        Key information to export:
+        Price Data (from get_data),
+        Stock_info,
+        Fiscal Year Start Dates,
+        KeyData,
+        Profile:
+            Valuation
+            Efficiency
+            Liquidity
+            Profitability
+            Capitalization,
+        Income Statement,
+        Balance Sheet:
+            Assets
+            Liabiltiies,
+        Cash Flow Statement:
+            Operating Activities
+            Investing Activities
+            Financing Activities,
+        '''
+
+        exp_datetime = datetime.datetime.today()
+        exp_date = exp_datetime.strftime("%Y-%m-%d")
+
+        ticker_index = self.ticker[0]
+
+        
+        # Get path for data export
+        data_path = f'C:\\Users\\Gavin\\VisualStudio\\Value_Investing_Screener\\Data\\{ticker_index}\\{self.ticker}\\{exp_date}'
+        ## Create directory if directory does not exist
+        p = Path(data_path)
+        p.mkdir(exist_ok=True)
+
+        # Export Price Data
+        price_data_df = self.get_data(self.ticker)
+        price_data_name = 'PriceData'
+
+        self.json(from_obj=price_data_df, export_to=p, filename=price_data_name)
+
+
+
+
+
+        
+
+
         
