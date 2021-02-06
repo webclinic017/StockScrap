@@ -23,7 +23,6 @@ class Intrinsic:
         Initialize Intrinsic Class.
         '''
         
-        self.ticker = ticker
         self.margin_safety = margin_safety
         self.avg_pe_ratio = avg_pe_ratio
         self.discount_rate = discount_rate
