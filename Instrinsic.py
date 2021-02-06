@@ -55,6 +55,7 @@ class Intrinsic:
         Dataframe : {self.eps_df}
         List : {self.eps_list}
         '''
+        
 
     
 

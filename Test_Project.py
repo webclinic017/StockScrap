@@ -20,10 +20,10 @@ import datetime
 # # Driver end
 # stock.driver_end()
 
-# ticker = 'MSFT'
-# stock = Stock_Data(ticker)
-# stock.export()
-# stock.driver_end()
+#############################
 
-
-
+list_tickers = ['AAPL', 'MSFT', 'GOOG', 'NVDA']
+for ticker in list_tickers:
+    stock = Stock_Data(ticker)
+    # Export data
+    stock.export()

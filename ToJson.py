@@ -14,12 +14,3 @@ class ToJson:
         obj.to_json(f'{export_to}\\{filename}', orient=orient)
 
         return None
-
-    
-    
-        
-
-
-
-
-    

@@ -16,6 +16,10 @@ from selenium.webdriver.support import expected_conditions as EC
 # Imports selenium errors and exceptions.
 from selenium.common.exceptions import *
 
+# Imports selenium logger, to disable logging on selenium
+import logging
+from selenium.webdriver.remote.remote_connection import LOGGER
+
 # Import time for sleep functions
 import time
 
@@ -69,6 +73,14 @@ class Fin_Data:
         return f'Financial Data for {self.ticker}, Chromedriver PATH = {self.PATH}'
 
     
+    def remove_logging(self):
+        '''
+        Disables logging from selenium
+        # Returns None
+        '''
+        LOGGER.setLevel(logging.WARNING)
+        return None
+
     def check_ticker(self):
         '''
         Check if ticker exists? use price element to get boolean value.
@@ -79,6 +91,7 @@ class Fin_Data:
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}?mod=mw_quote_tab'
 
         # Navigate to QUOTE URL
+        self.remove_logging()
         self.driver.get(URL)
 
         # Implicit Buffer
@@ -118,6 +131,7 @@ class Fin_Data:
             URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}?mod=mw_quote_tab'
 
             # Navigate to QUOTE URL
+            self.remove_logging()
             self.driver.get(URL)
 
             # Implicit Buffer
@@ -127,7 +141,7 @@ class Fin_Data:
             name_loc = "//h1[contains(@class, 'company__name')]"
 
             # get name val and convert to text
-            val = self.driver.find_elements_by_xpath(name_loc).text
+            val = self.driver.find_element_by_xpath(name_loc).text
 
             return val
 
@@ -143,6 +157,7 @@ class Fin_Data:
             URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile'
 
             # Navigate to QUOTE URL
+            self.remove_logging()
             self.driver.get(URL)
 
             # Implicit Buffer
@@ -152,7 +167,7 @@ class Fin_Data:
             name_loc = "//li[contains(@class, 'kv__item w100')][1]/span"
 
             # get industry val and convert to text
-            val = self.driver.find_elements_by_xpath(name_loc).text
+            val = self.driver.find_element_by_xpath(name_loc).text
 
             return val
 
@@ -168,6 +183,7 @@ class Fin_Data:
             URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile'
 
             # Navigate to QUOTE URL
+            self.remove_logging()
             self.driver.get(URL)
 
             # Implicit Buffer
@@ -177,10 +193,113 @@ class Fin_Data:
             name_loc = "//li[contains(@class, 'kv__item w100')][2]/span"
 
             # get industry val and convert to text
-            val = self.driver.find_elements_by_xpath(name_loc).text
+            val = self.driver.find_element_by_xpath(name_loc).text
 
             return val
+
+
+    def exchange(self):
+        '''
+        Get stock exchange
+        # returns str
+        '''
+        exist = self.check_ticker()
+        if exist == True:
+            # URL to check for stock name.
+            URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile'
+
+            # Navigate to QUOTE URL
+            self.remove_logging()
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
+
+            # xpath for stock industry
+            exchange_loc = "//div[contains(@class,'company__symbol')]/span[2]"
+
+            # get industry val and convert to text
+            val = self.driver.find_element_by_xpath(exchange_loc).text
+
+            val = val.replace(":", "")
+
+            return val
+
+
+    def ceo(self):
+        '''
+        Get stock CEO
+        # returns str
+        '''
+        exist = self.check_ticker()
+        if exist == True:
+            # URL to check for stock name.
+            URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
+
+            # Navigate to QUOTE URL
+            self.remove_logging()
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
+
+            # xpath for stock industry
+            ceo_loc = "//div[contains(@class,'group right')]/div/ul/li[1]/a"
+
+            # get industry val and convert to text
+            val = self.driver.find_element_by_xpath(ceo_loc).text
+
+            return val
+
+
+    def business_model(self):
+        '''
+        Get information of businesss model
+        # returns str
+        '''
+        exist = self.check_ticker()
+        if exist == True:
+            # URL to check for stock name.
+            URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
+
+            # Navigate to QUOTE URL
+            self.remove_logging()
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
+
+            # xpath for stock industry
+            bm_loc = "//p[contains(@class, 'description__text')]"
+
+            # get industry val and convert to text
+            val = self.driver.find_element_by_xpath(bm_loc).text
+
+            return val
+
     
+    def stock_info(self):
+        '''
+        Summarises all the main info in a stock into a dataframe.
+        # Returns pandas Series
+        '''
+
+        # Name, Sector, Industry, 
+        name = self.name()
+        sector = self.sector()
+        industry = self.industry()
+        exchange = self.exchange()
+        ceo = self.ceo()
+        business_model = self.business_model()
+
+        index = ['Name', 'Sector', 'Industry', 'Exchange', 'CEO', 'Business Model']
+        val = [name, sector, industry, exchange, ceo, business_model]
+
+        # Create pandas Series using index list and val list.
+        stock_s = pd.Series(val, index, dtype='string', name=f'{self.ticker} Information')
+
+        return stock_s
+
 
     def price(self):
         '''
@@ -193,6 +312,7 @@ class Fin_Data:
             URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}?mod=mw_quote_tab'
 
             # Navigate to QUOTE URL
+            self.remove_logging()
             self.driver.get(URL)
 
             # Implicit Buffer
@@ -225,6 +345,7 @@ class Fin_Data:
             URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
             # Navigate to PROFILE URL
+            self.remove_logging()
             self.driver.get(URL)
 
             # Implicit Buffer
@@ -252,20 +373,17 @@ class Fin_Data:
 
             # Get index of dataframe
             for i in range(1, column_len + 1):
-                column = self.driver.find_element_by_xpath(f"//div[contains(@class, 'olumn column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[1]").text
+                column = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[1]").text
                 column_list.append(column)
             
             for i in range(1, data_len + 1):
                 data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[2]").text
                 data_list.append(data)
             
-            # Create dataframe for viewing
-            val_df = pd.DataFrame(data_list, index=column_list, columns= ['Data'])
+            # Create series for viewing
+            val_series = pd.Series(data_list, index=column_list)
 
-            # Set Index as {ticker} Valuations
-            val_df = val_df.rename_axis(f'{self.ticker} Valuations')
-
-            return val_df
+            return val_series
 
         else:
             raise ValueError('Ticker does not exist. Please check again.')
@@ -283,6 +401,7 @@ class Fin_Data:
             URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
             # Navigate to PROFILE URL
+            self.remove_logging()
             self.driver.get(URL)
 
             # Implicit Buffer
@@ -317,13 +436,10 @@ class Fin_Data:
                 data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[2]").text
                 data_list.append(data)
             
-            # Create dataframe for viewing
-            eff_df = pd.DataFrame(data_list, index=column_list, columns= ['Data'])
+            # Create series for viewing
+            eff_series = pd.Series(data_list, index=column_list)
 
-            # Set Index as {ticker} Efficiency
-            eff_df = eff_df.rename_axis(f'{self.ticker} Efficiency')
-
-            return eff_df
+            return eff_series
 
         else:
             raise ValueError('Ticker does not exist. Please check again.')
@@ -341,6 +457,7 @@ class Fin_Data:
             URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
             # Navigate to PROFILE URL
+            self.remove_logging()
             self.driver.get(URL)
 
             # Implicit Buffer
@@ -375,13 +492,10 @@ class Fin_Data:
                 data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[2]").text
                 data_list.append(data)
             
-            # Create dataframe for viewing
-            liq_df = pd.DataFrame(data_list, index=column_list, columns= ['Data'])
+            # Create series for viewing
+            liq_series = pd.Series(data_list, index=column_list)
 
-            # Set Index as {ticker} Liquidity
-            liq_df = liq_df.rename_axis(f'{self.ticker} Liquidity')
-
-            return liq_df
+            return liq_series
 
         else:
             raise ValueError('Ticker does not exist. Please check again.')
@@ -399,6 +513,7 @@ class Fin_Data:
             URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
             # Navigate to PROFILE URL
+            self.remove_logging()
             self.driver.get(URL)
 
             # Implicit Buffer
@@ -433,13 +548,10 @@ class Fin_Data:
                 data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[2]").text
                 data_list.append(data)
             
-            # Create dataframe for viewing
-            pft_df = pd.DataFrame(data_list, index=column_list, columns= ['Data'])
+            # Create series for viewing
+            pft_series = pd.Series(data_list, index=column_list)
 
-            # Set Index as {ticker} profitability
-            pft_df = pft_df.rename_axis(f'{self.ticker} Profitability')
-
-            return pft_df
+            return pft_series
 
         else:
             raise ValueError('Ticker does not exist. Please check again.')
@@ -457,6 +569,7 @@ class Fin_Data:
             URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
             # Navigate to PROFILE URL
+            self.remove_logging()
             self.driver.get(URL)
 
             # Implicit Buffer
@@ -492,12 +605,9 @@ class Fin_Data:
                 data_list.append(data)
             
             # Create dataframe for viewing
-            cap_df = pd.DataFrame(data_list, index=column_list, columns= ['Data'])
+            cap_series = pd.Series(data_list, index=column_list)
 
-            # Set Index as {ticker} captialization
-            cap_df = cap_df.rename_axis(f'{self.ticker} Captialization')
-
-            return cap_df
+            return cap_series
 
         else:
             raise ValueError('Ticker does not exist. Please check again.')
@@ -520,6 +630,7 @@ class Fin_Data:
             driver = self.driver
 
             # Navigate to QUOTE URL
+            self.remove_logging()
             driver.get(URL)
 
             # Buffer of 5 seconds for website to load
@@ -533,17 +644,17 @@ class Fin_Data:
             quote_header_loc = driver.find_elements_by_xpath(quote_header)
             quote_val_loc = driver.find_elements_by_xpath(quote_value)
 
-            # Pop up button
-            quote_button = "//img[contains(@src, 'icon-close2x')]"
+            # # Pop up button
+            # quote_button = "//img[contains(@src, 'icon-close2x')]"
 
-            try:
-                pop_up_loc = driver.find_element_by_xpath(quote_button)
-                # Clear popup from screen
-                pop_up_loc.click()
-            except NoSuchElementException:
-                # If no popups continue next line of code.
-                # print("No popups detected. Continue code.")
-                pass
+            # try:
+            #     pop_up_loc = driver.find_element_by_xpath(quote_button)
+            #     # Clear popup from screen
+            #     pop_up_loc.click()
+            # except NoSuchElementException:
+            #     # If no popups continue next line of code.
+            #     # print("No popups detected. Continue code.")
+            #     pass
 
             # Lists of data for quote page
             quote_headers = []
@@ -567,19 +678,18 @@ class Fin_Data:
                 quote_data.append(data_vals)
 
 
-            # Dataframe to store values
-            quote_df = pd.DataFrame(quote_data, index=quote_headers, columns=['MAIN PAGE VALUE'])
+            # # Dataframe to store values
+            # quote_df = pd.DataFrame(quote_data, index=quote_headers, columns=['MAIN PAGE VALUE'])
+            # # SET Index as {ticker} MAIN PAGE DATA
+            # quote_df = quote_df.rename_axis(f'{self.ticker} Main Page Data')
 
-            # SET Index as {ticker} MAIN PAGE DATA
-            quote_df = quote_df.rename_axis(f'{self.ticker} Main Page Data')
-
-            # print("Main Page Data:")
-            # print(quote_df)
+            # Series to store values
+            quote_s = pd.Series(quote_data, index=quote_headers, name=f'{self.ticker} Key Data', dtype='string')
 
             driver.implicitly_wait(3)
 
             # Returns dataframe table
-            return quote_df
+            return quote_s
 
         else:
             raise ValueError('Ticker does not exist. Please check again.')
@@ -600,6 +710,7 @@ class Fin_Data:
             driver = self.driver
 
             # Navigate to FINANCIALS, INCOME STATEMENT URL
+            self.remove_logging()
             driver.get(URL)
 
             # Buffer
@@ -695,6 +806,7 @@ class Fin_Data:
             driver = self.driver
 
             # Navigate to FINANCIALS, BALANCE SHEET URL
+            self.remove_logging()
             driver.get(URL)
 
             # Buffer
@@ -792,6 +904,7 @@ class Fin_Data:
             driver = self.driver
 
             # Navigate to FINANCIALS, BALANCE SHEET URL
+            self.remove_logging()
             driver.get(URL)
 
             # get xpath values for liabilities, balance sheet statement page
@@ -884,6 +997,7 @@ class Fin_Data:
             driver = self.driver
 
             # Navigate to FINANCIALS, CASH FLOW URL
+            self.remove_logging()
             driver.get(URL)
 
             # Buffer
@@ -979,6 +1093,7 @@ class Fin_Data:
             driver = self.driver
 
             # Navigate to FINANCIALS, CASH FLOW URL
+            self.remove_logging()
             driver.get(URL)
 
             # Buffer
@@ -1074,6 +1189,7 @@ class Fin_Data:
             driver = self.driver
 
             # Navigate to FINANCIALS, CASH FLOW URL
+            self.remove_logging()
             driver.get(URL)
 
             # Buffer
@@ -1218,6 +1334,7 @@ class Fin_Data:
             URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
             # Navigate to PROFILE URL
+            self.remove_logging()
             self.driver.get(URL)
 
             # Implicit Buffer
@@ -1296,3 +1413,4 @@ class Fin_Data:
         time.sleep(1)
         self.driver.quit()
         return 'Driver successfully quit.'
+

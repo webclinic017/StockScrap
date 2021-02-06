@@ -1,9 +1,10 @@
 from TData import TData
 from FData import FData
-from to_json import ToJson
+from ToJson import ToJson
 import pandas as pd
 import numpy as np
 import datetime as datetime
+import time
 from pathlib import Path
 
 
@@ -63,73 +64,162 @@ class Stock_Data(TData, FData, ToJson):
         return series
 
 
-    def stock_info(self):
-        '''
-        Summarises all the main info in a stock into a dataframe.
-        # Returns pandas Series
-        '''
-
-        # Name, Sector, Industry, 
-        name = self.name()
-        sector = self.sector()
-        industry = self.industry()
-
-        index = ['Name', 'Sector', 'Industry']
-        val = [name, sector, industry]
-
-        # Create pandas Series using index list and val list.
-        stock_s = pd.Series(val, index, dtype=str, name=f'{self.ticker} Information')
-
-        return stock_s
-
-
     def export(self):
         '''
-        Key information to export:
-        Price Data (from get_data),
-        Stock_info,
-        Fiscal Year Start Dates,
-        KeyData,
-        Profile:
-            Valuation
-            Efficiency
-            Liquidity
-            Profitability
-            Capitalization,
-        Income Statement,
-        Balance Sheet:
-            Assets
-            Liabiltiies,
-        Cash Flow Statement:
-            Operating Activities
-            Investing Activities
-            Financing Activities,
+        Exports stock data as a JSON file to database.
+        # Returns None
         '''
 
+        ## Create directory if directory does not exist
         exp_datetime = datetime.datetime.today()
         exp_date = exp_datetime.strftime("%Y-%m-%d")
-
-        ticker_index = self.ticker[0]
         
-        # Get path for data export
-        # data_path = fr'C:\\Users\\Dennis Loo.000\\Desktop\\Value_Investing_Screener\\Data\\{ticker_index}\{self.ticker}\{exp_date}'
-        ## Create directory if directory does not exist
-        p = Path(f'C:/Users/Dennis Loo.000/Desktop/Value_Investing_Screener/Data/{ticker_index}/{self.ticker}/{exp_date}')
+        # Stock Exchange DIR Path
+        exchange = self.exchange()
+        exchange_path = exchange.replace(':', '')
+
+        # Ticker Alphabet DIR Path
+        ticker_index = self.ticker[0]
+
+        # Path Class
+        p = Path(f'C:/Users/Dennis Loo.000/Desktop/Value_Investing_Screener/Data/{exchange_path}/{ticker_index}/{self.ticker}/{exp_date}')
         p.mkdir(parents=True, exist_ok=True)
 
-        # Export Price Data
+        # Output to run
+        print(f'''
+
+********************************************************************************************************************
+Data Downloaded from MarketWatch.com
+Beginning Data Download for {self.ticker}.
+        ''')
+        # Price Data ----------------------------------------------------------------------------------------------
+        # Export Price Datas
         price_data_df = self.get_data(self.ticker)
         price_data_name = 'PriceData'
 
         self.json(from_obj=price_data_df, export_to=p, filename=price_data_name)
+        print('PriceData exported')
 
-        # Export 
+        # Stock Info ----------------------------------------------------------------------------------------------
+        # Export Stock_Info
+        stock_info_df = self.stock_info()
+        stock_info_name = 'StockInformation'
+
+        self.json(from_obj=stock_info_df, export_to=p, filename=stock_info_name)
+        print('StockInfo exported')
         
+        # Fiscal Year ----------------------------------------------------------------------------------------------
+        # Export Fiscal Year Start Dates, and prices
+        fiscal_df = self.fiscal_year_prices()
+        fiscal_name = 'FiscalYear'
 
-
-
-
+        self.json(from_obj=fiscal_df, export_to=p, filename=fiscal_name)
+        print('FiscalYear exported')
         
+        # Key Data ----------------------------------------------------------------------------------------------
+        # Export KeyData
+        keydata_df = self.main_page()
+        keydata_name = 'KeyData'
 
+        self.json(from_obj=keydata_df, export_to=p, filename=keydata_name)
+        print('KeyData exported')
+
+        # Profile Data ----------------------------------------------------------------------------------------------
+        # Export Valuation
+        val_df = self.valuations()
+        val_name = 'Profile_Valuations'
+
+        self.json(from_obj=val_df, export_to=p, filename=val_name)
+        print('Profile_Valuations exported')
+        #------------------------------
+        # Export Efficiency
+        eff_df = self.efficiency()
+        eff_name = 'Profile_Efficiency'
+
+        self.json(from_obj=eff_df, export_to=p, filename=eff_name)
+        print('Profile_Efficiency exported')
+        #------------------------------
+        # Export Liquidity
+        liq_df = self.liquidity()
+        liq_name = 'Profile_Liquidity'
+
+        self.json(from_obj=liq_df, export_to=p, filename=liq_name)
+        print('Profile_Liquidity exported')
+        #------------------------------
+        # Export Profitability
+        pro_df = self.profitability()
+        pro_name = 'Profile_Profitability'
+
+        self.json(from_obj=pro_df, export_to=p, filename=pro_name)
+        print('Profile_Profitability exported')
+        #------------------------------
+        # Export Capitalization
+        cap_df = self.captialization()
+        cap_name = 'Profile_Capitalization'
+
+        self.json(from_obj=cap_df, export_to=p, filename=cap_name)
+        print('Profile_Capitalization exported')
+        #------------------------------
+
+        # IncomeStatement Data ----------------------------------------------------------------------------------------------
+        inc_df = self.income_statement()
+        inc_name = 'IncomeStatement'
+
+        self.json(from_obj=inc_df, export_to=p, filename=inc_name)
+        print('IncomeStatement exported')
+
+        # BalanceSheet Data ----------------------------------------------------------------------------------------------
+        # Export Assets
+        balass_df = self.balance_sheet_assets()
+        balass_name = 'BalanceSheet_Assets'
+
+        self.json(from_obj=balass_df, export_to=p, filename=balass_name)
+        print('BalanceSheet_Assets exported')
+        #------------------------------
+        # Export Liabilities
+        ballib_df = self.balance_sheet_lia()
+        ballib_name = 'BalanceSheet_Liabilities'
+
+        self.json(from_obj=ballib_df, export_to=p, filename=ballib_name)
+        print('BalanceSheet_Liabilities exported')
+        #------------------------------
+
+        # CashFlowStatement Data ----------------------------------------------------------------------------------------------
+        # Export Operating Activities
+        cfsopr_df = self.cash_flow_opr()
+        cfsopr_name = 'CashFlow_Operating'
+
+        self.json(from_obj=cfsopr_df, export_to=p, filename=cfsopr_name)
+        print('CashFlow_Operating exported')
+        #------------------------------
+        # Export Investing Activities
+        cfsinv_df = self.cash_flow_inv()
+        cfsinv_name = 'CashFlow_Investing'
+
+        self.json(from_obj=cfsinv_df, export_to=p, filename=cfsinv_name)
+        print('CashFlow_Investing exported')
+        #------------------------------
+        # Export Financing Activities
+        cfsfin_df = self.cash_flow_fin()
+        cfsfin_name = 'CashFlow_Financing'
+
+        self.json(from_obj=cfsfin_df, export_to=p, filename=cfsfin_name)
+        print('CashFlow_Financing exported')
+        #------------------------------
+
+        self.driver_end()
+        # Output to run
+        print(f'''
+Finished Data Download for {self.ticker}, closing browser now.
+********************************************************************************************************************
+
+        ''')
+
+        for i in range(1,10):
+            time.sleep(1)
+            print(f"[{10-i}] Waiting for next ticker.....")
+            
+
+        return None
 
         

@@ -54,22 +54,6 @@ class Fin_Select:
         else:
             return None
 
-    # def select_year(self, from_df, year=None):
-    #     '''
-    #     Select's dataframe column for respective class arguments.
-    #     # Returns pd.Series of rows
-    #     '''
-    #     if year != None:
-    #         try:
-    #             val = from_df.loc[:, f'{year}']
-    #             return val
-    #         except KeyError:
-    #             print('Input does not exist. Please double check args year and item again.')
-
-        
-    #     else:
-    #         return None
-    
 
     def select_item(self, from_df, item=None):
         '''
@@ -85,21 +69,4 @@ class Fin_Select:
         
         else: 
             return None
-
-
-# ticker = 'D05'
-# stock = Fin_Data(ticker)
-# select = Fin_Select(ticker, 2020, 'EPS (Diluted)')
-# income_statement = stock.income_statement()
-
-# sales = select.select_item(income_statement)
-# sales_2020 = sales[-1]
-# print(sales_2020)
-# print(type(sales_2020))
-# print(type(sales))
-
-# print(select)
-# stock.driver_end()
-
-
 

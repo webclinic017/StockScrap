@@ -36,10 +36,3 @@ class FData(Fin_Data, Fin_Extract):
         Fin_Data.__init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe')
         Fin_Extract.__init__(self,ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe')
     
-
-### Example ### 
-# stock = FData('GOOG')
-# df = stock.balance_sheet_assets()
-# cash = stock.select_item(df, 'Cash & Short Term Investments')
-# cash_val = stock.extract(cash)
-# print(cash_val)

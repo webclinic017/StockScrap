@@ -179,5 +179,6 @@ class Fin_Extract(Fin_Select):
             return new_series
         
         else:
-            return 'Error extracting data. Please check items, year, ticker again.'                
+            return 'Error extracting data. Please check items, year, ticker again.'           
+                 
         
