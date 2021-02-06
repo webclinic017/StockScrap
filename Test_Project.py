@@ -20,10 +20,16 @@ import datetime
 # # Driver end
 # stock.driver_end()
 
-# ticker = 'MSFT'
-# stock = Stock_Data(ticker)
-# stock.export()
-# stock.driver_end()
 
+#############################
 
+ticker = 'AAPL'
+stock = Stock_Data(ticker)
 
+# Export data
+stock.export()
+
+stock.driver_end()
+
+# df = pd.read_json(r'C:\Users\Dennis Loo.000\Desktop\Value_Investing_Screener\Data\M\MSFT\2021-02-06\IncomeStatement')
+# print(df)
