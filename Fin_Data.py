@@ -19,10 +19,14 @@ from selenium.common.exceptions import *
 # Import time for sleep functions
 import time
 
+# Import datetime for datetime functions and pandas market calendars for stock market holidays
+from datetime import datetime, timedelta
+import pandas_market_calendars as mcal
+
+
 # Import pandas and numpy
 import pandas as pd
 import numpy as np
-
 ######################################################################
 # CLASS INIT                                                         #
 ######################################################################
@@ -54,6 +58,7 @@ class Fin_Data:
         '''
 
         return (f'{self.__class__.__name__}('f'{self.ticker!r}, {self.PATH!r}')
+
 
     def __str__(self):
         '''      
@@ -1183,10 +1188,111 @@ class Fin_Data:
         return 'Printed cash flow statement successfully.'
 
 
+    def years(self):
+        '''
+        Get list of years with scraped financial data.
+        # Returns list
+        '''
+
+        # Use income statement DataFrame
+        df = self.income_statement()
+
+        # Add years into years list
+        years = []
+        for cols in df.columns:
+            years.append(cols)
+
+        # Return
+        return years
+    
+
+    def fiscal_month(self):
+        '''
+        Get starting month of Fiscal Year for stock.
+        # Returns int
+        '''
+
+        exist = self.check_ticker()
+        if exist == True:
+            # URL to check for valuations table.
+            URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
+
+            # Navigate to PROFILE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
+
+            # xpath for fiscal year
+            fiscal = "//div[contains(@class, 'group left')]/div/ul/li[3]/span"
+
+            # locate fiscal value using xpath
+            fiscal_val = self.driver.find_element_by_xpath(fiscal).text
+
+            # Get month start
+            month = int(fiscal_val.split("/")[0])
+            
+            # Get fiscal year's month start date
+            if month != 12:
+                month = month + 1
+            
+            elif month == 12:
+                month = 1
+            
+            return month
+
+
+    def fiscal_year_dates(self):
+        '''
+        Get a list of stock Fiscal Year Start Dates
+        # Returns list
+        '''
+
+        # For each date get price of each stock into a list
+        month = self.fiscal_month()
+        years = self.years()
+
+        # List to add in fiscal year dates
+        fiscal_year_list = []
+        for year in years:
+            year = int(year)
+            day = 1
+            date = datetime(year, month, day)
+
+            
+            f_date = date.strftime("%Y-%m-%d") # 2020-01-01
+
+            # Get pandas market holidays calendar
+            nyse = mcal.get_calendar('NYSE')
+            # Get start of year + end of year + 1 
+            cal_df = nyse.schedule(start_date=f'{years[0]}-01-01', end_date=f'{int(years[-1]) + 1}-01-01')
+
+            # Get Working Days calendars in list
+            cal_list = cal_df.index.tolist()
+
+            # If not in append, else + 1 or + 2
+            if date in cal_list:
+                fiscal_year_list.append(f_date)
+                
+                
+            else:
+                # make a loop, break once date is in cal_list
+                for i in range(1,100):
+                    date = date + timedelta(days=i)
+                    f_date = date.strftime("%Y-%m-%d")
+
+                    if date in cal_list:
+                        fiscal_year_list.append(f_date)
+                        break
+                    
+        return fiscal_year_list
+        
+
     def driver_end(self):
         '''
         Quits Google Chrome browser.
         # Returns str
         '''
+        time.sleep(1)
         self.driver.quit()
         return 'Driver successfully quit.'

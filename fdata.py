@@ -19,7 +19,7 @@ class FData(Fin_Data, Fin_Extract):
             Get Current Price, Open Price, Day Range, 52 Week Range, Market Cap, Shares Outstanding, Public Float, BEta, Rev Per Employee, P/E Ratio, EPS, Yield, Dividend, Ex-Dividend Rate, Short Interest, % of Float Shorted, Average Volume
         ----------
         Profile:
-            Industry, Sector
+            Industry, Sector, Valuations, Efficiency, Liquidity, Profitability, Capitalization
         ----------
         Financials:
             Income Statement:
@@ -38,9 +38,8 @@ class FData(Fin_Data, Fin_Extract):
     
 
 ### Example ### 
-stock = FData('GOOG')
-df = stock.valuations()
-
-stock.driver_end()
-
-
+# stock = FData('GOOG')
+# df = stock.balance_sheet_assets()
+# cash = stock.select_item(df, 'Cash & Short Term Investments')
+# cash_val = stock.extract(cash)
+# print(cash_val)
