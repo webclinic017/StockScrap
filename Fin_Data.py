@@ -115,10 +115,11 @@ class Fin_Data:
         
         finally: 
             # Buffer
-            time.sleep(3)
+            time.sleep(1)
 
         # Returns True or False depending whether self.ticker exists in database.
         return exist
+
 
     def name(self):
         '''

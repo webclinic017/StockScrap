@@ -28,7 +28,7 @@ class Stock_Data(TData, FData, ToJson):
         # Returns str
         '''
 
-        return (f'{self.__class__.__name__}('f'{self.ticker!r}, {self.PATH!r}, {self.period_years!r}, {self.candle_interval!r}, {self.print!r}')
+        return (f'{self.__class__.__name__}('f'{self.ticker!r}, {self.PATH!r}, {self.candle_interval!r}, {self.print!r}')
 
     
     def __str__(self):
@@ -52,26 +52,47 @@ class Stock_Data(TData, FData, ToJson):
         date_list = self.fiscal_year_dates()
 
         # Gets a series of prices
-        prices = self.get_open(self.ticker)
-
-        # Create a list of selected prices and append it with prices
-        sel_price = []
-        # From fiscal year dates get prices
-        for date in date_list:
-            price = prices.loc[f'{date}']
-            price = float(round(price, 2))
-            sel_price.append(price)
+        price_ticker = self.ticker
+        try:
+            # Check if YFinance Ticker exists
+            price = self.get_prevclose(price_ticker)
+            prices = self.get_open(price_ticker)
         
-        # Create a pandas Series using prices and dates
-        series = pd.Series(sel_price, index=date_list, name=f'Beginning of Fiscal Year Date and Corresponding Prices for {self.ticker}')
+        except IndexError:
+            # Change ticker name
+            price_ticker = price_ticker.replace(".", "-")
+            prices = self.get_open(price_ticker)
 
-        return series
+        price_list = prices.index.tolist()
 
+        # Convert date_list[0] to datetime object
+        ###
+        check_date = date_list[0]
+        datetime_obj = datetime.datetime.strptime(check_date, '%Y-%m-%d')
+
+        # If date_list not in price_list(series)
+        if datetime_obj in price_list:
+            # Create a list of selected prices and append it with prices
+            sel_price = []
+            # From fiscal year dates get prices
+            for date in date_list:
+                price = prices.loc[f'{date}']
+                price = float(round(price, 2))
+                sel_price.append(price)
+            
+            # Create a pandas Series using prices and dates
+            series = pd.Series(sel_price, index=date_list, name=f'Beginning of Fiscal Year Date and Corresponding Prices for {self.ticker}')
+            return series
+
+        else:
+            raise KeyError('Price data not available at fiscal year date. Check company fundamentals for more information.')
+
+    
 
     def download(self):
         '''
-        Exports stock data as a JSON file to database.
-        # Returns None
+        Exports stock data as a JSON file to database. Returns stock exists?
+        # Returns boolean
         '''
         
         # Check if stock ticker exists
@@ -101,8 +122,23 @@ Data Downloaded from MarketWatch.com
 Beginning Data Download for {self.ticker}.
             ''')
             # Price Data ----------------------------------------------------------------------------------------------
-            # Export Price Datas
-            price_data_df = self.get_data(self.ticker)
+            # Export Price Data
+            price_ticker = self.ticker
+
+            try:
+                # Check if YFinance Ticker exists
+                price = self.get_prevclose(price_ticker)
+
+                price_data_df = self.get_data(price_ticker)
+                
+
+            except IndexError:
+                # Change ticker name
+                price_ticker = price_ticker.replace(".", "-")
+                price_data_df = self.get_data(price_ticker)
+                print(f"Got Data for {price_ticker}.")
+    
+
             price_data_name = 'PriceData'
 
             self.json(from_obj=price_data_df, export_to=p, filename=price_data_name)
@@ -115,14 +151,6 @@ Beginning Data Download for {self.ticker}.
 
             self.json(from_obj=stock_info_df, export_to=p, filename=stock_info_name)
             print('StockInfo exported')
-            
-            # Fiscal Year ----------------------------------------------------------------------------------------------
-            # Export Fiscal Year Start Dates, and prices
-            fiscal_df = self.fiscal_year_prices()
-            fiscal_name = 'FiscalYear'
-
-            self.json(from_obj=fiscal_df, export_to=p, filename=fiscal_name)
-            print('FiscalYear exported')
             
             # Key Data ----------------------------------------------------------------------------------------------
             # Export KeyData
@@ -213,6 +241,18 @@ Beginning Data Download for {self.ticker}.
 
             self.json(from_obj=cfsfin_df, export_to=p, filename=cfsfin_name)
             print('CashFlow_Financing exported')
+            # Fiscal Year ----------------------------------------------------------------------------------------------
+            # Export Fiscal Year Start Dates, and prices
+            try:
+                fiscal_df = self.fiscal_year_prices()
+                fiscal_name = 'FiscalYear'
+
+                self.json(from_obj=fiscal_df, export_to=p, filename=fiscal_name)
+                print('FiscalYear exported')
+            
+            except KeyError:
+                print(f'Unable to retrieve information about {self.ticker}. Continuing to download data for other stocks.')
+                pass
             #------------------------------
 
             self.driver_end()
@@ -228,8 +268,9 @@ Finished Data Download for {self.ticker}, closing browser now.
                 print(f"[{2-i}] Waiting for next ticker.....")
             
         else:
-            raise ValueError (f'{self.ticker} not found in MarketWatch.com Database. Will continue downloading next ticker.')
+            print(f'{self.ticker} not found in MarketWatch.com Database. Will continue downloading next ticker.')
+            pass
 
-        return None
+        return exists
 
         

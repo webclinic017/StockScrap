@@ -29,18 +29,21 @@ with open(components, 'r') as sp500:
 
     # chunks of 10 lists
     components_list = df.index.tolist()
-    components_chunks = list(chunks(components_list, 10))
+    components_chunks = list(chunks(components_list, 47))
     components_len = len(components_chunks) # Len = 51
-
+    # Now at components_chunks[2]
 
     # If stock does not exist, add into error_list
-    for ticker in df.index:
+    for ticker in components_chunks[2]:
         stock = Stock_Data(ticker)
         try:
             stock.download()
-        except ValueError:
+        except ValueError or KeyError:
             error_list.append(ticker)
         
+        if stock.download() == False:
+            error_list.append(ticker)
+
 
 time_taken = datetime.now() - start_time
 print(f'Error List = {error_list}')
