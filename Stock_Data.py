@@ -68,7 +68,7 @@ class Stock_Data(TData, FData, ToJson):
         return series
 
 
-    def export(self):
+    def download(self):
         '''
         Exports stock data as a JSON file to database.
         # Returns None
