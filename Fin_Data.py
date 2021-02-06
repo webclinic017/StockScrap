@@ -194,7 +194,6 @@ class Fin_Data:
 
             # get industry val and convert to text
             val = self.driver.find_element_by_xpath(name_loc).text
-<<<<<<< HEAD
 
             return val
 
@@ -278,89 +277,6 @@ class Fin_Data:
 
             return val
 
-=======
-
-            return val
-
-
-    def exchange(self):
-        '''
-        Get stock exchange
-        # returns str
-        '''
-        exist = self.check_ticker()
-        if exist == True:
-            # URL to check for stock name.
-            URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile'
-
-            # Navigate to QUOTE URL
-            self.remove_logging()
-            self.driver.get(URL)
-
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
-
-            # xpath for stock industry
-            exchange_loc = "//div[contains(@class,'company__symbol')]/span[2]"
-
-            # get industry val and convert to text
-            val = self.driver.find_element_by_xpath(exchange_loc).text
-
-            return val
-
-
-    def ceo(self):
-        '''
-        Get stock CEO
-        # returns str
-        '''
-        exist = self.check_ticker()
-        if exist == True:
-            # URL to check for stock name.
-            URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
-
-            # Navigate to QUOTE URL
-            self.remove_logging()
-            self.driver.get(URL)
-
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
-
-            # xpath for stock industry
-            ceo_loc = "//div[contains(@class,'group right')]/div/ul/li[1]/a"
-
-            # get industry val and convert to text
-            val = self.driver.find_element_by_xpath(ceo_loc).text
-
-            return val
-
-
-    def business_model(self):
-        '''
-        Get information of businesss model
-        # returns str
-        '''
-        exist = self.check_ticker()
-        if exist == True:
-            # URL to check for stock name.
-            URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
-
-            # Navigate to QUOTE URL
-            self.remove_logging()
-            self.driver.get(URL)
-
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
-
-            # xpath for stock industry
-            bm_loc = "//p[contains(@class, 'description__text')]"
-
-            # get industry val and convert to text
-            val = self.driver.find_element_by_xpath(bm_loc).text
-
-            return val
-
->>>>>>> ae22376bf90ed8a8a62af3f9c17077b0fc90dacd
     
     def stock_info(self):
         '''
@@ -383,10 +299,7 @@ class Fin_Data:
         stock_s = pd.Series(val, index, dtype='string', name=f'{self.ticker} Information')
 
         return stock_s
-<<<<<<< HEAD
 
-=======
->>>>>>> ae22376bf90ed8a8a62af3f9c17077b0fc90dacd
 
     def price(self):
         '''

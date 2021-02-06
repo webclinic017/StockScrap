@@ -108,7 +108,6 @@ Beginning Data Download for {self.ticker}.
         # Export Stock_Info
         stock_info_df = self.stock_info()
         stock_info_name = 'StockInformation'
-<<<<<<< HEAD
 
         self.json(from_obj=stock_info_df, export_to=p, filename=stock_info_name)
         print('StockInfo exported')
@@ -117,123 +116,6 @@ Beginning Data Download for {self.ticker}.
         # Export Fiscal Year Start Dates, and prices
         fiscal_df = self.fiscal_year_prices()
         fiscal_name = 'FiscalYear'
-=======
-
-        self.json(from_obj=stock_info_df, export_to=p, filename=stock_info_name)
-        print('StockInfo exported')
-        
-        # Fiscal Year ----------------------------------------------------------------------------------------------
-        # Export Fiscal Year Start Dates, and prices
-        fiscal_df = self.fiscal_year_prices()
-        fiscal_name = 'FiscalYear'
-
-        self.json(from_obj=fiscal_df, export_to=p, filename=fiscal_name)
-        print('FiscalYear exported')
-        
-        # Key Data ----------------------------------------------------------------------------------------------
-        # Export KeyData
-        keydata_df = self.main_page()
-        keydata_name = 'KeyData'
-
-        self.json(from_obj=keydata_df, export_to=p, filename=keydata_name)
-        print('KeyData exported')
-
-        # Profile Data ----------------------------------------------------------------------------------------------
-        # Export Valuation
-        val_df = self.valuations()
-        val_name = 'Profile_Valuations'
-
-        self.json(from_obj=val_df, export_to=p, filename=val_name)
-        print('Profile_Valuations exported')
-        #------------------------------
-        # Export Efficiency
-        eff_df = self.efficiency()
-        eff_name = 'Profile_Efficiency'
-
-        self.json(from_obj=eff_df, export_to=p, filename=eff_name)
-        print('Profile_Efficiency exported')
-        #------------------------------
-        # Export Liquidity
-        liq_df = self.liquidity()
-        liq_name = 'Profile_Liquidity'
-
-        self.json(from_obj=liq_df, export_to=p, filename=liq_name)
-        print('Profile_Liquidity exported')
-        #------------------------------
-        # Export Profitability
-        pro_df = self.profitability()
-        pro_name = 'Profile_Profitability'
-
-        self.json(from_obj=pro_df, export_to=p, filename=pro_name)
-        print('Profile_Profitability exported')
-        #------------------------------
-        # Export Capitalization
-        cap_df = self.captialization()
-        cap_name = 'Profile_Capitalization'
-
-        self.json(from_obj=cap_df, export_to=p, filename=cap_name)
-        print('Profile_Capitalization exported')
-        #------------------------------
-
-        # IncomeStatement Data ----------------------------------------------------------------------------------------------
-        inc_df = self.income_statement()
-        inc_name = 'IncomeStatement'
-
-        self.json(from_obj=inc_df, export_to=p, filename=inc_name)
-        print('IncomeStatement exported')
-
-        # BalanceSheet Data ----------------------------------------------------------------------------------------------
-        # Export Assets
-        balass_df = self.balance_sheet_assets()
-        balass_name = 'BalanceSheet_Assets'
-
-        self.json(from_obj=balass_df, export_to=p, filename=balass_name)
-        print('BalanceSheet_Assets exported')
-        #------------------------------
-        # Export Liabilities
-        ballib_df = self.balance_sheet_lia()
-        ballib_name = 'BalanceSheet_Liabilities'
-
-        self.json(from_obj=ballib_df, export_to=p, filename=ballib_name)
-        print('BalanceSheet_Liabilities exported')
-        #------------------------------
-
-        # CashFlowStatement Data ----------------------------------------------------------------------------------------------
-        # Export Operating Activities
-        cfsopr_df = self.cash_flow_opr()
-        cfsopr_name = 'CashFlow_Operating'
-
-        self.json(from_obj=cfsopr_df, export_to=p, filename=cfsopr_name)
-        print('CashFlow_Operating exported')
-        #------------------------------
-        # Export Investing Activities
-        cfsinv_df = self.cash_flow_inv()
-        cfsinv_name = 'CashFlow_Investing'
-
-        self.json(from_obj=cfsinv_df, export_to=p, filename=cfsinv_name)
-        print('CashFlow_Investing exported')
-        #------------------------------
-        # Export Financing Activities
-        cfsfin_df = self.cash_flow_fin()
-        cfsfin_name = 'CashFlow_Financing'
-
-        self.json(from_obj=cfsfin_df, export_to=p, filename=cfsfin_name)
-        print('CashFlow_Financing exported')
-        #------------------------------
-
-        
-        # Output to run
-        print(f'''
-Finished Data Download for {self.ticker}, closing browser now.
-********************************************************************************************************************
-
-        ''')
-
-        for i in range(10):
-            print(f"[{10-i}] Waiting for next ticker.....")
-
-        return None
->>>>>>> ae22376bf90ed8a8a62af3f9c17077b0fc90dacd
 
         self.json(from_obj=fiscal_df, export_to=p, filename=fiscal_name)
         print('FiscalYear exported')

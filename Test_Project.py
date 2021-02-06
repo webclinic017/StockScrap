@@ -20,7 +20,6 @@ import datetime
 # # Driver end
 # stock.driver_end()
 
-<<<<<<< HEAD
 #############################
 
 list_tickers = ['AAPL', 'MSFT', 'GOOG', 'NVDA']
@@ -28,18 +27,3 @@ for ticker in list_tickers:
     stock = Stock_Data(ticker)
     # Export data
     stock.export()
-=======
-
-#############################
-
-ticker = 'AAPL'
-stock = Stock_Data(ticker)
-
-# Export data
-stock.export()
-
-stock.driver_end()
-
-# df = pd.read_json(r'C:\Users\Dennis Loo.000\Desktop\Value_Investing_Screener\Data\M\MSFT\2021-02-06\IncomeStatement')
-# print(df)
->>>>>>> ae22376bf90ed8a8a62af3f9c17077b0fc90dacd
