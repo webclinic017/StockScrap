@@ -9,6 +9,10 @@ from pathlib import Path
 
 
 class Stock_Data(TData, FData, ToJson):
+    '''
+    Full stock data information scraper by Gavin Loo
+    Uses data from YahooFinance and MarketWatch.com
+    '''
 
     def __init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', candle_interval=1, print=False):
         '''

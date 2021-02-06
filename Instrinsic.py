@@ -56,17 +56,3 @@ class Intrinsic:
         List : {self.eps_list}
         '''
         
-
-    
-
-        
-    
-
-        
-
-
-
-
-
-     
-
