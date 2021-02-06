@@ -110,13 +110,12 @@ class Stock_Data(TData, FData, ToJson):
         exp_date = exp_datetime.strftime("%Y-%m-%d")
 
         ticker_index = self.ticker[0]
-
         
         # Get path for data export
-        data_path = f'C:\\Users\\Gavin\\VisualStudio\\Value_Investing_Screener\\Data\\{ticker_index}\\{self.ticker}\\{exp_date}'
+        # data_path = fr'C:\\Users\\Dennis Loo.000\\Desktop\\Value_Investing_Screener\\Data\\{ticker_index}\{self.ticker}\{exp_date}'
         ## Create directory if directory does not exist
-        p = Path(data_path)
-        p.mkdir(exist_ok=True)
+        p = Path(f'C:/Users/Dennis Loo.000/Desktop/Value_Investing_Screener/Data/{ticker_index}/{self.ticker}/{exp_date}')
+        p.mkdir(parents=True, exist_ok=True)
 
         # Export Price Data
         price_data_df = self.get_data(self.ticker)
@@ -124,6 +123,8 @@ class Stock_Data(TData, FData, ToJson):
 
         self.json(from_obj=price_data_df, export_to=p, filename=price_data_name)
 
+        # Export 
+        
 
 
 

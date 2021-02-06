@@ -1,5 +1,6 @@
 from Instrinsic import Intrinsic
 from Stock_Data import Stock_Data
+import pandas as pd
 import datetime
 
 
@@ -19,11 +20,10 @@ import datetime
 # # Driver end
 # stock.driver_end()
 
-ticker = 'MSFT'
-stock = Stock_Data(ticker)
-stock.export()
-
-
+# ticker = 'MSFT'
+# stock = Stock_Data(ticker)
+# stock.export()
+# stock.driver_end()
 
 
 

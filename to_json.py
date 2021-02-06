@@ -7,11 +7,11 @@ class ToJson:
     # Returns None
     '''
     
-    def json(self, from_obj=None, export_to=None, filename=None):
+    def json(self, from_obj=None, export_to=None, filename=None, orient='columns'):
         
         # Convert object into json object
         obj = from_obj
-        obj.to_json(f'{p}\\{filename}', orient='index')
+        obj.to_json(f'{export_to}\\{filename}', orient=orient)
 
         return None
 
