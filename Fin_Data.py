@@ -100,7 +100,7 @@ class Fin_Data:
         self.driver.get(URL)
 
         # Implicit Buffer
-        self.driver.implicitly_wait(3)
+        self.driver.implicitly_wait(4)
 
         # xpath for check_price
         check_price = "//h3[contains(@class, 'intraday__price')]/bg-quote"
@@ -139,7 +139,7 @@ class Fin_Data:
         self.driver.get(URL)
 
         # Implicit Buffer
-        self.driver.implicitly_wait(3)
+        self.driver.implicitly_wait(4)
 
         # xpath for stock name
         name_loc = "//h1[contains(@class, 'company__name')]"
@@ -163,7 +163,7 @@ class Fin_Data:
         self.driver.get(URL)
 
         # Implicit Buffer
-        self.driver.implicitly_wait(3)
+        self.driver.implicitly_wait(4)
 
         # xpath for stock industry
         name_loc = "//li[contains(@class, 'kv__item w100')][1]/span"
@@ -187,7 +187,7 @@ class Fin_Data:
         self.driver.get(URL)
 
         # Implicit Buffer
-        self.driver.implicitly_wait(3)
+        self.driver.implicitly_wait(4)
 
         # xpath for stock industry
         name_loc = "//li[contains(@class, 'kv__item w100')][2]/span"
@@ -211,7 +211,7 @@ class Fin_Data:
         self.driver.get(URL)
 
         # Implicit Buffer
-        self.driver.implicitly_wait(3)
+        self.driver.implicitly_wait(4)
 
         # xpath for stock industry
         exchange_loc = "//div[contains(@class,'company__symbol')]/span[2]"
@@ -237,7 +237,7 @@ class Fin_Data:
         self.driver.get(URL)
 
         # Implicit Buffer
-        self.driver.implicitly_wait(3)
+        self.driver.implicitly_wait(4)
 
         # xpath for stock industry
         ceo_loc = "//div[contains(@class,'group right')]/div/ul/li[1]/a"
@@ -261,7 +261,7 @@ class Fin_Data:
         self.driver.get(URL)
 
         # Implicit Buffer
-        self.driver.implicitly_wait(3)
+        self.driver.implicitly_wait(4)
 
         # xpath for stock industry
         bm_loc = "//p[contains(@class, 'description__text')]"
@@ -308,7 +308,7 @@ class Fin_Data:
         self.driver.get(URL)
 
         # Implicit Buffer
-        self.driver.implicitly_wait(3)
+        self.driver.implicitly_wait(4)
 
         # xpath for price
         check_price = "//h3[contains(@class, 'intraday__price')]/bg-quote"
@@ -335,7 +335,7 @@ class Fin_Data:
         self.driver.get(URL)
 
         # Implicit Buffer
-        self.driver.implicitly_wait(3)
+        self.driver.implicitly_wait(4)
 
         # xpath for header, columns and values
         header = "//div[contains(@class, 'column column--primary')]/div[2]/div[1]/header/h2/span"
@@ -385,7 +385,7 @@ class Fin_Data:
         self.driver.get(URL)
 
         # Implicit Buffer
-        self.driver.implicitly_wait(3)
+        self.driver.implicitly_wait(4)
 
         # xpath for header, columns and values
         header = "//div[contains(@class, 'column column--primary')]/div[2]/div[2]/header/h2/span"
@@ -435,7 +435,7 @@ class Fin_Data:
         self.driver.get(URL)
 
         # Implicit Buffer
-        self.driver.implicitly_wait(3)
+        self.driver.implicitly_wait(4)
 
         # xpath for header, columns and values
         header = "//div[contains(@class, 'column column--primary')]/div[2]/div[3]/header/h2/span"
@@ -485,7 +485,7 @@ class Fin_Data:
         self.driver.get(URL)
 
         # Implicit Buffer
-        self.driver.implicitly_wait(3)
+        self.driver.implicitly_wait(4)
 
         # xpath for header, columns and values
         header = "//div[contains(@class, 'column column--primary')]/div[3]/div[1]//header/h2/span"
@@ -535,7 +535,7 @@ class Fin_Data:
         self.driver.get(URL)
 
         # Implicit Buffer
-        self.driver.implicitly_wait(3)
+        self.driver.implicitly_wait(4)
 
         # xpath for header, columns and values
         header = "//div[contains(@class, 'column column--primary')]/div[3]/div[2]//header/h2/span"
@@ -589,7 +589,7 @@ class Fin_Data:
         driver.get(URL)
 
         # Buffer of 5 seconds for website to load
-        driver.implicitly_wait(3)
+        driver.implicitly_wait(4)
 
         # get xpath values for main page
         # Main values
@@ -623,7 +623,7 @@ class Fin_Data:
         # Series to store values
         quote_s = pd.Series(quote_data, index=quote_headers, name=f'{self.ticker} Key Data', dtype='string')
 
-        driver.implicitly_wait(3)
+        driver.implicitly_wait(4)
 
         # Returns dataframe table
         return quote_s
@@ -643,7 +643,7 @@ class Fin_Data:
         driver.get(URL)
 
         # Buffer
-        driver.implicitly_wait(3)
+        driver.implicitly_wait(4)
 
         # get xpath values for income statement page
         # table element
@@ -711,7 +711,7 @@ class Fin_Data:
         income_df = income_df.drop(columns='ITEM')\
             
         # Sort df by year
-        self.reorder_df(income_df)
+        income_df = self.reorder_df(income_df)
 
         # Returns dataframe
         return income_df
@@ -731,7 +731,7 @@ class Fin_Data:
         driver.get(URL)
 
         # Buffer
-        driver.implicitly_wait(3)
+        driver.implicitly_wait(4)
 
         ######## ASSETS TABLE ########
         # get xpath values for assets, balance sheet statement page
@@ -800,7 +800,7 @@ class Fin_Data:
         assets_df = assets_df.drop(columns='ITEM')
 
         # Sort df by year
-        self.reorder_df(assets_df)
+        assets_df = self.reorder_df(assets_df)
 
         # Returns dataframe
         return assets_df
@@ -885,7 +885,7 @@ class Fin_Data:
         lia_df = lia_df.drop(columns='ITEM')
 
         # Sort df by year
-        self.reorder_df(lia_df)
+        lia_df = self.reorder_df(lia_df)
 
         # Returns dataframe
         return lia_df
@@ -905,7 +905,7 @@ class Fin_Data:
         driver.get(URL)
 
         # Buffer
-        driver.implicitly_wait(3)
+        driver.implicitly_wait(4)
 
         # get xpath values for operating activities, cash flow statement page
         # table element
@@ -973,7 +973,7 @@ class Fin_Data:
         opr_df = opr_df.drop(columns='ITEM')
 
         # Sort df by year
-        self.reorder_df(opr_df)
+        opr_df = self.reorder_df(opr_df)
 
         # Returns dataframe
         return opr_df
@@ -993,7 +993,7 @@ class Fin_Data:
         driver.get(URL)
 
         # Buffer
-        driver.implicitly_wait(3)
+        driver.implicitly_wait(4)
 
         # get xpath values for investing activities, cash flow statement page
         # table element
@@ -1061,7 +1061,7 @@ class Fin_Data:
         inv_df = inv_df.drop(columns='ITEM')
 
         # Sort df by year
-        self.reorder_df(inv_df)
+        inv_df = self.reorder_df(inv_df)
 
         # Returns dataframe
         return inv_df
@@ -1081,7 +1081,7 @@ class Fin_Data:
         driver.get(URL)
 
         # Buffer
-        driver.implicitly_wait(3)
+        driver.implicitly_wait(4)
 
         # get xpath values for financing activities, cash flow statement page
         # table element
@@ -1149,7 +1149,7 @@ class Fin_Data:
         fin_df = fin_df.drop(columns='ITEM')
 
         # Sort df by year
-        self.reorder_df(fin_df)
+        fin_df = self.reorder_df(fin_df)
         
         # Returns dataframe
         return fin_df
@@ -1219,7 +1219,7 @@ class Fin_Data:
         self.driver.get(URL)
 
         # Implicit Buffer
-        self.driver.implicitly_wait(3)
+        self.driver.implicitly_wait(4)
 
         # xpath for fiscal year
         fiscal = "//div[contains(@class, 'group left')]/div/ul/li[3]/span"
