@@ -70,7 +70,7 @@ class Stock_Data(TData, FData, ToJson):
         check_date = date_list[0]
         datetime_obj = datetime.datetime.strptime(check_date, '%Y-%m-%d')
 
-        # If date_list not in price_list(series)
+        # If date_list in price_list(series)
         if datetime_obj in price_list:
             # Create a list of selected prices and append it with prices
             sel_price = []
@@ -89,15 +89,17 @@ class Stock_Data(TData, FData, ToJson):
 
     
 
-    def download(self):
+    def download(self, PATH='C:/Users/Dennis Loo.000/Desktop/FinData'):
         '''
         Exports stock data as a JSON file to database. Returns stock exists?
-        # Returns boolean
+        # Returns booleans
         '''
+        time.sleep(1)
         
         # Check if stock ticker exists
         exists = self.check_ticker()
 
+       
         if exists == True:
             ## Create directory if directory does not exist
             exp_datetime = datetime.datetime.today()
@@ -111,7 +113,7 @@ class Stock_Data(TData, FData, ToJson):
             ticker_index = self.ticker[0]
 
             # Path Class
-            p = Path(f'C:/Users/Dennis Loo.000/Desktop/FinData/{exchange_path}/{ticker_index}/{self.ticker}/{exp_date}')
+            p = Path(f'{PATH}/{exchange_path}/{ticker_index}/{self.ticker}')
             p.mkdir(parents=True, exist_ok=True)
 
             # Output to run
@@ -200,7 +202,7 @@ Beginning Data Download for {self.ticker}.
             # IncomeStatement Data ----------------------------------------------------------------------------------------------
             inc_df = self.income_statement()
             inc_name = 'IncomeStatement'
-
+            
             self.json(from_obj=inc_df, export_to=p, filename=inc_name)
             print('IncomeStatement exported')
 
@@ -255,7 +257,6 @@ Beginning Data Download for {self.ticker}.
                 pass
             #------------------------------
 
-            self.driver_end()
             # Output to run
             print(f'''
 Finished Data Download for {self.ticker}, closing browser now.
@@ -263,13 +264,19 @@ Finished Data Download for {self.ticker}, closing browser now.
 
             ''')
 
-            for i in range(1,2):
-                time.sleep(1)
-                print(f"[{2-i}] Waiting for next ticker.....")
-            
+        # If ticker is not found, pass.
         else:
             print(f'{self.ticker} not found in MarketWatch.com Database. Will continue downloading next ticker.')
             pass
+
+        # End browser session
+        self.driver_end()
+
+        # Buffer
+        for i in range(1,5):
+            time.sleep(1)
+            print(f"[{5-i}] Waiting for next ticker.....")
+            
 
         return exists
 

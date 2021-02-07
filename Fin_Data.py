@@ -81,12 +81,17 @@ class Fin_Data:
         LOGGER.setLevel(logging.WARNING)
         return None
 
+
+    def reorder_df(self, from_df, reverse=False):
+        df = from_df.reindex(columns=sorted(from_df.columns, reverse=reverse))
+        return df
+
+
     def check_ticker(self):
         '''
         Check if ticker exists? use price element to get boolean value.
         # Returns bool
         '''
-        
         # URL to check if ticker exists
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}?mod=mw_quote_tab'
 
@@ -703,7 +708,10 @@ class Fin_Data:
         income_df = income_df.rename_axis(f'{self.ticker} Income Statement')
 
         # Drop first column
-        income_df = income_df.drop(columns='ITEM')
+        income_df = income_df.drop(columns='ITEM')\
+            
+        # Sort df by year
+        self.reorder_df(income_df)
 
         # Returns dataframe
         return income_df
@@ -791,6 +799,9 @@ class Fin_Data:
         # Drop first column
         assets_df = assets_df.drop(columns='ITEM')
 
+        # Sort df by year
+        self.reorder_df(assets_df)
+
         # Returns dataframe
         return assets_df
         
@@ -873,9 +884,8 @@ class Fin_Data:
         # Drop first column
         lia_df = lia_df.drop(columns='ITEM')
 
-        # Output to run
-        # print("Liabilities Balance Sheet Table: ")
-        # print(lia_df)
+        # Sort df by year
+        self.reorder_df(lia_df)
 
         # Returns dataframe
         return lia_df
@@ -962,6 +972,9 @@ class Fin_Data:
         # Drop first column
         opr_df = opr_df.drop(columns='ITEM')
 
+        # Sort df by year
+        self.reorder_df(opr_df)
+
         # Returns dataframe
         return opr_df
 
@@ -1046,6 +1059,9 @@ class Fin_Data:
 
         # Drop first column
         inv_df = inv_df.drop(columns='ITEM')
+
+        # Sort df by year
+        self.reorder_df(inv_df)
 
         # Returns dataframe
         return inv_df
@@ -1132,6 +1148,9 @@ class Fin_Data:
         # Drop first column
         fin_df = fin_df.drop(columns='ITEM')
 
+        # Sort df by year
+        self.reorder_df(fin_df)
+        
         # Returns dataframe
         return fin_df
     
@@ -1181,6 +1200,8 @@ class Fin_Data:
         for cols in df.columns:
             years.append(cols)
 
+        # Sort by years
+        years.sort(reverse=False)
         # Return
         return years
     
