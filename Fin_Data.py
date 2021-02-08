@@ -1,6 +1,9 @@
 ######################################################################
 # IMPORTS                                                            #
 ######################################################################
+# Import WebDriver Class
+from WebDriver import WebDriver
+
 # Import selenium and get PATH for chromedriver.exe, initialize driver, give access to enter key, esc key.
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -12,6 +15,8 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+from selenium.webdriver.chrome.options import Options
 
 # Imports selenium errors and exceptions.
 from selenium.common.exceptions import *
@@ -35,7 +40,7 @@ import numpy as np
 # CLASS INIT                                                         #
 ######################################################################
 
-class Fin_Data:
+class Fin_Data(WebDriver):
     '''
     # Financial Data Scrapper Made by Gavin Loo 2021.
     Uses data from MarketWatch.com
@@ -46,14 +51,15 @@ class Fin_Data:
     Finish with driver_end() to end drawing data.
     '''
     
-    def __init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe'):
+    def __init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
         '''
         Initialize Fin_Data class, intialize self.driver requirements for selenium
         '''
 
+        WebDriver.__init__(self, PATH='C:\Program Files (x86)\chromedriver.exe', ignore_errors=True)
         self.ticker = ticker
         self.PATH = PATH
-        self.driver = webdriver.Chrome(self.PATH)
+        self.driver = self.driver()
 
     def __repr__(self):
         '''
@@ -79,6 +85,10 @@ class Fin_Data:
         # Returns None
         '''
         LOGGER.setLevel(logging.WARNING)
+        
+        options = webdriver.ChromeOptions()
+
+
         return None
 
 
@@ -92,15 +102,17 @@ class Fin_Data:
         Check if ticker exists? use price element to get boolean value.
         # Returns bool
         '''
+
+        self.remove_logging()
+
         # URL to check if ticker exists
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}?mod=mw_quote_tab'
 
         # Navigate to QUOTE URL
-        self.remove_logging()
         self.driver.get(URL)
 
         # Implicit Buffer
-        self.driver.implicitly_wait(4)
+        self.driver.implicitly_wait(3)
 
         # xpath for check_price
         check_price = "//h3[contains(@class, 'intraday__price')]/bg-quote"
@@ -131,15 +143,21 @@ class Fin_Data:
         Get stock name
         # returns str
         '''
+
+        self.remove_logging()
+
         # URL to check for stock name.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}?mod=mw_quote_tab'
 
-        # Navigate to QUOTE URL
-        self.remove_logging()
-        self.driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
 
-        # Implicit Buffer
-        self.driver.implicitly_wait(4)
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
 
         # xpath for stock name
         name_loc = "//h1[contains(@class, 'company__name')]"
@@ -155,15 +173,21 @@ class Fin_Data:
         Get stock industry
         # returns str
         '''
+
+        self.remove_logging()
+
         # URL to check for stock name.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile'
 
-        # Navigate to QUOTE URL
-        self.remove_logging()
-        self.driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
 
-        # Implicit Buffer
-        self.driver.implicitly_wait(4)
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
 
         # xpath for stock industry
         name_loc = "//li[contains(@class, 'kv__item w100')][1]/span"
@@ -179,15 +203,21 @@ class Fin_Data:
         Get stock sector
         # returns str
         '''
+        
+        self.remove_logging()
+
         # URL to check for stock name.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile'
 
-        # Navigate to QUOTE URL
-        self.remove_logging()
-        self.driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
 
-        # Implicit Buffer
-        self.driver.implicitly_wait(4)
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
 
         # xpath for stock industry
         name_loc = "//li[contains(@class, 'kv__item w100')][2]/span"
@@ -203,15 +233,21 @@ class Fin_Data:
         Get stock exchange
         # returns str
         '''
+
+        self.remove_logging()
+
         # URL to check for stock name.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile'
 
-        # Navigate to QUOTE URL
-        self.remove_logging()
-        self.driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
 
-        # Implicit Buffer
-        self.driver.implicitly_wait(4)
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
 
         # xpath for stock industry
         exchange_loc = "//div[contains(@class,'company__symbol')]/span[2]"
@@ -229,15 +265,21 @@ class Fin_Data:
         Get stock CEO
         # returns str
         '''
+
+        self.remove_logging()
+
         # URL to check for stock name.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
-        # Navigate to QUOTE URL
-        self.remove_logging()
-        self.driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
 
-        # Implicit Buffer
-        self.driver.implicitly_wait(4)
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
 
         # xpath for stock industry
         ceo_loc = "//div[contains(@class,'group right')]/div/ul/li[1]/a"
@@ -253,15 +295,21 @@ class Fin_Data:
         Get information of businesss model
         # returns str
         '''
+
+        self.remove_logging()
+
         # URL to check for stock name.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
-        # Navigate to QUOTE URL
-        self.remove_logging()
-        self.driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
 
-        # Implicit Buffer
-        self.driver.implicitly_wait(4)
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
 
         # xpath for stock industry
         bm_loc = "//p[contains(@class, 'description__text')]"
@@ -300,15 +348,21 @@ class Fin_Data:
         Get current price of stock, regardless of PreMarket, PostMarket or OpenMarket.
         # returns float
         '''
+
+        self.remove_logging()
+
         # URL to check for stock price.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}?mod=mw_quote_tab'
 
-        # Navigate to QUOTE URL
-        self.remove_logging()
-        self.driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
 
-        # Implicit Buffer
-        self.driver.implicitly_wait(4)
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
 
         # xpath for price
         check_price = "//h3[contains(@class, 'intraday__price')]/bg-quote"
@@ -327,15 +381,21 @@ class Fin_Data:
         Get current valuations of the stock.
         # returns pandas DataFrame
         '''
+
+        self.remove_logging()
+
         # URL to check for valuations table.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
-        # Navigate to PROFILE URL
-        self.remove_logging()
-        self.driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
 
-        # Implicit Buffer
-        self.driver.implicitly_wait(4)
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
 
         # xpath for header, columns and values
         header = "//div[contains(@class, 'column column--primary')]/div[2]/div[1]/header/h2/span"
@@ -377,15 +437,21 @@ class Fin_Data:
         Get current efficiency of the stock.
         # returns pandas DataFrame
         '''
+
+        self.remove_logging()
+
         # URL to check for efficiency table.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
-        # Navigate to PROFILE URL
-        self.remove_logging()
-        self.driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
 
-        # Implicit Buffer
-        self.driver.implicitly_wait(4)
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
 
         # xpath for header, columns and values
         header = "//div[contains(@class, 'column column--primary')]/div[2]/div[2]/header/h2/span"
@@ -427,15 +493,21 @@ class Fin_Data:
         Get current liquidity of the stock.
         # returns pandas DataFrame
         '''
+
+        self.remove_logging()
+
         # URL to check for liquidity table.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
-        # Navigate to PROFILE URL
-        self.remove_logging()
-        self.driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
 
-        # Implicit Buffer
-        self.driver.implicitly_wait(4)
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
 
         # xpath for header, columns and values
         header = "//div[contains(@class, 'column column--primary')]/div[2]/div[3]/header/h2/span"
@@ -477,15 +549,21 @@ class Fin_Data:
         Get current profitability of the stock.
         # returns pandas DataFrame
         '''
+
+        self.remove_logging()
+
         # URL to check for profitability table.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
-        # Navigate to PROFILE URL
-        self.remove_logging()
-        self.driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
 
-        # Implicit Buffer
-        self.driver.implicitly_wait(4)
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
 
         # xpath for header, columns and values
         header = "//div[contains(@class, 'column column--primary')]/div[3]/div[1]//header/h2/span"
@@ -527,15 +605,21 @@ class Fin_Data:
         Get current captialization of the stock.
         # returns pandas DataFrame
         '''
+
+        self.remove_logging()
+
         # URL to check for profitability table.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
-        # Navigate to PROFILE URL
-        self.remove_logging()
-        self.driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
 
-        # Implicit Buffer
-        self.driver.implicitly_wait(4)
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
 
         # xpath for header, columns and values
         header = "//div[contains(@class, 'column column--primary')]/div[3]/div[2]//header/h2/span"
@@ -575,29 +659,30 @@ class Fin_Data:
     def main_page(self):
         '''
         Get Main Data
-        # Returns pandas DataFrame
-    '''
-        # Buffer of 3 seconds
-        time.sleep(1)
+        # Returns pandas Series
+        '''
 
-        # URL Settings and initialise driver as self.driver
-        URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}?mod=mw_quote_tab'
-        driver = self.driver
-
-        # Navigate to QUOTE URL
         self.remove_logging()
-        driver.get(URL)
 
-        # Buffer of 5 seconds for website to load
-        driver.implicitly_wait(4)
+        URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}'
+
+        if URL == self.driver.current_url:
+            pass
+
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
 
         # get xpath values for main page
         # Main values
         
         quote_header = "//*[contains(@class, 'kv__item')]//following::small"
         quote_value = "//*[contains(@class, 'kv__item')]/span[contains(@class, 'primary ')]"
-        quote_header_loc = driver.find_elements_by_xpath(quote_header)
-        quote_val_loc = driver.find_elements_by_xpath(quote_value)
+        quote_header_loc = self.driver.find_elements_by_xpath(quote_header)
+        quote_val_loc = self.driver.find_elements_by_xpath(quote_value)
 
         # Lists of data for quote page
         quote_headers = []
@@ -623,7 +708,6 @@ class Fin_Data:
         # Series to store values
         quote_s = pd.Series(quote_data, index=quote_headers, name=f'{self.ticker} Key Data', dtype='string')
 
-        driver.implicitly_wait(4)
 
         # Returns dataframe table
         return quote_s
@@ -634,16 +718,21 @@ class Fin_Data:
         Get Income Statement from Financials page
         # Returns pandas DataFrame
         '''
+
+        self.remove_logging()
+
         # URL Settings and initialise driver as self.driver
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials'
-        driver = self.driver
 
-        # Navigate to FINANCIALS, INCOME STATEMENT URL
-        self.remove_logging()
-        driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
 
-        # Buffer
-        driver.implicitly_wait(4)
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
 
         # get xpath values for income statement page
         # table element
@@ -655,11 +744,11 @@ class Fin_Data:
 
         # Dataframe = Rows, Index, Columns
         # Locate income statement headers
-        income_headers_loc = driver.find_elements_by_xpath(income_headers)
+        income_headers_loc = self.driver.find_elements_by_xpath(income_headers)
         income_headers_len = len(income_headers_loc)
 
         # Locate dataframe index
-        income_rows_loc = driver.find_elements_by_xpath(income_rows)
+        income_rows_loc = self.driver.find_elements_by_xpath(income_rows)
         income_rows_len = len(income_rows_loc)
 
         # Lists to add into dataframe
@@ -669,23 +758,20 @@ class Fin_Data:
         income_data_list = [[] for i in range(income_headers_len-1)]
 
         #### GET COLUMNS OF DATAFRAME ####
-        # //table[contains(@class, 'table table--overflow align--right')]//th[i]/div
         for i in range(1,income_headers_len + 1):
-            headers = driver.find_element_by_xpath(f"//table[contains(@class, 'table table--overflow align--right')]//th[{i}]/div").text
+            headers = self.driver.find_element_by_xpath(f"//table[contains(@class, 'table table--overflow align--right')]//th[{i}]/div").text
             income_column_list.append(headers)
             # print(f"Header name : {headers}.")
 
         #### GET ROW INDEX OF DATAFRAME ####
         for i in range(0, income_rows_len):
-            # //table[contains(@class, 'table table--overflow align--right')]/tbody/tr[{i+1}]/td[1]/div[2], xpath link, then converts to text
-            row_index = driver.find_element_by_xpath(f"//table[contains(@class, 'table table--overflow align--right')]/tbody/tr[{i+1}]/td[1]/div[1]").text
+            row_index = self.driver.find_element_by_xpath(f"//table[contains(@class, 'table table--overflow align--right')]/tbody/tr[{i+1}]/td[1]/div[1]").text
             income_row_index_list.append(row_index)
-            # print(f"Index name : {row_index}.")
 
             #### GET DATA OF DATAFRAME ####
             for x in range(2, income_headers_len + 1):
                 # loop html td from 2 - 7, get xpath link, then convert value to text
-                data = driver.find_element_by_xpath(f"//table[contains(@class, 'table table--overflow align--right')]/tbody/tr[{i+1}]/td[{x}]/div").text
+                data = self.driver.find_element_by_xpath(f"//table[contains(@class, 'table table--overflow align--right')]/tbody/tr[{i+1}]/td[{x}]/div").text
                 # Append x-2 list depending on which data is being pulled
                 income_data_list[x-2].append(data)
 
@@ -698,11 +784,9 @@ class Fin_Data:
         # Add data into dataframe, for index 0, 1, 2, 3, 4, 5
         for i in range(0, income_headers_len-1):
             income_df[f'{income_column_list[i]}'] = income_data_list[i]
-            # print(f"Data added to {income_column_list[i]}.")
 
         # Drop last column of dataframe
         income_df = income_df.drop(columns=[f'{income_column_list[-1]}'])
-        # print(f"{income_column_list[-1]} COLUMN dropped.")
 
         # SET Index as {ticker} Income Statement
         income_df = income_df.rename_axis(f'{self.ticker} Income Statement')
@@ -722,16 +806,21 @@ class Fin_Data:
         Get Balance Sheet, Assets from Financials page
         # Returns pandas DataFrame
         '''
+
+        self.remove_logging()
+
         # URL Settings and initialise driver as self.driver
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials/balance-sheet'
-        driver = self.driver
 
-        # Navigate to FINANCIALS, BALANCE SHEET URL
-        self.remove_logging()
-        driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
 
-        # Buffer
-        driver.implicitly_wait(4)
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
 
         ######## ASSETS TABLE ########
         # get xpath values for assets, balance sheet statement page
@@ -744,11 +833,11 @@ class Fin_Data:
 
         # Dataframe = Rows, Index, Columns
         # Locate assets, balance sheet headers
-        assets_headers_loc = driver.find_elements_by_xpath(assets_headers)
+        assets_headers_loc = self.driver.find_elements_by_xpath(assets_headers)
         assets_headers_len = len(assets_headers_loc)
 
         # Locate dataframe index
-        assets_rows_loc = driver.find_elements_by_xpath(assets_rows)
+        assets_rows_loc = self.driver.find_elements_by_xpath(assets_rows)
         assets_rows_len = len(assets_rows_loc)
 
         # Lists to add into dataframe
@@ -760,21 +849,19 @@ class Fin_Data:
         #### GET COLUMNS OF DATAFRAME ####
         # Uses xpath to get header string val
         for i in range(1,assets_headers_len + 1):
-            headers = driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][1]/div/div/table/thead/tr/th[{i}]/div").text
+            headers = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][1]/div/div/table/thead/tr/th[{i}]/div").text
             assets_column_list.append(headers)
-            # print(f"Header name : {headers}.")
 
         #### GET ROW INDEX OF DATAFRAME ####
         for i in range(0, assets_rows_len):
             # Uses xpath to get table index vals
-            row_index = driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][1]/div/div/table/tbody/tr[{i+1}]/td[1]/div[1]").text
+            row_index = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][1]/div/div/table/tbody/tr[{i+1}]/td[1]/div[1]").text
             assets_row_index_list.append(row_index)
-            # print(f"Index name : {row_index}.")
 
             #### GET DATA OF DATAFRAME ####
             for x in range(2, assets_headers_len + 1):
                 # loop html td from 2 - 7, get xpath link, then convert value to text
-                data = driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][1]/div/div/table/tbody/tr[{i+1}]/td[{x}]/div[1]").text
+                data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][1]/div/div/table/tbody/tr[{i+1}]/td[{x}]/div[1]").text
                 # Append x-2 list depending on which data is being pulled
                 assets_data_list[x-2].append(data)
 
@@ -787,11 +874,9 @@ class Fin_Data:
         # Add data into dataframe, for index 0, 1, 2, 3, 4, 5
         for i in range(0, assets_headers_len-1):
             assets_df[f'{assets_column_list[i]}'] = assets_data_list[i]
-            # print(f"Data added to {assets_column_list[i]}.")
 
         # Drop last column of dataframe
         assets_df = assets_df.drop(columns=[f'{assets_column_list[-1]}'])
-        # print(f"{assets_column_list[-1]} COLUMN dropped.")
 
         # SET Index as {ticker} Assets, Balance sheet
         assets_df = assets_df.rename_axis(f'{self.ticker} Assets, Balance Sheet')
@@ -811,13 +896,20 @@ class Fin_Data:
         Get Balance Sheet, Libabilities from Financials page
         # Returns pandas DataFrame
         '''
+
+        self.remove_logging()
+
         # URL Settings and initialise driver as self.driver
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials/balance-sheet'
-        driver = self.driver
 
-        # Navigate to FINANCIALS, BALANCE SHEET URL
-        self.remove_logging()
-        driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
+
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            self.driver.implicitly_wait(3)
 
         # get xpath values for liabilities, balance sheet statement page
         # table element
@@ -829,11 +921,11 @@ class Fin_Data:
 
         # Dataframe = Rows, Index, Columns
         # Locate liabilities, balance sheet headers
-        lia_headers_loc = driver.find_elements_by_xpath(lia_headers)
+        lia_headers_loc = self.driver.find_elements_by_xpath(lia_headers)
         lia_headers_len = len(lia_headers_loc)
 
         # Locate dataframe index
-        lia_rows_loc = driver.find_elements_by_xpath(lia_rows)
+        lia_rows_loc = self.driver.find_elements_by_xpath(lia_rows)
         lia_rows_len = len(lia_rows_loc)
 
         # Lists to add into dataframe
@@ -845,21 +937,20 @@ class Fin_Data:
         #### GET COLUMNS OF DATAFRAME ####
         # Uses xpath to get header string val
         for i in range(1,lia_headers_len + 1):
-            headers = driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][2]/div/div/table/thead/tr/th[{i}]/div").text
+            headers = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][2]/div/div/table/thead/tr/th[{i}]/div").text
             lia_column_list.append(headers)
-            # print(f"Header name : {headers}.")
 
         #### GET ROW INDEX OF DATAFRAME ####
         for i in range(0, lia_rows_len):
             # Uses xpath to get table index vals
-            row_index = driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][2]/div/div/table/tbody/tr[{i+1}]/td[1]/div[1]").text
+            row_index = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][2]/div/div/table/tbody/tr[{i+1}]/td[1]/div[1]").text
             lia_row_index_list.append(row_index)
-            # print(f"Index name : {row_index}.")
+
 
             #### GET DATA OF DATAFRAME ####
             for x in range(2, lia_headers_len + 1):
                 # loop html td from 2 - 7, get xpath link, then convert value to text
-                data = driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][2]/div/div/table/tbody/tr[{i+1}]/td[{x}]/div[1]").text
+                data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][2]/div/div/table/tbody/tr[{i+1}]/td[{x}]/div[1]").text
                 # Append x-2 list depending on which data is being pulled
                 lia_data_list[x-2].append(data)
 
@@ -872,11 +963,9 @@ class Fin_Data:
         # Add data into dataframe, for index 0, 1, 2, 3, 4, 5
         for i in range(0, lia_headers_len-1):
             lia_df[f'{lia_column_list[i]}'] = lia_data_list[i]
-            # print(f"Data added to {lia_column_list[i]}.")
 
         # Drop last column of dataframe
         lia_df = lia_df.drop(columns=[f'{lia_column_list[-1]}'])
-        # print(f"{lia_column_list[-1]} COLUMN dropped.")
 
         # SET Index as {ticker} Liabilities, Balance sheet
         lia_df = lia_df.rename_axis(f'{self.ticker} Liabilities, Balance Sheet')
@@ -896,16 +985,21 @@ class Fin_Data:
         Get Cash Flow, Operating Activies from Financials page
         # Returns pandas DataFrame
         '''
+
+        self.remove_logging()
+
         # URL Settings and initialise driver as self.driver
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials/cash-flow'
-        driver = self.driver
 
-        # Navigate to FINANCIALS, CASH FLOW URL
-        self.remove_logging()
-        driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
 
-        # Buffer
-        driver.implicitly_wait(4)
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Buffer
+            self.driver.implicitly_wait(3)
 
         # get xpath values for operating activities, cash flow statement page
         # table element
@@ -917,11 +1011,11 @@ class Fin_Data:
 
         # Dataframe = Rows, Index, Columns
         # Locate Operating Activities, cash flow headers
-        opr_headers_loc = driver.find_elements_by_xpath(opr_headers)
+        opr_headers_loc = self.driver.find_elements_by_xpath(opr_headers)
         opr_headers_len = len(opr_headers_loc)
 
         # Locate dataframe index
-        opr_rows_loc = driver.find_elements_by_xpath(opr_rows)
+        opr_rows_loc = self.driver.find_elements_by_xpath(opr_rows)
         opr_rows_len = len(opr_rows_loc)
 
         # Lists to add into dataframe
@@ -933,21 +1027,19 @@ class Fin_Data:
         #### GET COLUMNS OF DATAFRAME ####
         # Uses xpath to get header string val
         for i in range(1,opr_headers_len + 1):
-            headers = driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][1]/div/div/table/thead/tr/th[{i}]/div").text
+            headers = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][1]/div/div/table/thead/tr/th[{i}]/div").text
             opr_column_list.append(headers)
-            # print(f"Header name : {headers}.")
 
         #### GET ROW INDEX OF DATAFRAME ####
         for i in range(0, opr_rows_len):
             # Uses xpath to get table index vals
-            row_index = driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][1]/div/div/table/tbody/tr[{i+1}]/td[1]/div[1]").text
+            row_index = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][1]/div/div/table/tbody/tr[{i+1}]/td[1]/div[1]").text
             opr_row_index_list.append(row_index)
-            # print(f"Index name : {row_index}.")
 
             #### GET DATA OF DATAFRAME ####
             for x in range(2, opr_headers_len + 1):
                 # loop html td from 2 - 7, get xpath link, then convert value to text
-                data = driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][1]/div/div/table/tbody/tr[{i+1}]/td[{x}]/div[1]").text
+                data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][1]/div/div/table/tbody/tr[{i+1}]/td[{x}]/div[1]").text
                 # Append x-2 list depending on which data is being pulled
                 opr_data_list[x-2].append(data)
 
@@ -960,11 +1052,9 @@ class Fin_Data:
         # Add data into dataframe, for index 0, 1, 2, 3, 4, 5
         for i in range(0, opr_headers_len-1):
             opr_df[f'{opr_column_list[i]}'] = opr_data_list[i]
-            # print(f"Data added to {opr_column_list[i]}.")
 
         # Drop last column of dataframe
         opr_df = opr_df.drop(columns=[f'{opr_column_list[-1]}'])
-        # print(f"{opr_column_list[-1]} COLUMN dropped.")
 
         # SET Index as {ticker} Operating Activities, Cash Flow
         opr_df = opr_df.rename_axis(f'{self.ticker} Operating Activities, Cash Flow')
@@ -984,16 +1074,21 @@ class Fin_Data:
         Get Cash Flow, Investing Activies from Financials page
         # Returns pandas DataFrame
         '''
+
+        self.remove_logging()
+
         # URL Settings and initialise driver as self.driver
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials/cash-flow'
-        driver = self.driver
 
-        # Navigate to FINANCIALS, CASH FLOW URL
-        self.remove_logging()
-        driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
 
-        # Buffer
-        driver.implicitly_wait(4)
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Buffer
+            self.driver.implicitly_wait(3)
 
         # get xpath values for investing activities, cash flow statement page
         # table element
@@ -1005,11 +1100,11 @@ class Fin_Data:
 
         # Dataframe = Rows, Index, Columns
         # Locate Investing Activities, cash flow headers
-        inv_headers_loc = driver.find_elements_by_xpath(inv_headers)
+        inv_headers_loc = self.driver.find_elements_by_xpath(inv_headers)
         inv_headers_len = len(inv_headers_loc)
 
         # Locate dataframe index
-        inv_rows_loc = driver.find_elements_by_xpath(inv_rows)
+        inv_rows_loc = self.driver.find_elements_by_xpath(inv_rows)
         inv_rows_len = len(inv_rows_loc)
 
         # Lists to add into dataframe
@@ -1021,21 +1116,19 @@ class Fin_Data:
         #### GET COLUMNS OF DATAFRAME ####
         # Uses xpath to get header string val
         for i in range(1,inv_headers_len + 1):
-            headers = driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][2]/div/div/table/thead/tr/th[{i}]/div").text
+            headers = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][2]/div/div/table/thead/tr/th[{i}]/div").text
             inv_column_list.append(headers)
-            # print(f"Header name : {headers}.")
 
         #### GET ROW INDEX OF DATAFRAME ####
         for i in range(0, inv_rows_len):
             # Uses xpath to get table index vals
-            row_index = driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][2]/div/div/table/tbody/tr[{i+1}]/td[1]/div[1]").text
+            row_index = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][2]/div/div/table/tbody/tr[{i+1}]/td[1]/div[1]").text
             inv_row_index_list.append(row_index)
-            # print(f"Index name : {row_index}.")
 
             #### GET DATA OF DATAFRAME ####
             for x in range(2, inv_headers_len + 1):
                 # loop html td from 2 - 7, get xpath link, then convert value to text
-                data = driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][2]/div/div/table/tbody/tr[{i+1}]/td[{x}]/div[1]").text
+                data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][2]/div/div/table/tbody/tr[{i+1}]/td[{x}]/div[1]").text
                 # Append x-2 list depending on which data is being pulled
                 inv_data_list[x-2].append(data)
 
@@ -1048,11 +1141,9 @@ class Fin_Data:
         # Add data into dataframe, for index 0, 1, 2, 3, 4, 5
         for i in range(0, inv_headers_len-1):
             inv_df[f'{inv_column_list[i]}'] = inv_data_list[i]
-            # print(f"Data added to {inv_column_list[i]}.")
 
         # Drop last column of dataframe
         inv_df = inv_df.drop(columns=[f'{inv_column_list[-1]}'])
-        # print(f"{inv_column_list[-1]} COLUMN dropped.")
 
         # SET Index as {ticker} Investing Activities, Cash Flow
         inv_df = inv_df.rename_axis(f'{self.ticker} Investing Activies, Cash Flow')
@@ -1072,16 +1163,21 @@ class Fin_Data:
         Get Cash Flow, Financing Activities from Financials page
         # Returns pandas DataFrame
         '''
+
+        self.remove_logging()
+
         # URL Settings and initialise driver as self.driver
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials/cash-flow'
-        driver = self.driver
 
-        # Navigate to FINANCIALS, CASH FLOW URL
-        self.remove_logging()
-        driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
 
-        # Buffer
-        driver.implicitly_wait(4)
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Buffer
+            self.driver.implicitly_wait(4)
 
         # get xpath values for financing activities, cash flow statement page
         # table element
@@ -1093,11 +1189,11 @@ class Fin_Data:
 
         # Dataframe = Rows, Index, Columns
         # Locate Financing Activities, cash flow headers
-        fin_headers_loc = driver.find_elements_by_xpath(fin_headers)
+        fin_headers_loc = self.driver.find_elements_by_xpath(fin_headers)
         fin_headers_len = len(fin_headers_loc)
 
         # Locate dataframe index
-        fin_rows_loc = driver.find_elements_by_xpath(fin_rows)
+        fin_rows_loc = self.driver.find_elements_by_xpath(fin_rows)
         fin_rows_len = len(fin_rows_loc)
 
         # Lists to add into dataframe
@@ -1109,21 +1205,19 @@ class Fin_Data:
         #### GET COLUMNS OF DATAFRAME ####
         # Uses xpath to get header string val
         for i in range(1,fin_headers_len + 1):
-            headers = driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][3]/div/div/table/thead/tr/th[{i}]/div").text
+            headers = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][3]/div/div/table/thead/tr/th[{i}]/div").text
             fin_column_list.append(headers)
-            # print(f"Header name : {headers}.")
 
         #### GET ROW INDEX OF DATAFRAME ####
         for i in range(0, fin_rows_len):
             # Uses xpath to get table index vals
-            row_index = driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][3]/div/div/table/tbody/tr[{i+1}]/td[1]/div[1]").text
+            row_index = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][3]/div/div/table/tbody/tr[{i+1}]/td[1]/div[1]").text
             fin_row_index_list.append(row_index)
-            # print(f"Index name : {row_index}.")
 
             #### GET DATA OF DATAFRAME ####
             for x in range(2, fin_headers_len + 1):
                 # loop html td from 2 - 7, get xpath link, then convert value to text
-                data = driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][3]/div/div/table/tbody/tr[{i+1}]/td[{x}]/div[1]").text
+                data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][3]/div/div/table/tbody/tr[{i+1}]/td[{x}]/div[1]").text
                 # Append x-2 list depending on which data is being pulled
                 fin_data_list[x-2].append(data)
 
@@ -1136,11 +1230,9 @@ class Fin_Data:
         # Add data into dataframe, for index 0, 1, 2, 3, 4, 5
         for i in range(0, fin_headers_len-1):
             fin_df[f'{fin_column_list[i]}'] = fin_data_list[i]
-            # print(f"Data added to {fin_column_list[i]}.")
 
         # Drop last column of dataframe
         fin_df = fin_df.drop(columns=[f'{fin_column_list[-1]}'])
-        # print(f"{fin_column_list[-1]} COLUMN dropped.")
 
         # SET Index as {ticker} Financing Activities, Cash Flow
         fin_df = fin_df.rename_axis(f'{self.ticker} Financing Activies, Cash Flow')
@@ -1211,15 +1303,21 @@ class Fin_Data:
         Get starting month of Fiscal Year for stock.
         # Returns int
         '''
+
+        self.remove_logging()
+
         # URL to check for valuations table.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
-        # Navigate to PROFILE URL
-        self.remove_logging()
-        self.driver.get(URL)
+        if URL == self.driver.current_url:
+            pass
 
-        # Implicit Buffer
-        self.driver.implicitly_wait(4)
+        else: 
+            # Navigate to QUOTE URL
+            self.driver.get(URL)
+
+            # Implicit Buffer
+            self.driver.implicitly_wait(3)
 
         # xpath for fiscal year
         fiscal = "//div[contains(@class, 'group left')]/div/ul/li[3]/span"
@@ -1291,7 +1389,7 @@ class Fin_Data:
         Quits Google Chrome browser.
         # Returns str
         '''
-        time.sleep(1)
+        time.sleep(0.5)
         self.driver.quit()
         return 'Driver successfully quit.'
 

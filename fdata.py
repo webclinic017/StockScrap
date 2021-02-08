@@ -32,7 +32,7 @@ class FData(Fin_Data, Fin_Extract):
     '''
 
     # Initializes FData class inherits __init__ args
-    def __init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe'):
+    def __init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
         Fin_Data.__init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe')
         Fin_Extract.__init__(self,ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe')
     

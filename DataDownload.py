@@ -19,32 +19,63 @@ def chunks(lst, n):
 # List of S&P500 Companies
 components = r'C:\Users\Dennis Loo.000\Desktop\Value_Investing_Screener\Ticker_List\S&P500 Components.csv'
 
+stock_list = [
+    'TSLA',
+    'TTD',
+    'ROKU',
+    'NIO',
+    'MSFT',
+    'ENPH',
+    'ETSY',
+    'XPEV',
+    'U',
+    'CRSR',
+    'SEDG',
+    'BYND',
+    'WIMI',
+    'FUBO',
+    'ELYS',
+    'IZEA'
+]
+
 error_list = []
 
-with open(components, 'r') as sp500:
+# with open(components, 'r') as sp500:
 
-    # Read CSV
-    df = pd.read_csv(sp500)
-    df = df.set_index('Ticker')
+#     # Read CSV
+#     df = pd.read_csv(sp500)
+#     df = df.set_index('Ticker')
 
-    # chunks of 10 lists
-    components_list = df.index.tolist()
-    components_chunks = list(chunks(components_list, 15))
-    components_len = len(components_chunks) # Len = 51
-    # Now at components_chunks[2], SCHW
+#     # chunks of 10 lists
+#     components_list = df.index.tolist()
+#     components_chunks = list(chunks(components_list, 15))
+#     components_len = len(components_chunks) # Len = 51
+#     # Now at components_chunks[2], SCHW
 
-    # If stock does not exist, add into error_list
-    for ticker in components_chunks[2]:
-        stock = Stock_Data(ticker)
-        try:
-            download_bool = stock.download()
-            if download_bool == False:
-                error_list.append(ticker)
-        # Error handling
-        except ValueError or KeyError:
+#     # If stock does not exist, add into error_list
+#     for ticker in components_chunks[2]:
+#         stock = Stock_Data(ticker)
+#         try:
+#             download_bool = stock.download()
+#             if download_bool == False:
+#                 error_list.append(ticker)
+#         # Error handling
+#         except ValueError or KeyError:
+#             error_list.append(ticker)
+
+#### INDIVIDUAL DOWNLOAD ####
+
+for ticker in stock_list:
+    stock = Stock_Data(ticker)
+    try:
+        download_bool = stock.download(PATH=r'C:\Users\Gavin\Desktop\FinData')
+        if download_bool == False:
             error_list.append(ticker)
-
-
+        else:
+            pass
+    # Error handling
+    except ValueError or KeyError:
+        error_list.append(ticker)
 
 #### DEBUG #####
 # stock = Stock_Data('AAPL')
