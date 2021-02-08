@@ -182,3 +182,15 @@ class Fin_Extract(Fin_Select):
             return 'Error extracting data. Please check items, year, ticker again.'           
                  
         
+    def extract_columns(self, from_df):
+        '''
+        Extracts columns of pandas DataFrame.
+        # returns list
+        '''
+        col_list = []
+
+        for col in from_df.columns:
+            col_list.append(col)
+
+        return col_list
+        

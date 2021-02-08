@@ -1,6 +1,10 @@
 ######################################################################
 # IMPORTS                                                            #
 ######################################################################
+# Import BS4 Classes
+from bs4 import BeautifulSoup as bs
+import requests
+
 # Import WebDriver Class
 from WebDriver import WebDriver
 
@@ -112,27 +116,13 @@ class Fin_Data(WebDriver):
         self.driver.get(URL)
 
         # Implicit Buffer
-        self.driver.implicitly_wait(3)
+        self.driver.implicitly_wait(1)
 
-        # xpath for check_price
-        check_price = "//h3[contains(@class, 'intraday__price')]/bg-quote"
-
-        try:
-            # Check price if exists?
-            check_price_val = self.driver.find_element_by_xpath(check_price).text
-            # print(check_price_val)
-
-        except NoSuchElementException:
-            print("No such ticker. Check for typos in ticker argument?")
-            exist = False
-        
-        else:
-            # print(f"{self.ticker} exists in database!")
+        if URL == self.driver.current_url:
             exist = True
         
-        finally: 
-            # Buffer
-            time.sleep(1)
+        else:
+            exist = False
 
         # Returns True or False depending whether self.ticker exists in database.
         return exist
@@ -719,86 +709,66 @@ class Fin_Data(WebDriver):
         # Returns pandas DataFrame
         '''
 
-        self.remove_logging()
-
         # URL Settings and initialise driver as self.driver
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
+        income_table = soup.find_all("table", attrs={'class': 'table table--overflow align--right'})[0]
+        income_headers = income_table.thead.tr.find_all("th")
 
-        # get xpath values for income statement page
-        # table element
-        income_table = "//table[contains(@class, 'table table--overflow align--right')]"
-        # elements of header
-        income_headers = "//table[contains(@class, 'table table--overflow align--right')]//th"
-        # elements of rows
-        income_rows = "//table[contains(@class, 'table table--overflow align--right')]/tbody/tr"
+        headers = []
+        for th in income_headers:
+            item = th.find_all("div")
+            for i in item:
+                headers.append(i.contents[0].strip())
 
-        # Dataframe = Rows, Index, Columns
-        # Locate income statement headers
-        income_headers_loc = self.driver.find_elements_by_xpath(income_headers)
-        income_headers_len = len(income_headers_loc)
+        # headers = ['Item', 'Item', '2016', '2017', '2018', '2019', '2020', '5-year trend']
 
-        # Locate dataframe index
-        income_rows_loc = self.driver.find_elements_by_xpath(income_rows)
-        income_rows_len = len(income_rows_loc)
+        headers.pop(0)
+        headers.pop(-1)
+        income_rows = income_table.tbody.find_all("tr")
 
-        # Lists to add into dataframe
-        income_column_list = []
-        income_row_index_list = []
-        # Create lists of lists depending on how many rows are there.
-        income_data_list = [[] for i in range(income_headers_len-1)]
+        index = []
 
-        #### GET COLUMNS OF DATAFRAME ####
-        for i in range(1,income_headers_len + 1):
-            headers = self.driver.find_element_by_xpath(f"//table[contains(@class, 'table table--overflow align--right')]//th[{i}]/div").text
-            income_column_list.append(headers)
-            # print(f"Header name : {headers}.")
+        # items = index
+        for tr in income_rows:
+            select = tr.find_all("td")[0]
+            val = select.find("div").contents[0].strip()
+            index.append(val)
 
-        #### GET ROW INDEX OF DATAFRAME ####
-        for i in range(0, income_rows_len):
-            row_index = self.driver.find_element_by_xpath(f"//table[contains(@class, 'table table--overflow align--right')]/tbody/tr[{i+1}]/td[1]/div[1]").text
-            income_row_index_list.append(row_index)
+            # Get rows
+        data_list = [[] for i in range(0,len(headers) -1)] # datalist len = 6
+        # rows val
+        for tr in income_rows:
+            # 1, 2, 3 ,4 ,5 ,6, len(headers) = 6
+            # i = 1, 2, 3, 4, 5
+            for i in range(1, len(data_list)+1):
+                select = tr.find_all("td")[i]
+                val = select.find("div").contents[0].get_text()
+                data_list[i-1].append(val)
 
-            #### GET DATA OF DATAFRAME ####
-            for x in range(2, income_headers_len + 1):
-                # loop html td from 2 - 7, get xpath link, then convert value to text
-                data = self.driver.find_element_by_xpath(f"//table[contains(@class, 'table table--overflow align--right')]/tbody/tr[{i+1}]/td[{x}]/div").text
-                # Append x-2 list depending on which data is being pulled
-                income_data_list[x-2].append(data)
+        # Data list add
+        data_list.insert(0,index)
 
-        # Create dataframe for viewing
-        income_df = pd.DataFrame(index=income_row_index_list, columns=income_column_list)
+        # create dataframe
+        df = pd.DataFrame(columns=headers)
 
-        # REMOVE 0 index of income_column_list
-        income_column_list.pop(0)
+        for i in range(0,len(data_list)):
+            df[f'{headers[i]}'] = data_list[i]
 
-        # Add data into dataframe, for index 0, 1, 2, 3, 4, 5
-        for i in range(0, income_headers_len-1):
-            income_df[f'{income_column_list[i]}'] = income_data_list[i]
-
-        # Drop last column of dataframe
-        income_df = income_df.drop(columns=[f'{income_column_list[-1]}'])
-
-        # SET Index as {ticker} Income Statement
-        income_df = income_df.rename_axis(f'{self.ticker} Income Statement')
-
-        # Drop first column
-        income_df = income_df.drop(columns='ITEM')\
+        # Set item as index
+        df = df.set_index(df.columns[0])
             
         # Sort df by year
-        income_df = self.reorder_df(income_df)
+        df = self.reorder_df(df)
 
         # Returns dataframe
-        return income_df
+        return df
 
     
     def balance_sheet_assets(self):
@@ -807,88 +777,66 @@ class Fin_Data(WebDriver):
         # Returns pandas DataFrame
         '''
 
-        self.remove_logging()
-
         # URL Settings and initialise driver as self.driver
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials/balance-sheet'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
+        income_table = soup.find_all("table", attrs={'class': 'table table--overflow align--right'})[0]
+        income_headers = income_table.thead.tr.find_all("th")
 
-        ######## ASSETS TABLE ########
-        # get xpath values for assets, balance sheet statement page
-        # table element
-        assets_table = "//table[contains(@class, 'table table--overflow align--right')]"
-        # elements of header (index 1-7 for HTML Assets), use th to iterate
-        assets_headers = "//div[contains(@class, 'element element--table table--data')][1]/div/div/table/thead/tr/th"
-        # elements of rows , use tr to iterate
-        assets_rows = "//div[contains(@class, 'element element--table table--data')][1]/div/div/table/tbody/tr"
+        headers = []
+        for th in income_headers:
+            item = th.find_all("div")
+            for i in item:
+                headers.append(i.contents[0].strip())
 
-        # Dataframe = Rows, Index, Columns
-        # Locate assets, balance sheet headers
-        assets_headers_loc = self.driver.find_elements_by_xpath(assets_headers)
-        assets_headers_len = len(assets_headers_loc)
+        # headers = ['Item', 'Item', '2016', '2017', '2018', '2019', '2020', '5-year trend']
 
-        # Locate dataframe index
-        assets_rows_loc = self.driver.find_elements_by_xpath(assets_rows)
-        assets_rows_len = len(assets_rows_loc)
+        headers.pop(0)
+        headers.pop(-1)
+        income_rows = income_table.tbody.find_all("tr")
 
-        # Lists to add into dataframe
-        assets_column_list = []
-        assets_row_index_list = []
-        # Create lists of lists depending on how many rows are there.
-        assets_data_list = [[] for i in range(assets_headers_len-1)]
+        index = []
 
-        #### GET COLUMNS OF DATAFRAME ####
-        # Uses xpath to get header string val
-        for i in range(1,assets_headers_len + 1):
-            headers = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][1]/div/div/table/thead/tr/th[{i}]/div").text
-            assets_column_list.append(headers)
+        # items = index
+        for tr in income_rows:
+            select = tr.find_all("td")[0]
+            val = select.find("div").contents[0].strip()
+            index.append(val)
 
-        #### GET ROW INDEX OF DATAFRAME ####
-        for i in range(0, assets_rows_len):
-            # Uses xpath to get table index vals
-            row_index = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][1]/div/div/table/tbody/tr[{i+1}]/td[1]/div[1]").text
-            assets_row_index_list.append(row_index)
+            # Get rows
+        data_list = [[] for i in range(0,len(headers) -1)] # datalist len = 6
+        # rows val
+        for tr in income_rows:
+            # 1, 2, 3 ,4 ,5 ,6, len(headers) = 6
+            # i = 1, 2, 3, 4, 5
+            for i in range(1, len(data_list)+1):
+                select = tr.find_all("td")[i]
+                val = select.find("div").contents[0].get_text()
+                data_list[i-1].append(val)
 
-            #### GET DATA OF DATAFRAME ####
-            for x in range(2, assets_headers_len + 1):
-                # loop html td from 2 - 7, get xpath link, then convert value to text
-                data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][1]/div/div/table/tbody/tr[{i+1}]/td[{x}]/div[1]").text
-                # Append x-2 list depending on which data is being pulled
-                assets_data_list[x-2].append(data)
+        # Data list add
+        data_list.insert(0,index)
 
-        # Create dataframe for viewing
-        assets_df = pd.DataFrame(index=assets_row_index_list, columns=assets_column_list)
+        # create dataframe
+        df = pd.DataFrame(columns=headers)
 
-        # REMOVE 0 index of assets_column_list
-        assets_column_list.pop(0)
+        for i in range(0,len(data_list)):
+            df[f'{headers[i]}'] = data_list[i]
 
-        # Add data into dataframe, for index 0, 1, 2, 3, 4, 5
-        for i in range(0, assets_headers_len-1):
-            assets_df[f'{assets_column_list[i]}'] = assets_data_list[i]
-
-        # Drop last column of dataframe
-        assets_df = assets_df.drop(columns=[f'{assets_column_list[-1]}'])
-
-        # SET Index as {ticker} Assets, Balance sheet
-        assets_df = assets_df.rename_axis(f'{self.ticker} Assets, Balance Sheet')
-
-        # Drop first column
-        assets_df = assets_df.drop(columns='ITEM')
-
+        # Set item as index
+        df = df.set_index(df.columns[0])
+            
         # Sort df by year
-        assets_df = self.reorder_df(assets_df)
+        df = self.reorder_df(df)
 
         # Returns dataframe
-        return assets_df
+        return df
         
     
     def balance_sheet_lia(self):
@@ -897,87 +845,65 @@ class Fin_Data(WebDriver):
         # Returns pandas DataFrame
         '''
 
-        self.remove_logging()
-
         # URL Settings and initialise driver as self.driver
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials/balance-sheet'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-            self.driver.implicitly_wait(3)
+        income_table = soup.find_all("table", attrs={'class': 'table table--overflow align--right'})[1]
+        income_headers = income_table.thead.tr.find_all("th")
 
-        # get xpath values for liabilities, balance sheet statement page
-        # table element
-        lia_table = "//table[contains(@class, 'table table--overflow align--right')]"
-        # elements of header (index 1-7 for HTML Liabilities), use th to iterate
-        lia_headers = "//div[contains(@class, 'element element--table table--data')][2]/div/div/table/thead/tr/th"
-        # elements of rows , use tr to iterate
-        lia_rows = "//div[contains(@class, 'element element--table table--data')][2]/div/div/table/tbody/tr"
+        headers = []
+        for th in income_headers:
+            item = th.find_all("div")
+            for i in item:
+                headers.append(i.contents[0].strip())
 
-        # Dataframe = Rows, Index, Columns
-        # Locate liabilities, balance sheet headers
-        lia_headers_loc = self.driver.find_elements_by_xpath(lia_headers)
-        lia_headers_len = len(lia_headers_loc)
+        # headers = ['Item', 'Item', '2016', '2017', '2018', '2019', '2020', '5-year trend']
 
-        # Locate dataframe index
-        lia_rows_loc = self.driver.find_elements_by_xpath(lia_rows)
-        lia_rows_len = len(lia_rows_loc)
+        headers.pop(0)
+        headers.pop(-1)
+        income_rows = income_table.tbody.find_all("tr")
 
-        # Lists to add into dataframe
-        lia_column_list = []
-        lia_row_index_list = []
-        # Create lists of lists depending on how many rows are there.
-        lia_data_list = [[] for i in range(lia_headers_len-1)]
+        index = []
 
-        #### GET COLUMNS OF DATAFRAME ####
-        # Uses xpath to get header string val
-        for i in range(1,lia_headers_len + 1):
-            headers = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][2]/div/div/table/thead/tr/th[{i}]/div").text
-            lia_column_list.append(headers)
+        # items = index
+        for tr in income_rows:
+            select = tr.find_all("td")[0]
+            val = select.find("div").contents[0].strip()
+            index.append(val)
 
-        #### GET ROW INDEX OF DATAFRAME ####
-        for i in range(0, lia_rows_len):
-            # Uses xpath to get table index vals
-            row_index = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][2]/div/div/table/tbody/tr[{i+1}]/td[1]/div[1]").text
-            lia_row_index_list.append(row_index)
+            # Get rows
+        data_list = [[] for i in range(0,len(headers) -1)] # datalist len = 6
+        # rows val
+        for tr in income_rows:
+            # 1, 2, 3 ,4 ,5 ,6, len(headers) = 6
+            # i = 1, 2, 3, 4, 5
+            for i in range(1, len(data_list)+1):
+                select = tr.find_all("td")[i]
+                val = select.find("div").contents[0].get_text()
+                data_list[i-1].append(val)
 
+        # Data list add
+        data_list.insert(0,index)
+        # create dataframe
+        df = pd.DataFrame(columns=headers)
 
-            #### GET DATA OF DATAFRAME ####
-            for x in range(2, lia_headers_len + 1):
-                # loop html td from 2 - 7, get xpath link, then convert value to text
-                data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][2]/div/div/table/tbody/tr[{i+1}]/td[{x}]/div[1]").text
-                # Append x-2 list depending on which data is being pulled
-                lia_data_list[x-2].append(data)
+        for i in range(0,len(data_list)):
+            df[f'{headers[i]}'] = data_list[i]
 
-        # Create dataframe for viewing
-        lia_df = pd.DataFrame(index=lia_row_index_list, columns=lia_column_list)
-
-        # REMOVE 0 index of lia_column_list
-        lia_column_list.pop(0)
-
-        # Add data into dataframe, for index 0, 1, 2, 3, 4, 5
-        for i in range(0, lia_headers_len-1):
-            lia_df[f'{lia_column_list[i]}'] = lia_data_list[i]
-
-        # Drop last column of dataframe
-        lia_df = lia_df.drop(columns=[f'{lia_column_list[-1]}'])
-
-        # SET Index as {ticker} Liabilities, Balance sheet
-        lia_df = lia_df.rename_axis(f'{self.ticker} Liabilities, Balance Sheet')
-
-        # Drop first column
-        lia_df = lia_df.drop(columns='ITEM')
-
+        # Set item as index
+        df = df.set_index(df.columns[0])
+            
         # Sort df by year
-        lia_df = self.reorder_df(lia_df)
+        df = self.reorder_df(df)
 
         # Returns dataframe
-        return lia_df
+        return df
 
     
     def cash_flow_opr(self):
@@ -986,87 +912,65 @@ class Fin_Data(WebDriver):
         # Returns pandas DataFrame
         '''
 
-        self.remove_logging()
-
         # URL Settings and initialise driver as self.driver
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials/cash-flow'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-            # Buffer
-            self.driver.implicitly_wait(3)
+        income_table = soup.find_all("table", attrs={'class': 'table table--overflow align--right'})[0]
+        income_headers = income_table.thead.tr.find_all("th")
 
-        # get xpath values for operating activities, cash flow statement page
-        # table element
-        opr_table = "//table[contains(@class, 'table table--overflow align--right')][1]"
-        # elements of header (index 1-7 for HTML Operating Activities), use th to iterate
-        opr_headers = "//div[contains(@class, 'element element--table table--data')][1]/div/div/table/thead/tr/th"
-        # elements of rows , use tr to iterate
-        opr_rows = "//div[contains(@class, 'element element--table table--data')][1]/div/div/table/tbody/tr"
+        headers = []
+        for th in income_headers:
+            item = th.find_all("div")
+            for i in item:
+                headers.append(i.contents[0].strip())
 
-        # Dataframe = Rows, Index, Columns
-        # Locate Operating Activities, cash flow headers
-        opr_headers_loc = self.driver.find_elements_by_xpath(opr_headers)
-        opr_headers_len = len(opr_headers_loc)
+        # headers = ['Item', 'Item', '2016', '2017', '2018', '2019', '2020', '5-year trend']
 
-        # Locate dataframe index
-        opr_rows_loc = self.driver.find_elements_by_xpath(opr_rows)
-        opr_rows_len = len(opr_rows_loc)
+        headers.pop(0)
+        headers.pop(-1)
+        income_rows = income_table.tbody.find_all("tr")
 
-        # Lists to add into dataframe
-        opr_column_list = []
-        opr_row_index_list = []
-        # Create lists of lists depending on how many rows are there.
-        opr_data_list = [[] for i in range(opr_headers_len-1)]
+        index = []
 
-        #### GET COLUMNS OF DATAFRAME ####
-        # Uses xpath to get header string val
-        for i in range(1,opr_headers_len + 1):
-            headers = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][1]/div/div/table/thead/tr/th[{i}]/div").text
-            opr_column_list.append(headers)
+        # items = index
+        for tr in income_rows:
+            select = tr.find_all("td")[0]
+            val = select.find("div").contents[0].strip()
+            index.append(val)
 
-        #### GET ROW INDEX OF DATAFRAME ####
-        for i in range(0, opr_rows_len):
-            # Uses xpath to get table index vals
-            row_index = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][1]/div/div/table/tbody/tr[{i+1}]/td[1]/div[1]").text
-            opr_row_index_list.append(row_index)
+            # Get rows
+        data_list = [[] for i in range(0,len(headers) -1)] # datalist len = 6
+        # rows val
+        for tr in income_rows:
+            # 1, 2, 3 ,4 ,5 ,6, len(headers) = 6
+            # i = 1, 2, 3, 4, 5
+            for i in range(1, len(data_list)+1):
+                select = tr.find_all("td")[i]
+                val = select.find("div").contents[0].get_text()
+                data_list[i-1].append(val)
 
-            #### GET DATA OF DATAFRAME ####
-            for x in range(2, opr_headers_len + 1):
-                # loop html td from 2 - 7, get xpath link, then convert value to text
-                data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][1]/div/div/table/tbody/tr[{i+1}]/td[{x}]/div[1]").text
-                # Append x-2 list depending on which data is being pulled
-                opr_data_list[x-2].append(data)
+        # Data list add
+        data_list.insert(0,index)
+        # create dataframe
+        df = pd.DataFrame(columns=headers)
 
-        # Create dataframe for viewing
-        opr_df = pd.DataFrame(index=opr_row_index_list, columns=opr_column_list)
+        for i in range(0,len(data_list)):
+            df[f'{headers[i]}'] = data_list[i]
 
-        # REMOVE 0 index of opr_column_list
-        opr_column_list.pop(0)
-
-        # Add data into dataframe, for index 0, 1, 2, 3, 4, 5
-        for i in range(0, opr_headers_len-1):
-            opr_df[f'{opr_column_list[i]}'] = opr_data_list[i]
-
-        # Drop last column of dataframe
-        opr_df = opr_df.drop(columns=[f'{opr_column_list[-1]}'])
-
-        # SET Index as {ticker} Operating Activities, Cash Flow
-        opr_df = opr_df.rename_axis(f'{self.ticker} Operating Activities, Cash Flow')
-
-        # Drop first column
-        opr_df = opr_df.drop(columns='ITEM')
-
+        # Set item as index
+        df = df.set_index(df.columns[0])
+            
         # Sort df by year
-        opr_df = self.reorder_df(opr_df)
+        df = self.reorder_df(df)
 
         # Returns dataframe
-        return opr_df
+        return df
 
     
     def cash_flow_inv(self):
@@ -1075,87 +979,65 @@ class Fin_Data(WebDriver):
         # Returns pandas DataFrame
         '''
 
-        self.remove_logging()
-
         # URL Settings and initialise driver as self.driver
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials/cash-flow'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-            # Buffer
-            self.driver.implicitly_wait(3)
+        income_table = soup.find_all("table", attrs={'class': 'table table--overflow align--right'})[1]
+        income_headers = income_table.thead.tr.find_all("th")
 
-        # get xpath values for investing activities, cash flow statement page
-        # table element
-        inv_table = "//table[contains(@class, 'table table--overflow align--right')][2]"
-        # elements of header (index 1-7 for HTML Investing Activities), use th to iterate
-        inv_headers = "//div[contains(@class, 'element element--table table--data')][2]/div/div/table/thead/tr/th"
-        # elements of rows , use tr to iterate
-        inv_rows = "//div[contains(@class, 'element element--table table--data')][2]/div/div/table/tbody/tr"
+        headers = []
+        for th in income_headers:
+            item = th.find_all("div")
+            for i in item:
+                headers.append(i.contents[0].strip())
 
-        # Dataframe = Rows, Index, Columns
-        # Locate Investing Activities, cash flow headers
-        inv_headers_loc = self.driver.find_elements_by_xpath(inv_headers)
-        inv_headers_len = len(inv_headers_loc)
+        # headers = ['Item', 'Item', '2016', '2017', '2018', '2019', '2020', '5-year trend']
 
-        # Locate dataframe index
-        inv_rows_loc = self.driver.find_elements_by_xpath(inv_rows)
-        inv_rows_len = len(inv_rows_loc)
+        headers.pop(0)
+        headers.pop(-1)
+        income_rows = income_table.tbody.find_all("tr")
 
-        # Lists to add into dataframe
-        inv_column_list = []
-        inv_row_index_list = []
-        # Create lists of lists depending on how many rows are there.
-        inv_data_list = [[] for i in range(inv_headers_len-1)]
+        index = []
 
-        #### GET COLUMNS OF DATAFRAME ####
-        # Uses xpath to get header string val
-        for i in range(1,inv_headers_len + 1):
-            headers = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][2]/div/div/table/thead/tr/th[{i}]/div").text
-            inv_column_list.append(headers)
+        # items = index
+        for tr in income_rows:
+            select = tr.find_all("td")[0]
+            val = select.find("div").contents[0].strip()
+            index.append(val)
 
-        #### GET ROW INDEX OF DATAFRAME ####
-        for i in range(0, inv_rows_len):
-            # Uses xpath to get table index vals
-            row_index = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][2]/div/div/table/tbody/tr[{i+1}]/td[1]/div[1]").text
-            inv_row_index_list.append(row_index)
+            # Get rows
+        data_list = [[] for i in range(0,len(headers) -1)] # datalist len = 6
+        # rows val
+        for tr in income_rows:
+            # 1, 2, 3 ,4 ,5 ,6, len(headers) = 6
+            # i = 1, 2, 3, 4, 5
+            for i in range(1, len(data_list)+1):
+                select = tr.find_all("td")[i]
+                val = select.find("div").contents[0].get_text()
+                data_list[i-1].append(val)
 
-            #### GET DATA OF DATAFRAME ####
-            for x in range(2, inv_headers_len + 1):
-                # loop html td from 2 - 7, get xpath link, then convert value to text
-                data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][2]/div/div/table/tbody/tr[{i+1}]/td[{x}]/div[1]").text
-                # Append x-2 list depending on which data is being pulled
-                inv_data_list[x-2].append(data)
+        # Data list add
+        data_list.insert(0,index)
+        # create dataframe
+        df = pd.DataFrame(columns=headers)
 
-        # Create dataframe for viewing
-        inv_df = pd.DataFrame(index=inv_row_index_list, columns=inv_column_list)
+        for i in range(0,len(data_list)):
+            df[f'{headers[i]}'] = data_list[i]
 
-        # REMOVE 0 index of inv_column_list
-        inv_column_list.pop(0)
-
-        # Add data into dataframe, for index 0, 1, 2, 3, 4, 5
-        for i in range(0, inv_headers_len-1):
-            inv_df[f'{inv_column_list[i]}'] = inv_data_list[i]
-
-        # Drop last column of dataframe
-        inv_df = inv_df.drop(columns=[f'{inv_column_list[-1]}'])
-
-        # SET Index as {ticker} Investing Activities, Cash Flow
-        inv_df = inv_df.rename_axis(f'{self.ticker} Investing Activies, Cash Flow')
-
-        # Drop first column
-        inv_df = inv_df.drop(columns='ITEM')
-
+        # Set item as index
+        df = df.set_index(df.columns[0])
+            
         # Sort df by year
-        inv_df = self.reorder_df(inv_df)
+        df = self.reorder_df(df)
 
         # Returns dataframe
-        return inv_df
+        return df
 
     
     def cash_flow_fin(self):
@@ -1164,87 +1046,64 @@ class Fin_Data(WebDriver):
         # Returns pandas DataFrame
         '''
 
-        self.remove_logging()
-
         # URL Settings and initialise driver as self.driver
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/financials/cash-flow'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-            # Buffer
-            self.driver.implicitly_wait(4)
+        income_table = soup.find_all("table", attrs={'class': 'table table--overflow align--right'})[2]
+        income_headers = income_table.thead.tr.find_all("th")
 
-        # get xpath values for financing activities, cash flow statement page
-        # table element
-        fin_table = "//table[contains(@class, 'table table--overflow align--right')][3]"
-        # elements of header (index 1-7 for HTML Financing Activities), use th to iterate
-        fin_headers = "//div[contains(@class, 'element element--table table--data')][3]/div/div/table/thead/tr/th"
-        # elements of rows , use tr to iterate
-        fin_rows = "//div[contains(@class, 'element element--table table--data')][3]/div/div/table/tbody/tr"
+        headers = []
+        for th in income_headers:
+            item = th.find_all("div")
+            for i in item:
+                headers.append(i.contents[0].strip())
 
-        # Dataframe = Rows, Index, Columns
-        # Locate Financing Activities, cash flow headers
-        fin_headers_loc = self.driver.find_elements_by_xpath(fin_headers)
-        fin_headers_len = len(fin_headers_loc)
+        headers.pop(0)
+        headers.pop(-1)
+        income_rows = income_table.tbody.find_all("tr")
 
-        # Locate dataframe index
-        fin_rows_loc = self.driver.find_elements_by_xpath(fin_rows)
-        fin_rows_len = len(fin_rows_loc)
+        index = []
 
-        # Lists to add into dataframe
-        fin_column_list = []
-        fin_row_index_list = []
-        # Create lists of lists depending on how many rows are there.
-        fin_data_list = [[] for i in range(fin_headers_len-1)]
+        # items = index
+        for tr in income_rows:
+            select = tr.find_all("td")[0]
+            val = select.find("div").contents[0].strip()
+            index.append(val)
 
-        #### GET COLUMNS OF DATAFRAME ####
-        # Uses xpath to get header string val
-        for i in range(1,fin_headers_len + 1):
-            headers = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][3]/div/div/table/thead/tr/th[{i}]/div").text
-            fin_column_list.append(headers)
+            # Get rows
+        data_list = [[] for i in range(0,len(headers) -1)] # datalist len = 6
+        # rows val
+        for tr in income_rows:
+            # 1, 2, 3 ,4 ,5 ,6, len(headers) = 6
+            # i = 1, 2, 3, 4, 5
+            for i in range(1, len(data_list)+1):
+                select = tr.find_all("td")[i]
+                val = select.find("div").contents[0].get_text()
+                data_list[i-1].append(val)
 
-        #### GET ROW INDEX OF DATAFRAME ####
-        for i in range(0, fin_rows_len):
-            # Uses xpath to get table index vals
-            row_index = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][3]/div/div/table/tbody/tr[{i+1}]/td[1]/div[1]").text
-            fin_row_index_list.append(row_index)
+        # Data list add
+        data_list.insert(0,index)
 
-            #### GET DATA OF DATAFRAME ####
-            for x in range(2, fin_headers_len + 1):
-                # loop html td from 2 - 7, get xpath link, then convert value to text
-                data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'element element--table table--data')][3]/div/div/table/tbody/tr[{i+1}]/td[{x}]/div[1]").text
-                # Append x-2 list depending on which data is being pulled
-                fin_data_list[x-2].append(data)
+        # create dataframe
+        df = pd.DataFrame(columns=headers)
 
-        # Create dataframe for viewing
-        fin_df = pd.DataFrame(index=fin_row_index_list, columns=fin_column_list)
+        for i in range(0,len(data_list)):
+            df[f'{headers[i]}'] = data_list[i]
 
-        # REMOVE 0 index of fin_column_list
-        fin_column_list.pop(0)
-
-        # Add data into dataframe, for index 0, 1, 2, 3, 4, 5
-        for i in range(0, fin_headers_len-1):
-            fin_df[f'{fin_column_list[i]}'] = fin_data_list[i]
-
-        # Drop last column of dataframe
-        fin_df = fin_df.drop(columns=[f'{fin_column_list[-1]}'])
-
-        # SET Index as {ticker} Financing Activities, Cash Flow
-        fin_df = fin_df.rename_axis(f'{self.ticker} Financing Activies, Cash Flow')
-
-        # Drop first column
-        fin_df = fin_df.drop(columns='ITEM')
-
+        # Set item as index
+        df = df.set_index(df.columns[0])
+            
         # Sort df by year
-        fin_df = self.reorder_df(fin_df)
-        
+        df = self.reorder_df(df)
+
         # Returns dataframe
-        return fin_df
+        return df
     
     
     def balance_sheet(self):

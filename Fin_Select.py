@@ -70,5 +70,3 @@ class Fin_Select:
         else: 
             return None
     
-    
-    ### Reorder the columns by year

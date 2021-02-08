@@ -204,10 +204,9 @@ DOWNLOADING {self.ticker}...
             PRICE()
             MAIN()
             PROFILE()
-            BALANCE()
             INCOME()
+            BALANCE()
             CASHFLOW()
-            FISCALYEAR()
 
 
         #------------------------------------------------------------------------------------------------------------------
@@ -288,25 +287,4 @@ Finished Data Download for {self.ticker}, closing browser now.
 
         # Returns whether ticker existed
         return exists
-
-
-    def download(self, DB_PATH='C:/Users/Dennis Loo.000/Desktop/FinData', download="ALL", buffer=5):
-        '''    
-        DB_PATH = Place to store downloaded JSON files
-        Minimum buffer = 1 second
-        Download parameters:
-            - 'ALL' - Download All Parameters
-            - 'PRICE' Download PriceData
-            - 'MAIN' Download StockInfo and KeyData
-            - 'PROFILE' Download all Profile Data
-            - 'INCOME' Download IncomeStatement
-            - 'BALANCE' Download BalanceSheet
-            - 'CASHFLOW' Download CashFlow
-            - 'FISCALYEAR' Download FiscalYear
-        '''  
-
-        
-
-stock = StockDL('MSFT')
-stock.stockdl(DB_PATH = r'C:\Users\Gavin\Desktop\FinData', download = 'FISCALYEAR', buffer=2)
 

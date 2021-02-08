@@ -1,4 +1,4 @@
-from Stock_Data import Stock_Data
+from StockDL import StockDL
 import pandas as pd
 from datetime import datetime
 import pprint
@@ -65,21 +65,21 @@ error_list = []
 
 #### INDIVIDUAL DOWNLOAD ####
 
-for ticker in stock_list:
-    stock = Stock_Data(ticker)
-    try:
-        download_bool = stock.download(PATH=r'C:\Users\Gavin\Desktop\FinData')
-        if download_bool == False:
-            error_list.append(ticker)
-        else:
-            pass
-    # Error handling
-    except ValueError or KeyError:
-        error_list.append(ticker)
+# for ticker in stock_list:
+#     stock = StockDL(ticker)
+#     try:
+#         download_bool = stock.stockdl(DB_PATH=r'C:\Users\Gavin\Desktop\FinData', )
+#         if download_bool == False:
+#             error_list.append(ticker)
+#         else:
+#             pass
+#     # Error handling
+#     except ValueError or KeyError:
+#         error_list.append(ticker)
 
 #### DEBUG #####
-# stock = Stock_Data('AAPL')
-# print(stock.income_statement())
+stock = StockDL('AAPL')
+stock.stockdl(DB_PATH=r'C:\Users\Gavin\Desktop\FinData', buffer=1)
 
 time_taken = datetime.now() - start_time
 print(f'Error List = {error_list}')
