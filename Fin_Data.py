@@ -162,10 +162,15 @@ class Fin_Data(WebDriver):
 
         val_selc = soup.find_all("ul", attrs={'class': 'list list--kv list--col50'})
 
-        for item in val_selc:
-            item_selc = item.find_all("li")[1]
-            val = item_selc.find("span").get_text()
+        val =0
+        try:
+            for item in val_selc:
+                item_selc = item.find_all("li")[1]
+                val = item_selc.find("span").get_text()
         
+        except UnboundLocalError:
+            raise ValueError("Unable to get ticker.")
+            
         return val
 
 
@@ -284,16 +289,33 @@ class Fin_Data(WebDriver):
         Check if ticker exists? use price element to get boolean value.
         # Returns bool
         '''
-
+    
         exist = True
-        # try to get price
-        try:
-            self.price()
-        
-        except IndexError:
-            print("Ticker can't be found. Please check again for typos or errors.")
-            exist = False
 
+        while exist == True:
+            # try to get price, sector
+            try: 
+                sec = self.sector()
+            except IndexError:
+                exist=False
+                break
+            
+            try:
+                price = self.price()
+            except IndexError:
+                exist=False
+                break
+        
+            if sec == 0:
+                exist = False
+                break
+
+            if float(price) == 0:
+                exist = False
+                break
+                
+            break
+        
         # Returns True or False depending whether self.ticker exists in database.
         return exist
 
@@ -328,7 +350,7 @@ class Fin_Data(WebDriver):
             for val in header_selc:
                 values.append(val)
 
-        series = pd.Series(values, index=headers)
+        series = pd.Series(values, index=headers, dtype="string")
 
         return series
 
@@ -363,7 +385,7 @@ class Fin_Data(WebDriver):
             for val in header_selc:
                 values.append(val)
 
-        series = pd.Series(values, index=headers)
+        series = pd.Series(values, index=headers, dtype="string")
 
         return series
 
@@ -398,7 +420,7 @@ class Fin_Data(WebDriver):
             for val in header_selc:
                 values.append(val)
 
-        series = pd.Series(values, index=headers)
+        series = pd.Series(values, index=headers, dtype="string")
 
         return series
 
@@ -433,7 +455,7 @@ class Fin_Data(WebDriver):
             for val in header_selc:
                 values.append(val)
 
-        series = pd.Series(values, index=headers)
+        series = pd.Series(values, index=headers, dtype="string")
 
         return series
 
@@ -468,7 +490,7 @@ class Fin_Data(WebDriver):
             for val in header_selc:
                 values.append(val)
 
-        series = pd.Series(values, index=headers)
+        series = pd.Series(values, index=headers, dtype="string")
 
         return series
 
@@ -509,7 +531,7 @@ class Fin_Data(WebDriver):
                 value = value.get_text()
                 values.append(value)
 
-        series = pd.Series(values, index=headers)
+        series = pd.Series(values, index=headers, dtype="string")
 
 
         # Returns dataframe table

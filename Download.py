@@ -13,7 +13,7 @@ class Downloader:
         pass
     
 
-    def download(self, Driver_PATH, DB_PATH, type_="string", max=None, ticker=None, list_=None, csv=None, buffer=5, download="ALL"):
+    def download(self,  type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=None, max=None, ticker=None, list_=None, csv=None, buffer=5, download="ALL"):
         '''
         Download Stock Data supplied by tickers in either string, list or csv.
         type_ keys:
@@ -21,7 +21,7 @@ class Downloader:
             "list" : Download from a list. Must specify arg* list.
             "csv" : Download from a csv. Must specify arg* csv. CSV must contain column "Ticker"
         DB_PATH = Place to store downloaded JSON files
-        Minimum buffer = 1 second
+        Minimum buffer = 2 second
         Download parameters:
             - 'ALL' - Download All Parameters
             - 'PRICE' Download PriceData
@@ -36,6 +36,10 @@ class Downloader:
         start_time = datetime.now()
 
         error_list = []
+
+        if DB_PATH == None:
+            print("Please specify a Database Path for downloads. Use DB_PATH var.")
+            exit()
 
         # IF string
         if type_ == "string":
@@ -100,5 +104,32 @@ class Downloader:
 
 
 d = Downloader()
-d.download(Driver_PATH=r'C:\Program Files (x86)\chromedriver.exe', DB_PATH=r'C:\Users\Gavin\Desktop\FinData', type_="csv", csv=r'C:\Users\Gavin\VisualStudio\Value_Investing_Screener\Ticker_List\S&P500 Components.csv', buffer=1)
+# # CSV
+# d.download(DB_PATH=r'C:\Users\Gavin\Desktop\FinData', type_="csv", csv=r'C:\Users\Gavin\VisualStudio\Value_Investing_Screener\Ticker_List\S&P500 Components.csv', buffer=1)
+
+# Individual
+d.download(DB_PATH=r'C:\Users\Gavin\Desktop\FinData', type_="string",ticker='TSLA', buffer=1)
+
+# LIST
+# stock_list = [
+#     'TSLA',
+#     'TTD',
+#     'ROKU',
+#     'NIO',
+#     'MSFT',
+#     'ENPH',
+#     'ETSY',
+#     'XPEV',
+#     'U',
+#     'CRSR',
+#     'SEDG',
+#     'BYND',
+#     'WIMI',
+#     'FUBO',
+#     'ELYS',
+#     'IZEA'
+# ]
+
+
+# d.download("list", DB_PATH=r'C:\Users\Gavin\Desktop\FinData', list_=stock_list, buffer=2)
 
