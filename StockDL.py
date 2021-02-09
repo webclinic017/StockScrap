@@ -277,8 +277,8 @@ Finished Data Download for {self.ticker}, closing browser now.
             print(f'{self.ticker} not found in MarketWatch.com Database. Will continue downloading next ticker.')
             pass
 
-        # End browser session
-        self.driver_end()
+        # # End browser session
+        # self.driver_end()
 
         # Buffer
         for i in range(1,buffer):

@@ -63,7 +63,7 @@ class Fin_Data(WebDriver):
         WebDriver.__init__(self, PATH='C:\Program Files (x86)\chromedriver.exe', ignore_errors=True)
         self.ticker = ticker
         self.PATH = PATH
-        self.driver = self.driver()
+        # self.driver = self.driver()
 
     def __repr__(self):
         '''
@@ -101,59 +101,22 @@ class Fin_Data(WebDriver):
         return df
 
 
-    def check_ticker(self):
-        '''
-        Check if ticker exists? use price element to get boolean value.
-        # Returns bool
-        '''
-
-        self.remove_logging()
-
-        # URL to check if ticker exists
-        URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}?mod=mw_quote_tab'
-
-        # Navigate to QUOTE URL
-        self.driver.get(URL)
-
-        # Implicit Buffer
-        self.driver.implicitly_wait(1)
-
-        if URL == self.driver.current_url:
-            exist = True
-        
-        else:
-            exist = False
-
-        # Returns True or False depending whether self.ticker exists in database.
-        return exist
-
-
     def name(self):
         '''
         Get stock name
         # returns str
-        '''
-
-        self.remove_logging()
+        ''' 
 
         # URL to check for stock name.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}?mod=mw_quote_tab'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
-
-        # xpath for stock name
-        name_loc = "//h1[contains(@class, 'company__name')]"
-
-        # get name val and convert to text
-        val = self.driver.find_element_by_xpath(name_loc).text
+        val = soup.find("h1", attrs={'class': 'company__name'}).get_text()
 
         return val
 
@@ -164,27 +127,21 @@ class Fin_Data(WebDriver):
         # returns str
         '''
 
-        self.remove_logging()
-
         # URL to check for stock name.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
+        val_selc = soup.find_all("ul", attrs={'class': 'list list--kv list--col50'})
 
-        # xpath for stock industry
-        name_loc = "//li[contains(@class, 'kv__item w100')][1]/span"
-
-        # get industry val and convert to text
-        val = self.driver.find_element_by_xpath(name_loc).text
-
+        for item in val_selc:
+            item_selc = item.find_all("li")[0]
+            val = item_selc.find("span").get_text()
+        
         return val
 
 
@@ -193,28 +150,22 @@ class Fin_Data(WebDriver):
         Get stock sector
         # returns str
         '''
-        
-        self.remove_logging()
 
         # URL to check for stock name.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
+        val_selc = soup.find_all("ul", attrs={'class': 'list list--kv list--col50'})
 
-        # xpath for stock industry
-        name_loc = "//li[contains(@class, 'kv__item w100')][2]/span"
-
-        # get industry val and convert to text
-        val = self.driver.find_element_by_xpath(name_loc).text
-
+        for item in val_selc:
+            item_selc = item.find_all("li")[1]
+            val = item_selc.find("span").get_text()
+        
         return val
 
 
@@ -224,26 +175,17 @@ class Fin_Data(WebDriver):
         # returns str
         '''
 
-        self.remove_logging()
-
         # URL to check for stock name.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
-
-        # xpath for stock industry
-        exchange_loc = "//div[contains(@class,'company__symbol')]/span[2]"
-
-        # get industry val and convert to text
-        val = self.driver.find_element_by_xpath(exchange_loc).text
+        val_selc = soup.find_all("span", attrs={'class': 'company__market'})[0]
+        val = val_selc.get_text()
 
         val = val.replace(":", "")
 
@@ -261,21 +203,14 @@ class Fin_Data(WebDriver):
         # URL to check for stock name.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
-
-        # xpath for stock industry
-        ceo_loc = "//div[contains(@class,'group right')]/div/ul/li[1]/a"
-
-        # get industry val and convert to text
-        val = self.driver.find_element_by_xpath(ceo_loc).text
+        group = soup.find_all("div", attrs={'class': 'group right'})[0]
+        val = group.div.ul.li.find("a").get_text()
 
         return val
 
@@ -285,27 +220,16 @@ class Fin_Data(WebDriver):
         Get information of businesss model
         # returns str
         '''
-
-        self.remove_logging()
-
         # URL to check for stock name.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
-
-        # xpath for stock industry
-        bm_loc = "//p[contains(@class, 'description__text')]"
-
-        # get industry val and convert to text
-        val = self.driver.find_element_by_xpath(bm_loc).text
+        val = soup.find_all("p", attrs={'class': 'description__text'})[0].get_text()
 
         return val
 
@@ -338,312 +262,215 @@ class Fin_Data(WebDriver):
         Get current price of stock, regardless of PreMarket, PostMarket or OpenMarket.
         # returns float
         '''
-
-        self.remove_logging()
-
         # URL to check for stock price.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}?mod=mw_quote_tab'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
-
-        # xpath for price
-        check_price = "//h3[contains(@class, 'intraday__price')]/bg-quote"
-
-        # Value of stock in str
-        check_price_val = self.driver.find_element_by_xpath(check_price).text
+        val = soup.find_all("bg-quote", attrs={'value'})[0].get_text()
 
         # Get Price of Stock in float
-        price = float(check_price_val)
+        price = float(val)
         
         return price
     
+
+    def check_ticker(self):
+        '''
+        Check if ticker exists? use price element to get boolean value.
+        # Returns bool
+        '''
+
+        exist = True
+        # try to get price
+        try:
+            self.price()
+        
+        except IndexError:
+            print("Ticker can't be found. Please check again for typos or errors.")
+            exist = False
+
+        # Returns True or False depending whether self.ticker exists in database.
+        return exist
+
     
     def valuations(self):
         '''
         Get current valuations of the stock.
-        # returns pandas DataFrame
+        # returns pandas Series
         '''
-
-        self.remove_logging()
 
         # URL to check for valuations table.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
+        table = soup.find_all('table', attrs={'class':'table value-pairs no-heading'})[0]
+        table_selc = table.tbody.find_all("tr")
 
-        # xpath for header, columns and values
-        header = "//div[contains(@class, 'column column--primary')]/div[2]/div[1]/header/h2/span"
-        # loop through tr to get vals
-        column = "//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr/td[1]"
-        
-        # loop through tr to get vals
-        data = "//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr/td[2]"
+        headers = []
+        for tr in table_selc:
+            header_selc = tr.find_all("td")[0]
+            for val in header_selc:
+                headers.append(val)
 
-        # Scraped Data
-        column_loc = self.driver.find_elements_by_xpath(column)
-        data_loc = self.driver.find_elements_by_xpath(data)
+        values = []
+        for tr in table_selc:
+            header_selc = tr.find_all("td")[1]
+            for val in header_selc:
+                values.append(val)
 
-        # Get length of columns
-        column_len = len(column_loc)
-        data_len = len(data_loc)
+        series = pd.Series(values, index=headers)
 
-        # Lists to add into dataframe
-        column_list = []
-        data_list = []
-
-        # Get index of dataframe
-        for i in range(1, column_len + 1):
-            column = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[1]").text
-            column_list.append(column)
-        
-        for i in range(1, data_len + 1):
-            data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[2]").text
-            data_list.append(data)
-        
-        # Create series for viewing
-        val_series = pd.Series(data_list, index=column_list)
-
-        return val_series
+        return series
 
 
     def efficiency(self):
         '''
         Get current efficiency of the stock.
-        # returns pandas DataFrame
+        # returns pandas Series
         '''
-
-        self.remove_logging()
 
         # URL to check for efficiency table.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
+        table = soup.find_all('table', attrs={'class':'table value-pairs no-heading'})[1]
+        table_selc = table.tbody.find_all("tr")
 
-        # xpath for header, columns and values
-        header = "//div[contains(@class, 'column column--primary')]/div[2]/div[2]/header/h2/span"
-        # loop through tr to get vals
-        column = "//div[contains(@class, 'column column--primary')]/div[2]/div[2]/table/tbody/tr/td[1]"
-        
-        # loop through tr to get vals
-        data = "//div[contains(@class, 'column column--primary')]/div[2]/div[2]/table/tbody/tr/td[2]"
+        headers = []
+        for tr in table_selc:
+            header_selc = tr.find_all("td")[0]
+            for val in header_selc:
+                headers.append(val)
 
-        # Scraped Data
-        column_loc = self.driver.find_elements_by_xpath(column)
-        data_loc = self.driver.find_elements_by_xpath(data)
+        values = []
+        for tr in table_selc:
+            header_selc = tr.find_all("td")[1]
+            for val in header_selc:
+                values.append(val)
 
-        # Get length of columns
-        column_len = len(column_loc)
-        data_len = len(data_loc)
+        series = pd.Series(values, index=headers)
 
-        # Lists to add into dataframe
-        column_list = []
-        data_list = []
-
-        # Get index of dataframe
-        for i in range(1, column_len + 1):
-            column = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[1]").text
-            column_list.append(column)
-        
-        for i in range(1, data_len + 1):
-            data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[2]").text
-            data_list.append(data)
-        
-        # Create series for viewing
-        eff_series = pd.Series(data_list, index=column_list)
-
-        return eff_series
+        return series
 
 
     def liquidity(self):
         '''
         Get current liquidity of the stock.
-        # returns pandas DataFrame
+        # returns pandas Series
         '''
-
-        self.remove_logging()
 
         # URL to check for liquidity table.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE 
+        soup = bs(html_content, "lxml")
 
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
+        table = soup.find_all('table', attrs={'class':'table value-pairs no-heading'})[2]
+        table_selc = table.tbody.find_all("tr")
 
-        # xpath for header, columns and values
-        header = "//div[contains(@class, 'column column--primary')]/div[2]/div[3]/header/h2/span"
-        # loop through tr to get vals
-        column = "//div[contains(@class, 'column column--primary')]/div[2]/div[3]/table/tbody/tr/td[1]"
-        
-        # loop through tr to get vals
-        data = "//div[contains(@class, 'column column--primary')]/div[2]/div[3]/table/tbody/tr/td[2]"
+        headers = []
+        for tr in table_selc:
+            header_selc = tr.find_all("td")[0]
+            for val in header_selc:
+                headers.append(val)
 
-        # Scraped Data
-        column_loc = self.driver.find_elements_by_xpath(column)
-        data_loc = self.driver.find_elements_by_xpath(data)
+        values = []
+        for tr in table_selc:
+            header_selc = tr.find_all("td")[1]
+            for val in header_selc:
+                values.append(val)
 
-        # Get length of columns
-        column_len = len(column_loc)
-        data_len = len(data_loc)
+        series = pd.Series(values, index=headers)
 
-        # Lists to add into dataframe
-        column_list = []
-        data_list = []
-
-        # Get index of dataframe
-        for i in range(1, column_len + 1):
-            column = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[1]").text
-            column_list.append(column)
-        
-        for i in range(1, data_len + 1):
-            data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[2]").text
-            data_list.append(data)
-        
-        # Create series for viewing
-        liq_series = pd.Series(data_list, index=column_list)
-
-        return liq_series
+        return series
 
 
     def profitability(self):
         '''
         Get current profitability of the stock.
-        # returns pandas DataFrame
+        # returns pandas Series
         '''
-
-        self.remove_logging()
 
         # URL to check for profitability table.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
+        table = soup.find_all('table', attrs={'class':'table value-pairs no-heading'})[3]
+        table_selc = table.tbody.find_all("tr")
 
-        # xpath for header, columns and values
-        header = "//div[contains(@class, 'column column--primary')]/div[3]/div[1]//header/h2/span"
-        # loop through tr to get vals
-        column = "//div[contains(@class, 'column column--primary')]/div[3]/div[1]/table/tbody/tr/td[1]"
-        
-        # loop through tr to get vals
-        data = "//div[contains(@class, 'column column--primary')]/div[3]/div[1]/table/tbody/tr/td[2]"
+        headers = []
+        for tr in table_selc:
+            header_selc = tr.find_all("td")[0]
+            for val in header_selc:
+                headers.append(val)
 
-        # Scraped Data
-        column_loc = self.driver.find_elements_by_xpath(column)
-        data_loc = self.driver.find_elements_by_xpath(data)
+        values = []
+        for tr in table_selc:
+            header_selc = tr.find_all("td")[1]
+            for val in header_selc:
+                values.append(val)
 
-        # Get length of columns
-        column_len = len(column_loc)
-        data_len = len(data_loc)
+        series = pd.Series(values, index=headers)
 
-        # Lists to add into dataframe
-        column_list = []
-        data_list = []
-
-        # Get index of dataframe
-        for i in range(1, column_len + 1):
-            column = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[1]").text
-            column_list.append(column)
-        
-        for i in range(1, data_len + 1):
-            data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[2]").text
-            data_list.append(data)
-        
-        # Create series for viewing
-        pft_series = pd.Series(data_list, index=column_list)
-
-        return pft_series
+        return series
 
 
     def captialization(self):
         '''
         Get current captialization of the stock.
-        # returns pandas DataFrame
+        # returns pandas Series
         '''
-
-        self.remove_logging()
 
         # URL to check for profitability table.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
+        table = soup.find_all('table', attrs={'class':'table value-pairs no-heading'})[4]
+        table_selc = table.tbody.find_all("tr")
 
-        # xpath for header, columns and values
-        header = "//div[contains(@class, 'column column--primary')]/div[3]/div[2]//header/h2/span"
-        # loop through tr to get vals
-        column = "//div[contains(@class, 'column column--primary')]/div[3]/div[2]/table/tbody/tr/td[1]"
-        
-        # loop through tr to get vals
-        data = "//div[contains(@class, 'column column--primary')]/div[3]/div[2]/table/tbody/tr/td[2]"
+        headers = []
+        for tr in table_selc:
+            header_selc = tr.find_all("td")[0]
+            for val in header_selc:
+                headers.append(val)
 
-        # Scraped Data
-        column_loc = self.driver.find_elements_by_xpath(column)
-        data_loc = self.driver.find_elements_by_xpath(data)
+        values = []
+        for tr in table_selc:
+            header_selc = tr.find_all("td")[1]
+            for val in header_selc:
+                values.append(val)
 
-        # Get length of columns
-        column_len = len(column_loc)
-        data_len = len(data_loc)
+        series = pd.Series(values, index=headers)
 
-        # Lists to add into dataframe
-        column_list = []
-        data_list = []
-
-        # Get index of dataframe
-        for i in range(1, column_len + 1):
-            column = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[1]").text
-            column_list.append(column)
-        
-        for i in range(1, data_len + 1):
-            data = self.driver.find_element_by_xpath(f"//div[contains(@class, 'column column--primary')]/div[2]/div[1]/table/tbody/tr[{i}]/td[2]").text
-            data_list.append(data)
-        
-        # Create dataframe for viewing
-        cap_series = pd.Series(data_list, index=column_list)
-
-        return cap_series
+        return series
 
 
     def main_page(self):
@@ -652,55 +479,41 @@ class Fin_Data(WebDriver):
         # Returns pandas Series
         '''
 
-        self.remove_logging()
-
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}'
 
-        if URL == self.driver.current_url:
-            pass
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
+        # TABLE
+        table = soup.find("div", attrs={'class': 'group group--elements left'})
+        table_selc = table.div.ul.find_all("li")
 
-        # get xpath values for main page
-        # Main values
-        
-        quote_header = "//*[contains(@class, 'kv__item')]//following::small"
-        quote_value = "//*[contains(@class, 'kv__item')]/span[contains(@class, 'primary ')]"
-        quote_header_loc = self.driver.find_elements_by_xpath(quote_header)
-        quote_val_loc = self.driver.find_elements_by_xpath(quote_value)
+        # HEADERS
+        headers = []
 
-        # Lists of data for quote page
-        quote_headers = []
-        quote_data = []
+        for li in table_selc:
+            small = li.find_all("small")
+            for header in small:
+                header = header.get_text()
+                headers.append(header)
 
-        # Find headers in main Quote page, remove last column as it does not contain data
-        for locator in quote_header_loc:
-            header = locator.text
-            quote_headers.append(header)
+        # VALUES
+        values = []
 
-        # try to remove "Competitor Data Provided By"
-        try:    
-            quote_headers.remove('Competitor Data Provided By')
-        except ValueError:
-            print("'Competitor Data Provided By' data not available, will continue running code")
-            pass
+        for li in table_selc:
+            span = li.find_all("span", attrs={'class': 'primary'})
+            for value in span:
+                value = value.get_text()
+                values.append(value)
 
-        # Find values in main Quote page
-        for val in quote_val_loc:
-            data_vals = val.text
-            quote_data.append(data_vals)
-
-        # Series to store values
-        quote_s = pd.Series(quote_data, index=quote_headers, name=f'{self.ticker} Key Data', dtype='string')
+        series = pd.Series(values, index=headers)
 
 
         # Returns dataframe table
-        return quote_s
+        return series
             
     
     def income_statement(self):
@@ -1163,26 +976,23 @@ class Fin_Data(WebDriver):
         # Returns int
         '''
 
-        self.remove_logging()
-
         # URL to check for valuations table.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
 
-        if URL == self.driver.current_url:
-            pass
 
-        else: 
-            # Navigate to QUOTE URL
-            self.driver.get(URL)
+        # GET REQUEST
+        html_content = requests.get(URL).text
 
-            # Implicit Buffer
-            self.driver.implicitly_wait(3)
+        # PARSE
+        soup = bs(html_content, "lxml")
 
-        # xpath for fiscal year
-        fiscal = "//div[contains(@class, 'group left')]/div/ul/li[3]/span"
+        val_selc = soup.find_all("ul", attrs={'class': 'list list--kv list--col50'})
 
-        # locate fiscal value using xpath
-        fiscal_val = self.driver.find_element_by_xpath(fiscal).text
+        for item in val_selc:
+            item_selc = item.find_all("li")[2]
+            val = item_selc.find("span").get_text()
+
+        fiscal_val = val
 
         # Get month start
         month = int(fiscal_val.split("/")[0])
@@ -1243,12 +1053,12 @@ class Fin_Data(WebDriver):
         return fiscal_year_list
         
 
-    def driver_end(self):
-        '''
-        Quits Google Chrome browser.
-        # Returns str
-        '''
-        time.sleep(0.5)
-        self.driver.quit()
-        return 'Driver successfully quit.'
+    # def driver_end(self):
+    #     '''
+    #     Quits Google Chrome browser.
+    #     # Returns str
+    #     '''
+    #     time.sleep(0.5)
+    #     self.driver.quit()
+    #     return 'Driver successfully quit.'
 
