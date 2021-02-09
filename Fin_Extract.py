@@ -91,40 +91,52 @@ class Fin_Extract(Fin_Select):
         # Returns int64
         '''
         # List of symbols in cells
-        sym_in_cell = self.determine_symbol(cell_val)
-
-        # Get Multiplier List
-        multiplier_list = [1]
-        for sym in sym_in_cell:
-            m_val = self.dict_symbols.get(sym)
-            multiplier_list.append(m_val)
-
-        # Multiplies all elements in multiplier_list by converting all data into 64bit data to store larger denominations
-        multiplier = np.prod(np.array(multiplier_list, dtype=np.float64))  
-
-        # Initalize formatted_val var
-        formatted_val = cell_val
-        # Remove all unwanted symbols from cell_val
-        for sym in sym_in_cell:
-            formatted_val = formatted_val.replace(sym, '')
+        sym_in_cell = self.determine_symbol(cell_val) 
         
-        # Other symbol to remove
-        formatted_val = formatted_val.replace(')', '')
-
-        if '%' in sym_in_cell:
-            # Get true cell value
-            val = float(formatted_val) * multiplier
+        # If it is a string do not convert anything
+        count = 0
+        for i in cell_val:
+            if(i.isalpha()):
+                count = count+1
         
-        elif '-' in sym_in_cell:
-            # Val is none
-            val = 0
-
+        if count > 1:
+            return cell_val
+        
+        # Else convert accordingly
         else:
-            # Get true cell value
-            val = float(formatted_val) * multiplier
-            val = int(val)
+            # Get Multiplier List
+            multiplier_list = [1]
+            for sym in sym_in_cell:
+                m_val = self.dict_symbols.get(sym)
+                multiplier_list.append(m_val)
 
-        return val
+            # Multiplies all elements in multiplier_list by converting all data into 64bit data to store larger denominations
+            multiplier = np.prod(np.array(multiplier_list, dtype=np.float64))  
+
+            # Initalize formatted_val var
+            formatted_val = cell_val
+            # Remove all unwanted symbols from cell_val
+            for sym in sym_in_cell:
+                formatted_val = formatted_val.replace(sym, '')
+            
+            # Other symbol to remove
+            formatted_val = formatted_val.replace(')', '')
+            formatted_val = formatted_val.replace(',', '')
+
+            if '%' in sym_in_cell:
+                # Get true cell value
+                val = float(formatted_val) * multiplier
+            
+            elif '-' in sym_in_cell:
+                # Val is none
+                val = 0
+
+            else:
+                # Get true cell value
+                val = float(formatted_val) * multiplier
+                val = int(val)
+
+            return val
 
     def extract(self, cell_val):
         '''

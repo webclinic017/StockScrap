@@ -59,6 +59,7 @@ class Downloader:
         # IF list
         if type_ == "list":
             ticker_list = list_
+            dl = False
             for ticker in ticker_list:
                 stock = StockDL(ticker, PATH=Driver_PATH)
                 try:
