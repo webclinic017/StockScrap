@@ -111,25 +111,3 @@ class Downloader:
         print(f'---Time taken = {time_taken}---')
 
         return None
-
-
-d = Downloader()
-# CSV
-# d.download(DB_PATH=r'C:\Users\Gavin\Desktop\FinData', type_="csv", csv=r'C:\Users\Gavin\VisualStudio\Value_Investing_Screener\Ticker_List\S&P500 Components.csv', buffer=10)
-
-# Individual
-# d.download(DB_PATH=r'C:\Users\Gavin\Desktop\FinData', type_="string",ticker='ATVI', buffer=1)
-
-# LIST
-stock_list = [
-    'TSLA',
-    'TTD',
-    'ROKU'
-]
-
-
-d.download("list", DB_PATH=r'C:\Users\Gavin\Desktop\FinData', list_=stock_list, buffer=10)
-
-# stock = StockDL("ATVI")
-# df = stock.balance_sheet_assets()
-# print(df)
