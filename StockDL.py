@@ -208,13 +208,13 @@ DOWNLOADING {self.ticker}...
 
                 ''')
                 # All Download
-                PRICE()
-                MAIN()
-                PROFILE()
-                INCOME()
-                BALANCE()
-                CASHFLOW()
-
+                dl_list = [PRICE(), MAIN(), PROFILE(), INCOME(), BALANCE(), CASHFLOW()]
+                for i in range(len(dl_list)):
+                    try:
+                        dl_list[i]
+                    except IndexError:
+                        dl_list[i]
+                    
 
             #------------------------------------------------------------------------------------------------------------------
             download_dict = {

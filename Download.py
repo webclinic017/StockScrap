@@ -35,6 +35,7 @@ class Downloader:
         # Start time of code
         start_time = datetime.now()
 
+        download_list = []
         error_list = []
 
         if DB_PATH == None:
@@ -51,7 +52,9 @@ class Downloader:
             # Error handling
             except ValueError or KeyError:
                 error_list.append(ticker)
-
+            
+            if dl == True:
+                download_list.append(ticker)
 
         # IF list
         if type_ == "list":
@@ -65,6 +68,9 @@ class Downloader:
                 # Error handling
                 except ValueError or KeyError:
                     error_list.append(ticker)
+
+                if dl == True:
+                    download_list.append(ticker)
 
         # IF csv
         if type_ == "csv":
@@ -91,12 +97,16 @@ class Downloader:
                     except ValueError or KeyError:
                         error_list.append(ticker)
 
+                    if dl == True:
+                        download_list.append(ticker)
+
                     time_taken_csv = datetime.now() - start_time_csv
 
                     # Ending time
                     print(f'---Time taken to download {ticker} = {time_taken_csv}')
 
         time_taken = datetime.now() - start_time
+        print(f'Download List = {download_list}')
         print(f'Error List = {error_list}')
         print(f'---Time taken = {time_taken}---')
 
@@ -104,32 +114,22 @@ class Downloader:
 
 
 d = Downloader()
-# # CSV
-# d.download(DB_PATH=r'C:\Users\Gavin\Desktop\FinData', type_="csv", csv=r'C:\Users\Gavin\VisualStudio\Value_Investing_Screener\Ticker_List\S&P500 Components.csv', buffer=1)
+# CSV
+# d.download(DB_PATH=r'C:\Users\Gavin\Desktop\FinData', type_="csv", csv=r'C:\Users\Gavin\VisualStudio\Value_Investing_Screener\Ticker_List\S&P500 Components.csv', buffer=10)
 
 # Individual
-d.download(DB_PATH=r'C:\Users\Gavin\Desktop\FinData', type_="string",ticker='TSLA', buffer=1)
+# d.download(DB_PATH=r'C:\Users\Gavin\Desktop\FinData', type_="string",ticker='ATVI', buffer=1)
 
 # LIST
-# stock_list = [
-#     'TSLA',
-#     'TTD',
-#     'ROKU',
-#     'NIO',
-#     'MSFT',
-#     'ENPH',
-#     'ETSY',
-#     'XPEV',
-#     'U',
-#     'CRSR',
-#     'SEDG',
-#     'BYND',
-#     'WIMI',
-#     'FUBO',
-#     'ELYS',
-#     'IZEA'
-# ]
+stock_list = [
+    'TSLA',
+    'TTD',
+    'ROKU'
+]
 
 
-# d.download("list", DB_PATH=r'C:\Users\Gavin\Desktop\FinData', list_=stock_list, buffer=2)
+d.download("list", DB_PATH=r'C:\Users\Gavin\Desktop\FinData', list_=stock_list, buffer=10)
 
+# stock = StockDL("ATVI")
+# df = stock.balance_sheet_assets()
+# print(df)
