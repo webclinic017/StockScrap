@@ -192,8 +192,10 @@ class Fin_Data(WebDriver):
         val_selc = soup.find_all("span", attrs={'class': 'company__market'})[0]
         val = val_selc.get_text()
 
+        # Format Exchange
         val = val.replace(":", "")
-
+        val = val.split(" ")[0]
+        
         return val
 
 
@@ -202,8 +204,6 @@ class Fin_Data(WebDriver):
         Get stock CEO
         # returns str
         '''
-
-        self.remove_logging()
 
         # URL to check for stock name.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'

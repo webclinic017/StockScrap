@@ -11,14 +11,13 @@ class Fin_Select:
     Args = year(int), item(str)
     '''
 
-    def __init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe'):
+    def __init__(self, ticker):
         '''
         Initialize Fin_Select class from Fin_Data (and other __init__ arguments) for DataFrame extraction.
         
         '''
         # Gets Fin_Data class inherits __init__ args
         self.ticker = ticker
-        self.PATH = PATH
 
 
     def __repr__(self):

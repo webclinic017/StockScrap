@@ -39,8 +39,8 @@ class Fin_Extract(Fin_Select):
     }
 
     # Initializes Fin_Extract class inherits __init__ args
-    def __init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe'):
-        Fin_Select.__init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe')
+    def __init__(self, ticker):
+        Fin_Select.__init__(self, ticker)
     
 
     def __repr__(self):
@@ -179,8 +179,9 @@ class Fin_Extract(Fin_Select):
             return new_series
         
         else:
-            return 'Error extracting data. Please check items, year, ticker again.'           
-                 
+            print('Error extracting data. Please check items, year, ticker again.')
+            return None         
+
         
     def extract_columns(self, from_df):
         '''
