@@ -13,7 +13,7 @@ class Downloader:
         pass
     
 
-    def download(self,  type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=None, max=None, ticker=None, list_=None, csv=None, buffer=5, download="ALL"):
+    def download(self,  type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=None, max=None, ticker=None, list_=None, csv=None, buffer=5, download="ALL", from_=None):
         '''
         Download Stock Data supplied by tickers in either string, list or csv.
         type_ keys:
@@ -22,6 +22,7 @@ class Downloader:
             "csv" : Download from a csv. Must specify arg* csv. CSV must contain column "Ticker"
         DB_PATH = Place to store downloaded JSON files
         Minimum buffer = 2 second
+        From = Start downloading from. Please provide a string.
         Download parameters:
             - 'ALL' - Download All Parameters
             - 'PRICE' Download PriceData
@@ -58,9 +59,14 @@ class Downloader:
 
         # IF list
         if type_ == "list":
-            ticker_list = list_
+            components_list = list_
             dl = False
-            for ticker in ticker_list:
+
+            if from_ != None:
+                    index_ticker = components_list.index(from_)
+                    components_list = components_list[index_ticker:]
+            
+            for ticker in components_list:
                 stock = StockDL(ticker, PATH=Driver_PATH)
                 try:
                     dl = stock.stockdl(DB_PATH=DB_PATH, download=download, buffer=buffer)
@@ -73,6 +79,16 @@ class Downloader:
                 if dl == True:
                     download_list.append(ticker)
 
+                # index
+                idx_element = components_list.index(ticker)
+                max_elements = len(components_list)
+                prc_complete = idx_element/max_elements *100
+
+                print(f'---Download Progress: {idx_element}/{max_elements}. {prc_complete}%/100%... ')
+
+                print(f'Download List = {download_list}')
+                print(f'Error List = {error_list}')
+
         # IF csv
         if type_ == "csv":
             with open(csv, 'r') as csv_:
@@ -82,6 +98,10 @@ class Downloader:
 
                 # chunks of 10 lists
                 components_list = df.index.tolist()
+
+                if from_ != None:
+                    index_ticker = components_list.index(from_)
+                    components_list = components_list[index_ticker:]
 
                 # If stock does not exist, add into error_list
                 for ticker in components_list:
@@ -101,14 +121,26 @@ class Downloader:
                     if dl == True:
                         download_list.append(ticker)
 
-                    time_taken_csv = datetime.now() - start_time_csv
+                    #Time
+                    time_taken_csv = datetime.now() - start_time_csv    
+
 
                     # Ending time
                     print(f'---Time taken to download {ticker} = {time_taken_csv}')
 
+                    # index
+                    idx_element = components_list.index(ticker) +1
+                    max_elements = len(components_list)
+                    prc_complete = round(idx_element/max_elements *100, 2)
+
+                    print(f'---Download Progress: {idx_element}/{max_elements}. {prc_complete}%/100%... ')
+
+                    print(f'Download List = {download_list}')
+                    print(f'Error List = {error_list}')
+
+
         time_taken = datetime.now() - start_time
-        print(f'Download List = {download_list}')
-        print(f'Error List = {error_list}')
+        
         print(f'---Time taken = {time_taken}---')
 
         return None

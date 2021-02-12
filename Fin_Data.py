@@ -278,6 +278,8 @@ class Fin_Data(WebDriver):
 
         val = soup.find_all("bg-quote", attrs={'value'})[0].get_text()
 
+        # Remove commas
+        val = val.replace(",","")
         # Get Price of Stock in float
         price = float(val)
         
@@ -302,6 +304,7 @@ class Fin_Data(WebDriver):
             
             try:
                 price = self.price()
+
             except IndexError:
                 exist=False
                 break

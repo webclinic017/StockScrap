@@ -1,4 +1,5 @@
 from DBExtract import DBExtract
+from StockDL import StockDL
 from Download import Downloader
 
 ticker_list = [
@@ -22,16 +23,15 @@ ticker_list = [
 ]
 
 #Download
-# d = Downloader()
-# d.download(type_="string", ticker='MSFT', DB_PATH=r'C:\Users\Gavin\Desktop\FinData')
+d = Downloader()
+d.download(type_="csv", csv=r'C:\Users\Dennis Loo.000\Desktop\Value_Investing_Screener\Ticker_List\S&P500 Components.csv', DB_PATH=r'C:\Users\Dennis Loo.000\Desktop\FinData', buffer=20, from_="AEE")
+# d.download(type_="string", ticker=r'GOOG', DB_PATH=r'C:\Users\Dennis Loo.000\Desktop\FinData', buffer=1)
 
 
-# data Extractor
-extract = DBExtract()
+# # data Extractor
+# extract = DBExtract(DB_PATH=r'C:\Users\Dennis Loo.000\Desktop\FinData')
 
-# df = extract.json_extract("view", ticker="MSFT", FILE_NAME="IncomeStatement")
-
-for ticker in ticker_list:
-    df = extract.json_extract("view", ticker=ticker, FILE_NAME="IncomeStatement")
-    rev = extract.select_item(df, "Sales Growth").tolist()
-    print(f"{ticker} Sales Growth : {rev}")
+# for ticker in ticker_list:
+#     df = extract.json_extract("view", ticker=ticker, FILE_NAME="IncomeStatement")
+#     rev = extract.select_item(df, "Sales Growth").tolist()
+#     print(f"{ticker} Sales Growth : {rev}")
