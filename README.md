@@ -24,7 +24,7 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - [ ] Remove selenium dependency from code
 - [ ] Add analysis and viewing features
 - [ ] Calcuate intrinsic value using Discounted Cash Flow (DCF) model
-- [ ] Add more pictures and GIFs to readme to make it more interactive!
+- [ ] Add specific documentation of different class methods and their usage
 
 
 ## :books: Required modules
