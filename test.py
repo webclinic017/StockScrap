@@ -24,8 +24,8 @@ ticker_list = [
 
 #Download
 d = Downloader()
-d.download(type_="csv", csv=r'C:\Users\Dennis Loo.000\Desktop\Value_Investing_Screener\Ticker_List\S&P500 Components.csv', DB_PATH=r'C:\Users\Dennis Loo.000\Desktop\FinData', buffer=20, from_="AEE")
-# d.download(type_="string", ticker=r'GOOG', DB_PATH=r'C:\Users\Dennis Loo.000\Desktop\FinData', buffer=1)
+# d.download(type_="csv", csv=r'C:\Users\Dennis Loo.000\Desktop\Value_Investing_Screener\Ticker_List\S&P500 Components.csv', DB_PATH=r'C:\Users\Dennis Loo.000\Desktop\FinData', buffer=20, from_="AEE")
+d.download(type_="list", list_=ticker_list, DB_PATH=r'C:\Users\Dennis Loo.000\Desktop\FinData', buffer=1)
 
 
 # # data Extractor

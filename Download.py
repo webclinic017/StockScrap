@@ -82,7 +82,7 @@ class Downloader:
                 # index
                 idx_element = components_list.index(ticker)
                 max_elements = len(components_list)
-                prc_complete = idx_element/max_elements *100
+                prc_complete = round(idx_element/max_elements *100, 2)
 
                 print(f'---Download Progress: {idx_element}/{max_elements}. {prc_complete}%/100%... ')
 
