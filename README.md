@@ -1,5 +1,4 @@
-# Stock Data Scrapper using MarketWatch and Yahoo Finance! 
-
+# Stock Data Scrapper using MarketWatch and Yahoo Finance!
 ### :computer: *Made by rawsashimi1604 (c) 2021* :computer:
 
 Hey everyone! :wave: This project is a stock data scrapper that I made for my own analysis purposes! It uses **Python** to extract financial and technical data from stocks and stores them into a database on your local computer. :smile:
@@ -12,7 +11,7 @@ We then use these 2 components to build a complete stock data database; afterwhi
 
 *For now I will be adding my own analysis features in periodically into this project.*
 
-## Contributing
+## :+1: Contributing
 
 All pull requests are welcome! :upside_down_face: However, changes to the code are not available for now. 
 
@@ -63,3 +62,4 @@ d.download(type_="string", ticker="MSFT", DB_PATH=r'C:\Users\rawsashimi1604\FinD
 extract = DBExtract(DB_PATH=r'C:\Users\rawsashimi1604\FinData')
 df = extract.json_extract("view", ticker="MSFT", FILE_NAME="IncomeStatement") # returns pandas DataFrame
 ```
+
