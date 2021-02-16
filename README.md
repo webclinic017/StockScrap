@@ -65,7 +65,7 @@ extract = DBExtract(DB_PATH=r'C:\Users\rawsashimi1604\FinData')
 df = extract.json_extract("view", ticker="MSFT", FILE_NAME="IncomeStatement") # returns pandas DataFrame
 ```
 
-### 	:file_folder: Documentation
+### :file_folder: Documentation
 #### ***Downloader*** class
 > The Downloader class is the stock data downloader component. It allows one to download financial data from MarketWatch or technical data from YahooFinance.
 ```python
@@ -102,7 +102,7 @@ download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=N
   - buffer : *int*
     - Specifies buffer time in seconds in between each download. Default is *5* *(Optional)*
   - download : *str*
-    - Specifies what data to download. Default is "ALL" *(Optional)* Available parameters are:
+    - Specifies what data to download. Default is *"ALL"* *(Optional)* Available parameters are:
       - *"ALL"* - download all data available
       - *"PRICE"* - download price data
       - *"MAIN"* - download stock information and key data
@@ -122,7 +122,7 @@ class DBExtract(Fin_Extract):
 ```
 - Attributes are:
   - DB_PATH : *str*
-    - Specifies database directory to extract data from. Default is 'C:/Users/rawsashimi1604/Desktop/FinData' *(Optional)*
+    - Specifies database directory to extract data from. Default is *'C:/Users/rawsashimi1604/Desktop/FinData'* *(Optional)*
 
 ##### *method* **DBExtract**.*json_extract*
 ```python
@@ -263,7 +263,7 @@ class WebDriver:
   - PATH : *str*
     - Specifies where the Chromium WebDriver is located. **(Required)**
   - ignore_errors : "bool"
-    - Option whether to ignore errors. True = ignore errors.  Default is True *(Optional)*
+    - Option whether to ignore errors. True = ignore errors.  Default is *True* *(Optional)*
     
 ##### *method* **WebDriver**.*driver*
 ```python
@@ -290,7 +290,7 @@ class Fin_Data(WebDriver):
   - PATH : *str*
     - Specifies where the Chromium WebDriver is located. **(Required)**
   - ignore_errors : "bool"
-    - Option whether to ignore errors. True = ignore errors.  Default is True *(Optional)*
+    - Option whether to ignore errors. True = ignore errors.  Default is *True* *(Optional)*
     
 ##### *method* **Fin_Data**.*remove_logging*
 ```python
@@ -311,7 +311,7 @@ reorder_df(from_df, reverse=False)
   - from_df : *pandas DataFrame*
     - Specifies what DataFrame to get list of columns from. **(Required)**
   - reverse : *boolean*
-    - Specifies whether to reorder in descending. False = descending. Default is False *(Optional)*
+    - Specifies whether to reorder in descending. False = descending. Default is *False* *(Optional)*
 - Returns: *pandas DataFrame*
   - Returns reordered pandas DataFrame
 
@@ -589,7 +589,7 @@ class FData(Fin_Data, Fin_Extract):
   - PATH : *str*
     - Specifies where the Chromium WebDriver is located. **(Required)**
   - ignore_errors : "bool"
-    - Option whether to ignore errors for selenium WebDriver. True = ignore errors.  Default is True *(Optional)*
+    - Option whether to ignore errors for selenium WebDriver. True = ignore errors.  Default is *True* *(Optional)*
  
 #### ***TData*** class
 > The TData class uses yfinance module to extract technical price data for stocks. 
@@ -620,7 +620,7 @@ get_info(command="nil", print=False)
 > *Gets stock data metric depending on command.*
 - Arguments are:
   - command : *str*
-    - Specifies which metric to get. *(Optional)* Default is "nil" Available parameters are:
+    - Specifies which metric to get. *(Optional)* Default is *"nil"* Available parameters are:
       - *"nil"* - all information printed
       - *"averageVolume"* - stock average volume
       - *"currency"* - stock currency
@@ -635,7 +635,7 @@ get_info(command="nil", print=False)
       - *"priceToBook"* - stock price to book ratio
       - *"quoteType"* - type of asset
   - print : *bool*
-    - Specifies whether to print data using pprint. Default is False *(Optional)*
+    - Specifies whether to print data using pprint. Default is *False* *(Optional)*
 - Returns: *dict or int or float or str*
   - Returns various values depending on command
 
@@ -648,7 +648,7 @@ get_data(candle_interval=1, print=False)
   - candle_interval : *int*
     - Specifies interval of each candlestick. Default is *1* *(Optional)*
   - print : *bool*
-    - Specifies whether to print data using pprint. Default is False *(Optional)*
+    - Specifies whether to print data using pprint. Default is *False* *(Optional)*
 - Returns: *pandas DataFrame*
   - Returns pandas DataFrame of stock data. Open, High, Low, Close, Volume, Dividends, Stock Splits.
 
@@ -661,7 +661,7 @@ get_close(candle_interval=1, print=False)
   - candle_interval : *int*
     - Specifies interval of each candlestick. Default is *1* *(Optional)*
   - print : *bool*
-    - Specifies whether to print data using pprint. Default is False *(Optional)*
+    - Specifies whether to print data using pprint. Default is *False* *(Optional)*
 - Returns: *pandas Series*
   - Returns pandas Series of stock data.
  
@@ -674,7 +674,7 @@ get_open(candle_interval=1, print=False)
   - candle_interval : *int*
     - Specifies interval of each candlestick. Default is *1* *(Optional)*
   - print : *bool*
-    - Specifies whether to print data using pprint. Default is False *(Optional)*
+    - Specifies whether to print data using pprint. Default is *False* *(Optional)*
 - Returns: *pandas Series*
   - Returns pandas Series of stock data.
   
@@ -687,7 +687,7 @@ get_prevclose(candle_interval=1, print=False)
   - candle_interval : *int*
     - Specifies interval of each candlestick. Default is *1* *(Optional)*
   - print : *bool*
-    - Specifies whether to print data using pprint. Default is False *(Optional)*
+    - Specifies whether to print data using pprint. Default is *False* *(Optional)*
 - Returns: *float*
   - Returns price of previous candlestick's close price.
 
@@ -708,13 +708,13 @@ json(from_obj=None, export_to=None, filename=None, orient='columns')
 > *Stores pandas DataFrame or Series into JSON file and store into database.*
 - Arguments are:
   - from_obj : *pandas DataFrame or pandas Series*
-    - Specifies object type to store as JSON.
+    - Specifies object type to store as JSON. Default is *None* *(Optional)*
   - export_to : *str*
-    - Specifies directory to store JSON file at.
-  - filename : *str*
-    - Specifies file name of JSON file.
+    - Specifies directory to store JSON file at. Default is *None* *(Optional)*
+  - filename : *str* 
+    - Specifies file name of JSON file. Default is *None* *(Optional)*
   - orient : *str*
-    - Specifies orient of pandas.to_json function.
+    - Specifies orient of pandas.to_json function. Default is *columns* *(Optional)*
 - Returns: *None*
   - Returns None.
 
@@ -732,7 +732,7 @@ class Stock_Data(TData, FData, ToJson):
   - PATH : *str*
     - Directory path of Chorimum WebDriver. Default is *'C:\Program Files (x86)\chromedriver.exe'* *(Optional)*
   - ignore_errors : "bool"
-    - Option whether to ignore errors for selenium WebDriver. True = ignore errors.  Default is True *(Optional)*
+    - Option whether to ignore errors for selenium WebDriver. True = ignore errors.  Default is *True* *(Optional)*
 
 ##### *method* **Stock_Data**.*fiscal_year_prices*
 ```python
@@ -757,7 +757,7 @@ class ToJson:
   - PATH : *str*
     - Directory path of Chorimum WebDriver. Default is *'C:\Program Files (x86)\chromedriver.exe'* *(Optional)*
   - ignore_errors : "bool"
-    - Option whether to ignore errors for selenium WebDriver. True = ignore errors.  Default is True *(Optional)*
+    - Option whether to ignore errors for selenium WebDriver. True = ignore errors.  Default is *True* *(Optional)*
 
 ##### *method* **Stock_Data**.*stockdl*
 ```python
@@ -766,9 +766,9 @@ stockdl(DB_PATH='C:/Users/Dennis Loo.000/Desktop/FinData', download="ALL", buffe
 > *Downloads data, stores into JSON, finally storing it into database.*
 - Arguments are:
   - DB_PATH : *str*
-    - Specifies database directory to extract data from. Default is 'C:/Users/rawsashimi1604/Desktop/FinData' *(Optional)*
+    - Specifies database directory to extract data from. Default is *'C:/Users/rawsashimi1604/Desktop/FinData'* *(Optional)*
   - download : *str*
-    - Specifies what data to download. Default is "ALL" *(Optional)* Available parameters are:
+    - Specifies what data to download. Default is *"ALL"* *(Optional)* Available parameters are:
       - *"ALL"* - download all data available
       - *"PRICE"* - download price data
       - *"MAIN"* - download stock information and key data
