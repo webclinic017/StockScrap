@@ -68,6 +68,14 @@ df = extract.json_extract("view", ticker="MSFT", FILE_NAME="IncomeStatement") # 
 ### 	:file_folder: Documentation
 #### ***Downloader*** class
 > The Downloader class is the stock data downloader component. It allows one to download financial data from MarketWatch or technical data from YahooFinance.
+```python
+class Downloader:
+    def __init__(self):
+        pass
+```
+- Attributes are:
+  - *None*
+
 ##### *method* **Downloader**.*download*
 ```python
 download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=None, max=None, ticker=None, list_=None, csv=None, buffer=5, download="ALL")
@@ -94,7 +102,7 @@ download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=N
   - buffer : *int*
     - Specifies buffer time in seconds in between each download. Default is *5* *(Optional)*
   - download : *str*
-    - Specifies what data to download. Available parameters are:
+    - Specifies what data to download. Default is "ALL" *(Optional)* Available parameters are:
       - *"ALL"* - download all data available
       - *"PRICE"* - download price data
       - *"MAIN"* - download stock information and key data
@@ -107,6 +115,15 @@ download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=N
 
 #### ***DBExtract***(*Fin_Extract*) class
 > The DBExtract class is the database extraction component. It allows one to pull data from database and display in a string or pandas DataFrame format. Inherits Fin_Extract class.
+```python
+class DBExtract(Fin_Extract):
+    def __init__(self, DB_PATH='C:/Users/rawsashimi1604/Desktop/FinData'):
+        self.DB_PATH = DB_PATH
+```
+- Attributes are:
+  - DB_PATH : *str*
+    - Specifies database directory to extract data from. Default is 'C:/Users/rawsashimi1604/Desktop/FinData' *(Optional)*
+
 ##### *method* **DBExtract**.*json_extract*
 ```python
 json_extract(format, ticker, country = "U.S.", FILE_NAME='StockInformation')
@@ -128,6 +145,15 @@ json_extract(format, ticker, country = "U.S.", FILE_NAME='StockInformation')
 
 #### ***Fin_Extract***(*Fin_Select*) class
 > The Fin_Extract class allows extraction of data from str/ pandas DataFrame/ pandas Series format. Then, it is able to convert values into scientific values for analysis purposes. Inherits Fin_Select class.
+```python
+class Fin_Extract(Fin_Select):
+    def __init__(self, ticker):
+        self.ticker = ticker
+```
+- Attributes are:
+  - ticker : *str*
+    - Specifies which ticker to extract data from. **(Required)**
+    
 ##### *method* **Fin_Extract**.*determine_symbol*
 ```python
 determine_symbol(cell_val)
@@ -174,6 +200,15 @@ extract_columns(from_df)
 
 #### ***Fin_Select*** class
 > The Fin_Select class allows selection of specific cells or rows  Then, it is able to convert values into scientific values for analysis purposes. Inherits Fin_Select class.
+```python
+class Fin_Select:
+    def __init__(self, ticker):
+        self.ticker = ticker
+```
+- Attributes are:
+  - ticker : *str*
+    - Specifies which ticker to select data from. **(Required)**
+    
 ##### *method* **Fin_Select**.*select_isolate*
 ```python
 select_isolate(from_df, year=None, item=None)
@@ -181,7 +216,7 @@ select_isolate(from_df, year=None, item=None)
 > *Selects pandas DataFrame specific column and row for respective arguments.
 - Arguments are:
   - from_df : *pandas DataFrame*
-    - Specifies what DataFrame to get list of columns from. **(Required)**'
+    - Specifies what DataFrame to get list of columns from. **(Required)**
   - year : *int*
     - Specifies which column to get data from. Default is *None* *(Optional)*
   - item : *str*
@@ -196,7 +231,7 @@ select_item(from_df, item=None)
 > *Selects pandas DataFrame specific row for respective arguments.
 - Arguments are:
   - from_df : *pandas DataFrame*
-    - Specifies what DataFrame to get list of columns from. **(Required)**'
+    - Specifies what DataFrame to get list of columns from. **(Required)**
   - item : *str*
     - Specifies which row to get data from. Default is *None* *(Optional)*
 - Returns: *pandas Series*
@@ -209,9 +244,541 @@ select_item(from_df, year=None)
 > *Selects pandas DataFrame specific column for respective arguments.
 - Arguments are:
   - from_df : *pandas DataFrame*
-    - Specifies what DataFrame to get list of columns from. **(Required)**'
+    - Specifies what DataFrame to get list of columns from. **(Required)**
   - year : *int*
     - Specifies which column to get data from. Default is *None* *(Optional)*
 - Returns: *pandas Series*
   - Returns pandas Series of column.
+  
+
+#### ***WebDriver*** class
+> The WebDriver class allows customization of Chromium WebDriver for selenium.
+```python
+class WebDriver:
+    def __init__(self, PATH='C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
+        self.PATH = PATH
+        self.ignore_errors = ignore_errors
+```
+- Attributes are:
+  - PATH : *str*
+    - Specifies where the Chromium WebDriver is located. **(Required)**
+  - ignore_errors : "bool"
+    - Option whether to ignore errors. True = ignore errors.  Default is True *(Optional)*
+    
+##### *method* **WebDriver**.*driver*
+```python
+driver()
+```
+> *Initializes Chromium WebDriver and options*
+- Arguments are:
+  - *None*
+- Returns: *selenium WebDriver*
+  - Returns selenium WebDriver with custom options
+
+#### ***Fin_Data***(*WebDriver*) class
+> The Fin_Data class allows for scraping of financial data from MarketWatch. It then returns it in a pandas DataFrame or Series format. Inherits WebDriver class.
+```python
+class Fin_Data(WebDriver):
+    def __init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
+        self.ticker = ticker
+        self.PATH = PATH
+        self.ignore_errors = ignore_errors
+```
+- Attributes are:
+  - ticker : *str*
+    - Specifies which ticker to draw financial data from. **(Required)**
+  - PATH : *str*
+    - Specifies where the Chromium WebDriver is located. **(Required)**
+  - ignore_errors : "bool"
+    - Option whether to ignore errors. True = ignore errors.  Default is True *(Optional)*
+    
+##### *method* **Fin_Data**.*remove_logging*
+```python
+remove_logging()
+```
+> *Disables logging for selenium scraping*
+- Arguments are:
+  - *None*
+- Returns: *None*
+  - Returns None
+ 
+##### *method* **Fin_Data**.*reorder_df*
+```python
+reorder_df(from_df, reverse=False)
+```
+> *Reorders pandas DataFrame columns in descending order.*
+- Arguments are:
+  - from_df : *pandas DataFrame*
+    - Specifies what DataFrame to get list of columns from. **(Required)**
+  - reverse : *boolean*
+    - Specifies whether to reorder in descending. False = descending. Default is False *(Optional)*
+- Returns: *pandas DataFrame*
+  - Returns reordered pandas DataFrame
+
+##### *method* **Fin_Data**.*name*
+```python
+name()
+```
+> *Get stock's name.*
+- Arguments are:
+  - *None*
+- Returns: *str*
+  - Returns stock name in string value.
+
+##### *method* **Fin_Data**.*industry*
+```python
+industry()
+```
+> *Get stock's industry.*
+- Arguments are:
+  - *None*
+- Returns: *str*
+  - Returns stock's industry in string value.
+
+##### *method* **Fin_Data**.*sector*
+```python
+sector()
+```
+> *Get stock's sector.*
+- Arguments are:
+  - *None*
+- Returns: *str*
+  - Returns stock's sector in string value.
+
+##### *method* **Fin_Data**.*exchange*
+```python
+exchange()
+```
+> *Get stock's exchange location.*
+- Arguments are:
+  - *None*
+- Returns: *str*
+  - Returns stock's exchange location in string value.
+  
+##### *method* **Fin_Data**.*ceo*
+```python
+ceo()
+```
+> *Get stock's CEO name.*
+- Arguments are:
+  - *None*
+- Returns: *str*
+  - Returns stock's CEO name in string value.
+  
+##### *method* **Fin_Data**.*business_model*
+```python
+business_model()
+```
+> *Get stock's business_model overview.*
+- Arguments are:
+  - *None*
+- Returns: *str*
+  - Returns stock's business_model overview in string value.
+  
+##### *method* **Fin_Data**.*stock_info*
+```python
+stock_info()
+```
+> *Get stock's information overview. Includes name, sector, industry, exchange, ceo and business model.*
+- Arguments are:
+  - *None*
+- Returns: *pandas DataFrame*
+  - Returns stock's main information in pandas DataFrame format.
+
+##### *method* **Fin_Data**.*price*
+```python
+price()
+```
+> *Get stock's current price.*
+- Arguments are:
+  - *None*
+- Returns: *float*
+  - Returns stock's price in float value.
+
+##### *method* **Fin_Data**.*check_ticker*
+```python
+check_ticker()
+```
+> *Uses stock price and sector to check whether the ticker exists in MarketWatch database.*
+- Arguments are:
+  - *None*
+- Returns: *bool*
+  - Returns True or False depending on whether the stock exists. Returns True for exist.
+
+##### *method* **Fin_Data**.*valuations*
+```python
+valuations()
+```
+> *Get table of valuation metrics under MarketWatch Profile page.*
+- Arguments are:
+  - *None*
+- Returns: *pandas Series*
+  - Returns pandas Series of valuation metrics.
+
+##### *method* **Fin_Data**.*efficiency*
+```python
+efficiency()
+```
+> *Get table of efficiency metrics under MarketWatch Profile page.*
+- Arguments are:
+  - *None*
+- Returns: *pandas Series*
+  - Returns pandas Series of efficiency metrics.
+  
+##### *method* **Fin_Data**.*liquidity*
+```python
+liquidity()
+```
+> *Get table of liquidity metrics under MarketWatch Profile page.*
+- Arguments are:
+  - *None*
+- Returns: *pandas Series*
+  - Returns pandas Series of liquidity metrics.
+
+##### *method* **Fin_Data**.*profitability*
+```python
+profitability()
+```
+> *Get table of profitability metrics under MarketWatch Profile page.*
+- Arguments are:
+  - *None*
+- Returns: *pandas Series*
+  - Returns pandas Series of profitability metrics.
+
+##### *method* **Fin_Data**.*captialization*
+```python
+captialization()
+```
+> *Get table of captialization metrics under MarketWatch Profile page.*
+- Arguments are:
+  - *None*
+- Returns: *pandas Series*
+  - Returns pandas Series of captialization metrics.
+  
+##### *method* **Fin_Data**.*main_page*
+```python
+main_page()
+```
+> *Get table of stock information from MarketWatch landing page.*
+- Arguments are:
+  - *None*
+- Returns: *pandas Series*
+  - Returns pandas Series of stock information.
+  
+##### *method* **Fin_Data**.*income_statement*
+```python
+income_statement()
+```
+> *Get dataframe of stock income statement*
+- Arguments are:
+  - *None*
+- Returns: *pandas DataFrame*
+  - Returns pandas DataFrame of stock income statement.
+  
+##### *method* **Fin_Data**.*balance_sheet_assets*
+```python
+balance_sheet_assets()
+```
+> *Get dataframe of stock balance sheet assets*
+- Arguments are:
+  - *None*
+- Returns: *pandas DataFrame*
+  - Returns pandas DataFrame of stock balance sheet assets.
+  
+##### *method* **Fin_Data**.*balance_sheet_lia*
+```python
+balance_sheet_lia()
+```
+> *Get dataframe of stock balance sheet liabilities*
+- Arguments are:
+  - *None*
+- Returns: *pandas DataFrame*
+  - Returns pandas DataFrame of stock balance sheet liabilities.
+  
+##### *method* **Fin_Data**.*cash_flow_opr*
+```python
+cash_flow_opr()
+```
+> *Get dataframe of stock cash flow operating activities*
+- Arguments are:
+  - *None*
+- Returns: *pandas DataFrame*
+  - Returns pandas DataFrame of cash flow operating activities.
+  
+##### *method* **Fin_Data**.*cash_flow_inv*
+```python
+cash_flow_inv()
+```
+> *Get dataframe of stock cash flow investing activities*
+- Arguments are:
+  - *None*
+- Returns: *pandas DataFrame*
+  - Returns pandas DataFrame of cash flow investing activities.
+  
+##### *method* **Fin_Data**.*cash_flow_fin*
+```python
+cash_flow_fin()
+```
+> *Get dataframe of stock cash flow financing activities*
+- Arguments are:
+  - *None*
+- Returns: *pandas DataFrame*
+  - Returns pandas DataFrame of cash flow financing activities.
+  
+##### *method* **Fin_Data**.*balance_sheet*
+```python
+balance_sheet()
+```
+> *Prints full balance sheet for viewing.*
+- Arguments are:
+  - *None*
+- Returns: *str*
+  - Returns 'Printed balance sheet successfully.'
+
+##### *method* **Fin_Data**.*cash_flow*
+```python
+cash_flow()
+```
+> *Prints full cash flow statement for viewing.*
+- Arguments are:
+  - *None*
+- Returns: *str*
+  - Returns 'Printed cash flow statement successfully.'
+
+##### *method* **Fin_Data**.*years*
+```python
+years()
+```
+> *Gets list of years of availble scrapped data from MarketWatch using income statement.*
+- Arguments are:
+  - *None*
+- Returns: *list*
+  - Returns list of years.
+
+##### *method* **Fin_Data**.*fiscal_month*
+```python
+fiscal_month()
+```
+> *Gets first month of fiscal year of stock.*
+- Arguments are:
+  - *None*
+- Returns: *int*
+  - Returns first month of fiscal year.
+
+##### *method* **Fin_Data**.*fiscal_year_dates*
+```python
+fiscal_year_dates()
+```
+> *Gets list of start fiscal year dates*
+- Arguments are:
+  - *None*
+- Returns: *list*
+  - Returns list of start fiscal year dates.
+
+#### ***FData***(*Fin_Data, Fin_Extract*) class
+> The FData class merges Financial Data methods with extraction methods. Inherits Fin_Data and Fin_Extract.
+```python
+class FData(Fin_Data, Fin_Extract):
+    def __init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
+        Fin_Data.__init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe')
+        Fin_Extract.__init__(self,ticker)
+```
+- Attributes are:
+  - ticker : *str*
+    - Specifies which ticker to extract data from. **(Required)**
+  - PATH : *str*
+    - Specifies where the Chromium WebDriver is located. **(Required)**
+  - ignore_errors : "bool"
+    - Option whether to ignore errors for selenium WebDriver. True = ignore errors.  Default is True *(Optional)*
+ 
+#### ***TData*** class
+> The TData class uses yfinance module to extract technical price data for stocks. 
+```python
+class FData(Fin_Data, Fin_Extract):
+    def __init__(self, ticker):
+        self.ticker = ticker
+        pass
+```
+- Attributes are:
+  - ticker : *str*
+    - Specifies which ticker to extract data from. **(Required)**
+
+##### *method* **TData**.*check_name*
+```python
+check_name()
+```
+> *Checks if ticker name contains '.'. If it does, change to '-' for yfinance portability.*
+- Arguments are:
+  - *None*
+- Returns: *str*
+  - Returns str of new ticker name for yfinance portability.
+
+##### *method* **TData**.*get_info*
+```python
+get_info(command="nil", print=False)
+```
+> *Gets stock data metric depending on command.*
+- Arguments are:
+  - command : *str*
+    - Specifies which metric to get. *(Optional)* Default is "nil" Available parameters are:
+      - *"nil"* - all information printed
+      - *"averageVolume"* - stock average volume
+      - *"currency"* - stock currency
+      - *"dividendYield"* - stock dividend yield
+      - *"forwardEps"* - stock forward EPS
+      - *"forwardPE"* - stock forward P/E Ratio
+      - *"longBusinessSummary"* - stock business summary
+      - *"longName"* - stock name
+      - *"marketCap"* - stock market capitalization
+      - *"pegRatio"* - stock PEG Ratio
+      - *"previousClose"* - stock previous closing price
+      - *"priceToBook"* - stock price to book ratio
+      - *"quoteType"* - type of asset
+  - print : *bool*
+    - Specifies whether to print data using pprint. Default is False *(Optional)*
+- Returns: *dict or int or float or str*
+  - Returns various values depending on command
+
+##### *method* **TData**.*get_data*
+```python
+get_data(candle_interval=1, print=False)
+```
+> *Gets stock max period technical data depending on interval of each candlestick. Default is 1D candles.*
+- Arguments are:
+  - candle_interval : *int*
+    - Specifies interval of each candlestick. Default is *1* *(Optional)*
+  - print : *bool*
+    - Specifies whether to print data using pprint. Default is False *(Optional)*
+- Returns: *pandas DataFrame*
+  - Returns pandas DataFrame of stock data. Open, High, Low, Close, Volume, Dividends, Stock Splits.
+
+##### *method* **TData**.*get_close*
+```python
+get_close(candle_interval=1, print=False)
+```
+> *Gets stock max period close price data depending on interval of each candlestick. Default is 1D candles.*
+- Arguments are:
+  - candle_interval : *int*
+    - Specifies interval of each candlestick. Default is *1* *(Optional)*
+  - print : *bool*
+    - Specifies whether to print data using pprint. Default is False *(Optional)*
+- Returns: *pandas Series*
+  - Returns pandas Series of stock data.
+ 
+##### *method* **TData**.*get_open*
+```python
+get_open(candle_interval=1, print=False)
+```
+> *Gets stock max period open price data depending on interval of each candlestick. Default is 1D candles.*
+- Arguments are:
+  - candle_interval : *int*
+    - Specifies interval of each candlestick. Default is *1* *(Optional)*
+  - print : *bool*
+    - Specifies whether to print data using pprint. Default is False *(Optional)*
+- Returns: *pandas Series*
+  - Returns pandas Series of stock data.
+  
+##### *method* **TData**.*get_prevclose*
+```python
+get_prevclose(candle_interval=1, print=False)
+```
+> *Gets stock previous candlestick's close price data depending on interval of each candlestick. Default is 1D candles.*
+- Arguments are:
+  - candle_interval : *int*
+    - Specifies interval of each candlestick. Default is *1* *(Optional)*
+  - print : *bool*
+    - Specifies whether to print data using pprint. Default is False *(Optional)*
+- Returns: *float*
+  - Returns price of previous candlestick's close price.
+
+#### ***ToJson*** class
+> The ToJson class stores pandas DataFrames and Series' into JSON files and stores it in a database.
+```python
+class ToJson:
+    def __init__(self):
+        pass
+```
+- Attributes are:
+  - *None*
+  
+##### *method* **ToJson**.*json*
+```python
+json(from_obj=None, export_to=None, filename=None, orient='columns')
+```
+> *Stores pandas DataFrame or Series into JSON file and store into database.*
+- Arguments are:
+  - from_obj : *pandas DataFrame or pandas Series*
+    - Specifies object type to store as JSON.
+  - export_to : *str*
+    - Specifies directory to store JSON file at.
+  - filename : *str*
+    - Specifies file name of JSON file.
+  - orient : *str*
+    - Specifies orient of pandas.to_json function.
+- Returns: *None*
+  - Returns None.
+
+#### ***Stock_Data***(*TData, FData, ToJson*) class
+> The Stock_Data class is a combination of all methods found to scrap technical and financial data. It also allows for JSON file storage. Inherits TData, FData, ToJson classes.
+```python
+class Stock_Data(TData, FData, ToJson):
+    def __init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
+        TData.__init__(self, ticker)
+        FData.__init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True)
+```
+- Attributes are:
+  - ticker : *str*
+    - Specifies which ticker to extract data from. **(Required)**
+  - PATH : *str*
+    - Directory path of Chorimum WebDriver. Default is *'C:\Program Files (x86)\chromedriver.exe'* *(Optional)*
+  - ignore_errors : "bool"
+    - Option whether to ignore errors for selenium WebDriver. True = ignore errors.  Default is True *(Optional)*
+
+##### *method* **Stock_Data**.*fiscal_year_prices*
+```python
+fiscal_year_prices()
+```
+> *Get fiscal year start dates and their respective open prices.*
+- Arguments are:
+  - *None*
+- Returns: *pandas Series*
+  - Returns pandas Series of fiscal year start dates and their respective open prices.
+  
+#### ***StockDL***(*Stock_Data*) class
+> The StockDL class is a optimized downloader class. It allows for download of scrapped data in a consolidated fashion, then stores the data into JSON files and finally store it in a database.
+```python
+class ToJson:
+    def __init__(self, ticker, PATH=r'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
+        Stock_Data.__init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True)
+```
+- Attributes are:
+  - ticker : *str*
+    - Specifies which ticker to extract data from. **(Required)**
+  - PATH : *str*
+    - Directory path of Chorimum WebDriver. Default is *'C:\Program Files (x86)\chromedriver.exe'* *(Optional)*
+  - ignore_errors : "bool"
+    - Option whether to ignore errors for selenium WebDriver. True = ignore errors.  Default is True *(Optional)*
+
+##### *method* **Stock_Data**.*stockdl*
+```python
+stockdl(DB_PATH='C:/Users/Dennis Loo.000/Desktop/FinData', download="ALL", buffer=5)
+```
+> *Downloads data, stores into JSON, finally storing it into database.*
+- Arguments are:
+  - DB_PATH : *str*
+    - Specifies database directory to extract data from. Default is 'C:/Users/rawsashimi1604/Desktop/FinData' *(Optional)*
+  - download : *str*
+    - Specifies what data to download. Default is "ALL" *(Optional)* Available parameters are:
+      - *"ALL"* - download all data available
+      - *"PRICE"* - download price data
+      - *"MAIN"* - download stock information and key data
+      - *"PROFILE"* - download stock profile data
+      - *"INCOME"* - download income statement
+      - *"BALANCE"* - download balance sheet
+      - *"CASHFLOW"* - download cash flow statement
+      - ~*"FISCALYEAR"* - download fiscal year information~
+  - buffer : *int*
+    - Specifies buffer time in seconds in between each download. Default is *5* *(Optional)*
+- Returns: *bool*
+  - Returns whether stock ticker exists. exist = True
 
