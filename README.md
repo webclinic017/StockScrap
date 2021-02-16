@@ -65,8 +65,9 @@ df = extract.json_extract("view", ticker="MSFT", FILE_NAME="IncomeStatement") # 
 ```
 
 ### :open_file_folder: Documentation
-#### **Downloader** class
-- method **Downloader**.*download*
+#### ***Downloader*** class
+> The Downloader class is the stock data downloader component. It allows one to download financial data from MarketWatch or technical data from YahooFinance.
+##### method **Downloader**.*download*
 ```python
 download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=None, max=None, ticker=None, list_=None, csv=None, buffer=5, download="ALL")
 ```
@@ -101,11 +102,13 @@ download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=N
       - *"BALANCE"* - download balance sheet
       - *"CASHFLOW"* - download cash flow statement
       - ~*"FISCALYEAR"* - download fiscal year information~
+- Returns: *None*
 
-#### **DBExtract**(*Fin_Extract*) class
-- method **DBExtract**.*json_extract*
+#### ***DBExtract***(*Fin_Extract*) class
+> The DBExtract class is the database extraction component. It allows one to pull data from database and display in a string or pandas DataFrame format.
+##### method **DBExtract**.*json_extract*
 ```python
-json_extract(format, country = "U.S.", ticker = "TSLA", FILE_NAME='StockInformation')
+json_extract(format, ticker, country = "U.S.", FILE_NAME='StockInformation')
 ```
 > *Extracts pandas DataFrame from JSON file.*
 - Arguments are:
@@ -119,6 +122,31 @@ json_extract(format, country = "U.S.", ticker = "TSLA", FILE_NAME='StockInformat
     - Specifies which country ticker is from. Default is *"U.S."* *(Optional)*
   - FILE_NAME : str
     - Specifies which data file to pull from. Default is *"StockInformation"* *(Optional)*
+- Returns: *pandas DataFrame or pandas Series*
+  -  Returns dataframe or series of extracted file.
 
+#### ***Fin_Extract***(*Fin_Select*) class
+> The Fin_Extract class allows extraction of data from str/ pandas DataFrame/ pandas Series format. Then, it is able to convert values into scientific values for analysis purposes. Inherits Fin_Select class.
+##### method **Fin_Extract**.*determine_symbol*
+```python
+determine_symbol(cell_val)
+```
+> *Determines what symbols are in string specified. Then returns a list of symbols.*
+- Arguments are:
+  - cell_val : str
+    - Specifies what string to get symbols from. **(Required)**
+- Returns: *list*
+  - Returns list of symbols available in string.
 
+##### method **Fin_Extract**.*str_to_val*
+```python
+str_to_val(cell_val)
+```
+> *Converts string which contains symbols to either float or int value. Returns scientific value.*
+- Arguments are:
+  - cell_val : str
+    - Specifies what string to get symbols from. **(Required)**
+- Returns: *pandas dtype int64 / float64*
+  - Returns scientific value of string in pandas datatype int64 or float64.
  
+##### method **Fin_Extract**.*extract*
