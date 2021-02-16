@@ -36,7 +36,7 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - pprint
 - yfinance
 
-### :question: How to use this module
+### :question: How to use this module / Examples
 *Before starting, install the Chromium WebDriver for Google Chrome. Then put the driver into C:\Program Files (x86)\chromedriver.exe*
 
 After that, open a new python file in the folder. Then import the **Downloader** class and the **DBExtract** class.
@@ -64,3 +64,40 @@ extract = DBExtract(DB_PATH=r'C:\Users\rawsashimi1604\FinData')
 df = extract.json_extract("view", ticker="MSFT", FILE_NAME="IncomeStatement") # returns pandas DataFrame
 ```
 
+### :open_file_folder: Documentation
+#### *Downloader* class
+- method *downloader.download*
+```python
+download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=None, max=None, ticker=None, list_=None, csv=None, buffer=5, download="ALL")
+```
+> *Downloads data from MarketWatch and YahooFinance.*
+- Parameters are:
+  - type_ : *str*
+    - Specifies which tickers to download. Available parameters are:
+      - *"string"* - downloads single ticker
+      - *"list"* - downloads list of tickers
+      - *"csv"* - downloads list of tickers from csv
+  - Driver_PATH : *str*
+    - Directory path of Chorimum WebDriver. Default is *'C:\Program Files (x86)\chromedriver.exe'* *(Optional)*
+  - DB_PATH : *str*
+    - Directory path to store downloaded files in. Also known as the database path. Default is *None* *(Optional)*
+  - max : *int*
+    - Limit number of tickers to download at once. Default is *None* *(Optional)*
+  - ticker : *str*
+    - Specifies which ticker to download when using type_ = *"string"*. Default is *None* *(Optional)*
+  - list_ : *list*
+    - Specifies list of tickers to download when using type_ = *"list"*. Default is *None* *(Optional)*
+  - csv : *str*
+    - Specifies directory of CSV file. Downloads list of tickers to download from csv when using type_ = *"csv"*. Make sure that ticker symbols are available and under a column called "Ticker" Default is *None* *(Optional)*
+  - buffer : *int*
+    - Specifies buffer time in seconds in between each download. Default is *5* *(Optional)*
+  - download : *str*
+    - Specifies what data to download. Available parameters are:
+      - *"ALL"* - download all data available
+      - *"PRICE"* - download price data
+      - *"MAIN"* - download stock information and key data
+      - *"PROFILE"* - download stock profile data
+      - *"INCOME"* - download income statement
+      - *"BALANCE"* - download balance sheet
+      - *"CASHFLOW"* - download cash flow statement
+      - ~*"FISCALYEAR"* - download fiscal year information~
