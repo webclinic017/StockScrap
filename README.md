@@ -1,16 +1,17 @@
 # Stock Data Scrapper using MarketWatch and Yahoo Finance!
 *Made by rawsashimi1604*
 
-## :scroll: Table of Contents
+## Table of Contents
 - [Stock Data Scrapper using MarketWatch and Yahoo Finance!](#stock-data-scrapper-using-marketwatch-and-yahoo-finance-)
-    + [:chart_with_upwards_trend: Introduction](#chart-with-upwards-trend--introduction)
-    + [:+1: Contributing](#--1--contributing)
-    + [:calendar: Ongoing Tasks](#calendar--ongoing-tasks)
-    + [:books: Required modules](#books--required-modules)
-    + [:question: How to use this module / Examples](#question--how-to-use-this-module---examples)
-      - [:floppy_disk: *Downloader* class](#floppy-disk---downloader--class)
-      - [:electric_plug: *DBExtract* class](#electric-plug---dbextract--class)
-    + [:open_file_folder: Documentation](#open-file-folder--documentation)
+  * [Table of Contents](#table-of-contents)
+    + [Introduction](#introduction)
+    + [Contributing](#contributing)
+    + [Ongoing Tasks](#ongoing-tasks)
+    + [Required modules](#required-modules)
+    + [How to use this module and Examples](#how-to-use-this-module-and-examples)
+      - [*Downloader* class](#-downloader--class)
+      - [*DBExtract* class](#-dbextract--class)
+    + [Documentation](#documentation)
       - [***Downloader*** class](#---downloader----class)
         * [*method* **Downloader**.*download*](#-method----downloader---download-)
       - [***DBExtract***(*Fin_Extract*) class](#---dbextract-----fin-extract---class)
@@ -25,7 +26,9 @@
         * [*method* **Fin_Select**.*select_item*](#-method----fin-select---select-item-)
         * [*method* **Fin_Select**.*select_year*](#-method----fin-select---select-year-)
 
-### :chart_with_upwards_trend: Introduction
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+### Introduction
 
 Hey everyone! :wave: This project is a stock data scrapper that I made for my own analysis purposes! It uses **Python** to extract financial and technical data from stocks and stores them into a database on your local computer. :smile:
 
@@ -37,13 +40,13 @@ We then use these 2 components to build a complete stock data database; afterwhi
 
 *For now I will be adding my own analysis features in periodically into this project.*
 
-### :+1: Contributing
+### Contributing
 
 All pull requests are welcome! :upside_down_face: However, changes to the code are not available for now. 
 
 *Do drop me a message if you want to contribute and we can work something out!*
 
-### :calendar: Ongoing Tasks
+### Ongoing Tasks
 - [x] Download stock data to database
 - [x] Create extraction module to pull data from database (in both data and view format)
 - [ ] Create module for usage across different folders
@@ -51,10 +54,10 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - [ ] Add analysis and viewing features
 - [ ] Calcuate intrinsic value using Discounted Cash Flow (DCF) model
 - [ ] Add specific documentation of different class methods and their usage
-- [ ] Add table of contents for README.md to navigate through documentation easily
+- [x] Add table of contents for README.md to navigate through documentation easily
 
 
-### :books: Required modules
+### Required modules
 - pandas
 - numpy
 - BeautifulSoup4
@@ -63,7 +66,7 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - pprint
 - yfinance
 
-### :question: How to use this module / Examples
+### How to use this module and Examples
 *Before starting, install the Chromium WebDriver for Google Chrome. Then put the driver into C:\Program Files (x86)\chromedriver.exe*
 
 After that, open a new python file in the folder. Then import the **Downloader** class and the **DBExtract** class.
@@ -73,7 +76,7 @@ from DBExtract import DBExtract
 from Download import Downloader
 ```
 
-#### :floppy_disk: *Downloader* class
+#### *Downloader* class
 
 > The Downloader class is the stock data downloader component. It allows one to download financial data from MarketWatch or technical data from YahooFinance.
 ```python
@@ -82,7 +85,7 @@ d = Downloader()
 d.download(type_="string", ticker="MSFT", DB_PATH=r'C:\Users\rawsashimi1604\FinData')
 ```
 
-#### :electric_plug: *DBExtract* class
+#### *DBExtract* class
 
 > The DBExtract class is the database extraction component. It allows one to pull data from database and display in a string or pandas DataFrame format.
 ```python
@@ -91,7 +94,7 @@ extract = DBExtract(DB_PATH=r'C:\Users\rawsashimi1604\FinData')
 df = extract.json_extract("view", ticker="MSFT", FILE_NAME="IncomeStatement") # returns pandas DataFrame
 ```
 
-### :open_file_folder: Documentation
+### Documentation
 #### ***Downloader*** class
 > The Downloader class is the stock data downloader component. It allows one to download financial data from MarketWatch or technical data from YahooFinance.
 ##### *method* **Downloader**.*download*
