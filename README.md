@@ -3,14 +3,14 @@
 
 ## :scroll: Table of Contents
 - [Stock Data Scrapper using MarketWatch and Yahoo Finance!](#stock-data-scrapper-using-marketwatch-and-yahoo-finance-)
-    + [:chart_with_upwards_trend: Introduction](-introduction)
-    + [:+1: Contributing](#-contributing)
-    + [:calendar: Ongoing Tasks](#-ongoing-tasks)
-    + [:books: Required modules](#-books--required-modules)
-    + [:question: How to use this module / Examples](#-question--how-to-use-this-module---examples)
-      - [:floppy_disk: *Downloader* class](#-floppy-disk---downloader--class)
-      - [:electric_plug: *DBExtract* class](#-electric-plug---dbextract--class)
-    + [:open_file_folder: Documentation](#-open-file-folder--documentation)
+    + [Introduction](#-chart-with-upwards-trend--introduction)
+    + [Contributing](#--1--contributing)
+    + [Ongoing Tasks](#-calendar--ongoing-tasks)
+    + [Required modules](#-books--required-modules)
+    + [How to use this module and Examples](#-question--how-to-use-this-module---examples)
+      - [*Downloader* class](#-floppy-disk---downloader--class)
+      - [*DBExtract* class](#-electric-plug---dbextract--class)
+    + [Documentation](#-open-file-folder--documentation)
       - [***Downloader*** class](#---downloader----class)
         * [*method* **Downloader**.*download*](#-method----downloader---download-)
       - [***DBExtract***(*Fin_Extract*) class](#---dbextract-----fin-extract---class)
@@ -24,8 +24,6 @@
         * [*method* **Fin_Select**.*select_isolate*](#-method----fin-select---select-isolate-)
         * [*method* **Fin_Select**.*select_item*](#-method----fin-select---select-item-)
         * [*method* **Fin_Select**.*select_year*](#-method----fin-select---select-year-)
-
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>(Table of contents generated with markdown-toc)</a></i></small>
 
 ### :chart_with_upwards_trend: Introduction
 Hey everyone! :wave: This project is a stock data scrapper that I made for my own analysis purposes! It uses **Python** to extract financial and technical data from stocks and stores them into a database on your local computer. :smile:
