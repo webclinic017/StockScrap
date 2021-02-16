@@ -1,6 +1,7 @@
 # Stock Data Scrapper using MarketWatch and Yahoo Finance!
-### :computer: *Made by rawsashimi1604 (c) 2021* :computer:
+*Made by rawsashimi1604*
 
+### :chart_with_upwards_trend: Introduction
 Hey everyone! :wave: This project is a stock data scrapper that I made for my own analysis purposes! It uses **Python** to extract financial and technical data from stocks and stores them into a database on your local computer. :smile:
 
 > *For the technical data side, we are using yfinance module that scraps data from Yahoo Finance.*
@@ -11,13 +12,13 @@ We then use these 2 components to build a complete stock data database; afterwhi
 
 *For now I will be adding my own analysis features in periodically into this project.*
 
-## :+1: Contributing
+### :+1: Contributing
 
 All pull requests are welcome! :upside_down_face: However, changes to the code are not available for now. 
 
 *Do drop me a message if you want to contribute and we can work something out!*
 
-## :calendar: Ongoing Tasks
+### :calendar: Ongoing Tasks
 - [x] Download stock data to database
 - [x] Create extraction module to pull data from database (in both data and view format)
 - [ ] Create module for usage across different folders
@@ -25,9 +26,10 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - [ ] Add analysis and viewing features
 - [ ] Calcuate intrinsic value using Discounted Cash Flow (DCF) model
 - [ ] Add specific documentation of different class methods and their usage
+- [ ] Add table of contents for README.md to navigate through documentation easily
 
 
-## :books: Required modules
+### :books: Required modules
 - pandas
 - numpy
 - BeautifulSoup4
@@ -105,22 +107,22 @@ download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=N
 - Returns: *None*
 
 #### ***DBExtract***(*Fin_Extract*) class
-> The DBExtract class is the database extraction component. It allows one to pull data from database and display in a string or pandas DataFrame format.
+> The DBExtract class is the database extraction component. It allows one to pull data from database and display in a string or pandas DataFrame format. Inherits Fin_Extract class.
 ##### *method* **DBExtract**.*json_extract*
 ```python
 json_extract(format, ticker, country = "U.S.", FILE_NAME='StockInformation')
 ```
 > *Extracts pandas DataFrame from JSON file.*
 - Arguments are:
-  - format : str
+  - format : *str*
     - Specifies which format to view in dataframe. **(Required)** Available parameters are:
       - *"view"* - view in default format.
       - *"data"* - view in scientific data format.
-  - ticker : str
+  - ticker : *str*
     - Specifies which ticker to extract. **(Required)**
-  - country : str
+  - country : *str*
     - Specifies which country ticker is from. Default is *"U.S."* *(Optional)*
-  - FILE_NAME : str
+  - FILE_NAME : *str*
     - Specifies which data file to pull from. Default is *"StockInformation"* *(Optional)*
 - Returns: *pandas DataFrame or pandas Series*
   -  Returns dataframe or series of extracted file.
@@ -133,7 +135,7 @@ determine_symbol(cell_val)
 ```
 > *Determines what symbols are in string specified. Then returns a list of symbols.*
 - Arguments are:
-  - cell_val : str
+  - cell_val : *str*
     - Specifies what string to get symbols from. **(Required)**
 - Returns: *list*
   - Returns list of symbols available in string.
@@ -144,7 +146,7 @@ str_to_val(cell_val)
 ```
 > *Converts string which contains symbols to either float or int value. Returns scientific value.*
 - Arguments are:
-  - cell_val : str
+  - cell_val : *str*
     - Specifies what string to get symbols from. **(Required)**
 - Returns: *pandas dtype int64 / float64*
   - Returns scientific value of string in pandas datatype int64 or float64.
@@ -155,7 +157,7 @@ extract(cell_val)
 ```
 > *Determines what type of data is passed into input. Then returns either a string or pandas Series of scientific values.*
 - Arguments are:
-  - cell_val : str / pandas Series
+  - cell_val : *str / pandas Series*
     - Specifies what string(s) to get symbols from. **(Required)**
 - Returns: *pandas dtype int64 / float64 or pandas Series*
   - Returns scientific value of string in pandas datatype int64 or float64. Can also return pandas Series if *cell_val* is a pandas Series.
@@ -166,7 +168,51 @@ extract_columns(from_df)
 ```
 > *Extracts list of columns from pandas DataFrame*
 - Arguments are:
-  - from_df : pandas DataFrame
+  - from_df : *pandas DataFrame*
     - Specifies what DataFrame to get list of columns from. **(Required)**
 - Returns: *list*
   - Returns list of columns of pandas DataFrame
+
+#### ***Fin_Select*** class
+> The Fin_Select class allows selection of specific cells or rows  Then, it is able to convert values into scientific values for analysis purposes. Inherits Fin_Select class.
+##### *method* **Fin_Select**.*select_isolate*
+```python
+select_isolate(from_df, year=None, item=None)
+```
+> *Selects pandas DataFrame specific column and row for respective arguments.
+- Arguments are:
+  - from_df : *pandas DataFrame*
+    - Specifies what DataFrame to get list of columns from. **(Required)**'
+  - year : *int*
+    - Specifies which column to get data from. Default is *None* *(Optional)*
+  - item : *str*
+    - Specifies which row to get data from. Default is *None* *(Optional)*
+- Returns: *str*
+  - Returns string of specific cell.
+
+##### *method* **Fin_Select**.*select_item*
+```python
+select_item(from_df, item=None)
+```
+> *Selects pandas DataFrame specific row for respective arguments.
+- Arguments are:
+  - from_df : *pandas DataFrame*
+    - Specifies what DataFrame to get list of columns from. **(Required)**'
+  - item : *str*
+    - Specifies which row to get data from. Default is *None* *(Optional)*
+- Returns: *pandas Series*
+  - Returns pandas Series of row.
+
+##### *method* **Fin_Select**.*select_year*
+```python
+select_item(from_df, year=None)
+```
+> *Selects pandas DataFrame specific column for respective arguments.
+- Arguments are:
+  - from_df : *pandas DataFrame*
+    - Specifies what DataFrame to get list of columns from. **(Required)**'
+  - year : *int*
+    - Specifies which column to get data from. Default is *None* *(Optional)*
+- Returns: *pandas Series*
+  - Returns pandas Series of column.
+
