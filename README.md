@@ -66,7 +66,7 @@ df = extract.json_extract("view", ticker="MSFT", FILE_NAME="IncomeStatement") # 
 
 ### :open_file_folder: Documentation
 #### *Downloader* class
-- method *downloader.download*
+- method **Downloader**.*download*
 ```python
 download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=None, max=None, ticker=None, list_=None, csv=None, buffer=5, download="ALL")
 ```
