@@ -10,7 +10,7 @@ Hey everyone! :wave: This project is a stock data scrapper that I made for my ow
 > *For the financial data side, we are using BeautifulSoup4 to scrap data from MarketWatch.com. Then we organise the data using pandas and export it to a JSON file in our database.*
 
 We then use these 2 components to build a complete stock data database; afterwhich you can use for your own analysis or research purposes. :grin: 	:moneybag:
-
+    
 *For now I will be adding my own analysis features in periodically into this project.*
 
 ### :+1: Contributing
@@ -761,7 +761,7 @@ class ToJson:
 
 ##### *method* **Stock_Data**.*stockdl*
 ```python
-stockdl(DB_PATH='C:/Users/Dennis Loo.000/Desktop/FinData', download="ALL", buffer=5)
+stockdl(DB_PATH='C:/Users/rawsashimi1604/Desktop/FinData', download="ALL", buffer=5)
 ```
 > *Downloads data, stores into JSON, finally storing it into database.*
 - Arguments are:
