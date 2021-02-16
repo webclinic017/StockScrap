@@ -3,14 +3,14 @@
 
 ## :scroll: Table of Contents
 - [Stock Data Scrapper using MarketWatch and Yahoo Finance!](#stock-data-scrapper-using-marketwatch-and-yahoo-finance-)
-    + [Introduction](#-chart-with-upwards-trend--introduction)
-    + [Contributing](#--1--contributing)
-    + [Ongoing Tasks](#-calendar--ongoing-tasks)
-    + [Required modules](#-books--required-modules)
-    + [How to use this module and Examples](#-question--how-to-use-this-module---examples)
-      - [*Downloader* class](#-floppy-disk---downloader--class)
-      - [*DBExtract* class](#-electric-plug---dbextract--class)
-    + [Documentation](#-open-file-folder--documentation)
+    + [:chart_with_upwards_trend: Introduction](#chart-with-upwards-trend--introduction)
+    + [:+1: Contributing](#--1--contributing)
+    + [:calendar: Ongoing Tasks](#calendar--ongoing-tasks)
+    + [:books: Required modules](#books--required-modules)
+    + [:question: How to use this module / Examples](#question--how-to-use-this-module---examples)
+      - [:floppy_disk: *Downloader* class](#floppy-disk---downloader--class)
+      - [:electric_plug: *DBExtract* class](#electric-plug---dbextract--class)
+    + [:open_file_folder: Documentation](#open-file-folder--documentation)
       - [***Downloader*** class](#---downloader----class)
         * [*method* **Downloader**.*download*](#-method----downloader---download-)
       - [***DBExtract***(*Fin_Extract*) class](#---dbextract-----fin-extract---class)
@@ -26,6 +26,7 @@
         * [*method* **Fin_Select**.*select_year*](#-method----fin-select---select-year-)
 
 ### :chart_with_upwards_trend: Introduction
+
 Hey everyone! :wave: This project is a stock data scrapper that I made for my own analysis purposes! It uses **Python** to extract financial and technical data from stocks and stores them into a database on your local computer. :smile:
 
 > *For the technical data side, we are using yfinance module that scraps data from Yahoo Finance.*
@@ -50,7 +51,7 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - [ ] Add analysis and viewing features
 - [ ] Calcuate intrinsic value using Discounted Cash Flow (DCF) model
 - [ ] Add specific documentation of different class methods and their usage
-- [x] Add table of contents for README.md to navigate through documentation easily
+- [ ] Add table of contents for README.md to navigate through documentation easily
 
 
 ### :books: Required modules
