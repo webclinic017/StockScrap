@@ -213,7 +213,7 @@ class Fin_Select:
 ```python
 select_isolate(from_df, year=None, item=None)
 ```
-> *Selects pandas DataFrame specific column and row for respective arguments.
+> *Selects pandas DataFrame specific column and row for respective arguments.*
 - Arguments are:
   - from_df : *pandas DataFrame*
     - Specifies what DataFrame to get list of columns from. **(Required)**
@@ -228,7 +228,7 @@ select_isolate(from_df, year=None, item=None)
 ```python
 select_item(from_df, item=None)
 ```
-> *Selects pandas DataFrame specific row for respective arguments.
+> *Selects pandas DataFrame specific row for respective arguments.*
 - Arguments are:
   - from_df : *pandas DataFrame*
     - Specifies what DataFrame to get list of columns from. **(Required)**
@@ -241,7 +241,7 @@ select_item(from_df, item=None)
 ```python
 select_item(from_df, year=None)
 ```
-> *Selects pandas DataFrame specific column for respective arguments.
+> *Selects pandas DataFrame specific column for respective arguments.*
 - Arguments are:
   - from_df : *pandas DataFrame*
     - Specifies what DataFrame to get list of columns from. **(Required)**
