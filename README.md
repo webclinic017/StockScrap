@@ -1,6 +1,32 @@
 # Stock Data Scrapper using MarketWatch and Yahoo Finance!
 *Made by rawsashimi1604*
 
+## :scroll: Table of Contents
+- [Stock Data Scrapper using MarketWatch and Yahoo Finance!](#stock-data-scrapper-using-marketwatch-and-yahoo-finance-)
+    + [:chart_with_upwards_trend: Introduction](#-chart-with-upwards-trend--introduction)
+    + [:+1: Contributing](#--1--contributing)
+    + [:calendar: Ongoing Tasks](#-calendar--ongoing-tasks)
+    + [:books: Required modules](#-books--required-modules)
+    + [:question: How to use this module / Examples](#-question--how-to-use-this-module---examples)
+      - [:floppy_disk: *Downloader* class](#-floppy-disk---downloader--class)
+      - [:electric_plug: *DBExtract* class](#-electric-plug---dbextract--class)
+    + [:open_file_folder: Documentation](#-open-file-folder--documentation)
+      - [***Downloader*** class](#---downloader----class)
+        * [*method* **Downloader**.*download*](#-method----downloader---download-)
+      - [***DBExtract***(*Fin_Extract*) class](#---dbextract-----fin-extract---class)
+        * [*method* **DBExtract**.*json_extract*](#-method----dbextract---json-extract-)
+      - [***Fin_Extract***(*Fin_Select*) class](#---fin-extract-----fin-select---class)
+        * [*method* **Fin_Extract**.*determine_symbol*](#-method----fin-extract---determine-symbol-)
+        * [*method* **Fin_Extract**.*str_to_val*](#-method----fin-extract---str-to-val-)
+        * [*method* **Fin_Extract**.*extract*](#-method----fin-extract---extract-)
+        * [*method* **Fin_Extract**.*extract_columns*](#-method----fin-extract---extract-columns-)
+      - [***Fin_Select*** class](#---fin-select----class)
+        * [*method* **Fin_Select**.*select_isolate*](#-method----fin-select---select-isolate-)
+        * [*method* **Fin_Select**.*select_item*](#-method----fin-select---select-item-)
+        * [*method* **Fin_Select**.*select_year*](#-method----fin-select---select-year-)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>(Table of contents generated with markdown-toc)</a></i></small>
+
 ### :chart_with_upwards_trend: Introduction
 Hey everyone! :wave: This project is a stock data scrapper that I made for my own analysis purposes! It uses **Python** to extract financial and technical data from stocks and stores them into a database on your local computer. :smile:
 
@@ -26,7 +52,7 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - [ ] Add analysis and viewing features
 - [ ] Calcuate intrinsic value using Discounted Cash Flow (DCF) model
 - [ ] Add specific documentation of different class methods and their usage
-- [ ] Add table of contents for README.md to navigate through documentation easily
+- [x] Add table of contents for README.md to navigate through documentation easily
 
 
 ### :books: Required modules
