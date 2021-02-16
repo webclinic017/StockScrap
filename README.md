@@ -67,7 +67,7 @@ df = extract.json_extract("view", ticker="MSFT", FILE_NAME="IncomeStatement") # 
 ### :open_file_folder: Documentation
 #### ***Downloader*** class
 > The Downloader class is the stock data downloader component. It allows one to download financial data from MarketWatch or technical data from YahooFinance.
-##### method **Downloader**.*download*
+##### *method* **Downloader**.*download*
 ```python
 download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=None, max=None, ticker=None, list_=None, csv=None, buffer=5, download="ALL")
 ```
@@ -106,7 +106,7 @@ download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=N
 
 #### ***DBExtract***(*Fin_Extract*) class
 > The DBExtract class is the database extraction component. It allows one to pull data from database and display in a string or pandas DataFrame format.
-##### method **DBExtract**.*json_extract*
+##### *method* **DBExtract**.*json_extract*
 ```python
 json_extract(format, ticker, country = "U.S.", FILE_NAME='StockInformation')
 ```
@@ -127,7 +127,7 @@ json_extract(format, ticker, country = "U.S.", FILE_NAME='StockInformation')
 
 #### ***Fin_Extract***(*Fin_Select*) class
 > The Fin_Extract class allows extraction of data from str/ pandas DataFrame/ pandas Series format. Then, it is able to convert values into scientific values for analysis purposes. Inherits Fin_Select class.
-##### method **Fin_Extract**.*determine_symbol*
+##### *method* **Fin_Extract**.*determine_symbol*
 ```python
 determine_symbol(cell_val)
 ```
@@ -138,7 +138,7 @@ determine_symbol(cell_val)
 - Returns: *list*
   - Returns list of symbols available in string.
 
-##### method **Fin_Extract**.*str_to_val*
+##### *method* **Fin_Extract**.*str_to_val*
 ```python
 str_to_val(cell_val)
 ```
@@ -149,4 +149,24 @@ str_to_val(cell_val)
 - Returns: *pandas dtype int64 / float64*
   - Returns scientific value of string in pandas datatype int64 or float64.
  
-##### method **Fin_Extract**.*extract*
+##### *method* **Fin_Extract**.*extract*
+```python
+extract(cell_val)
+```
+> *Determines what type of data is passed into input. Then returns either a string or pandas Series of scientific values.*
+- Arguments are:
+  - cell_val : str / pandas Series
+    - Specifies what string(s) to get symbols from. **(Required)**
+- Returns: *pandas dtype int64 / float64 or pandas Series*
+  - Returns scientific value of string in pandas datatype int64 or float64. Can also return pandas Series if *cell_val* is a pandas Series.
+
+##### *method* **Fin_Extract**.*extract_columns*
+```python
+extract_columns(from_df)
+```
+> *Extracts list of columns from pandas DataFrame*
+- Arguments are:
+  - from_df : pandas DataFrame
+    - Specifies what DataFrame to get list of columns from. **(Required)**
+- Returns: *list*
+  - Returns list of columns of pandas DataFrame
