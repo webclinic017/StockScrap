@@ -65,15 +65,15 @@ df = extract.json_extract("view", ticker="MSFT", FILE_NAME="IncomeStatement") # 
 ```
 
 ### :open_file_folder: Documentation
-#### *Downloader* class
+#### **Downloader** class
 - method **Downloader**.*download*
 ```python
 download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=None, max=None, ticker=None, list_=None, csv=None, buffer=5, download="ALL")
 ```
 > *Downloads data from MarketWatch and YahooFinance.*
-- Parameters are:
+- Arguments are:
   - type_ : *str*
-    - Specifies which tickers to download. Available parameters are:
+    - Specifies which tickers to download. **(Required)** Available parameters are:
       - *"string"* - downloads single ticker
       - *"list"* - downloads list of tickers
       - *"csv"* - downloads list of tickers from csv
@@ -101,3 +101,24 @@ download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=N
       - *"BALANCE"* - download balance sheet
       - *"CASHFLOW"* - download cash flow statement
       - ~*"FISCALYEAR"* - download fiscal year information~
+
+#### **DBExtract**(*Fin_Extract*) class
+- method **DBExtract**.*json_extract*
+```python
+json_extract(format, country = "U.S.", ticker = "TSLA", FILE_NAME='StockInformation')
+```
+> *Extracts pandas DataFrame from JSON file.*
+- Arguments are:
+  - format : str
+    - Specifies which format to view in dataframe. **(Required)** Available parameters are:
+      - *"view"* - view in default format.
+      - *"data"* - view in scientific data format.
+  - ticker : str
+    - Specifies which ticker to extract. **(Required)**
+  - country : str
+    - Specifies which country ticker is from. Default is *"U.S."* *(Optional)*
+  - FILE_NAME : str
+    - Specifies which data file to pull from. Default is *"StockInformation"* *(Optional)*
+
+
+ 
