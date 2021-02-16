@@ -1,7 +1,7 @@
 # Stock Data Scrapper using MarketWatch and Yahoo Finance!
 *Made by rawsashimi1604*
 
-## Table of Contents (Use Ctrl - F to find) *Links do not work*
+## :scroll: Table of Contents (Use Ctrl - F to find) *Links do not work*
 - [Stock Data Scrapper using MarketWatch and Yahoo Finance!](#stock-data-scrapper-using-marketwatch-and-yahoo-finance-)
   * [Table of Contents](#table-of-contents)
     + [:wave: Introduction](#-wave--introduction)
