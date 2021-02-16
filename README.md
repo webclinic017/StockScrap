@@ -3,9 +3,9 @@
 
 ## :scroll: Table of Contents
 - [Stock Data Scrapper using MarketWatch and Yahoo Finance!](#stock-data-scrapper-using-marketwatch-and-yahoo-finance-)
-    + [:chart_with_upwards_trend: Introduction](#-chart-with-upwards-trend--introduction)
-    + [:+1: Contributing](#--1--contributing)
-    + [:calendar: Ongoing Tasks](#-calendar--ongoing-tasks)
+    + [:chart_with_upwards_trend: Introduction](-introduction)
+    + [:+1: Contributing](#-contributing)
+    + [:calendar: Ongoing Tasks](#-ongoing-tasks)
     + [:books: Required modules](#-books--required-modules)
     + [:question: How to use this module / Examples](#-question--how-to-use-this-module---examples)
       - [:floppy_disk: *Downloader* class](#-floppy-disk---downloader--class)
