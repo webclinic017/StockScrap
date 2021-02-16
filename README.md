@@ -1,34 +1,7 @@
 # Stock Data Scrapper using MarketWatch and Yahoo Finance!
 *Made by rawsashimi1604*
 
-## Table of Contents
-- [Stock Data Scrapper using MarketWatch and Yahoo Finance!](#stock-data-scrapper-using-marketwatch-and-yahoo-finance-)
-  * [Table of Contents](#table-of-contents)
-    + [Introduction](#introduction)
-    + [Contributing](#contributing)
-    + [Ongoing Tasks](#ongoing-tasks)
-    + [Required modules](#required-modules)
-    + [How to use this module and Examples](#how-to-use-this-module-and-examples)
-      - [*Downloader* class](#-downloader--class)
-      - [*DBExtract* class](#-dbextract--class)
-    + [Documentation](#documentation)
-      - [***Downloader*** class](#---downloader----class)
-        * [*method* **Downloader**.*download*](#-method----downloader---download-)
-      - [***DBExtract***(*Fin_Extract*) class](#---dbextract-----fin-extract---class)
-        * [*method* **DBExtract**.*json_extract*](#-method----dbextract---json-extract-)
-      - [***Fin_Extract***(*Fin_Select*) class](#---fin-extract-----fin-select---class)
-        * [*method* **Fin_Extract**.*determine_symbol*](#-method----fin-extract---determine-symbol-)
-        * [*method* **Fin_Extract**.*str_to_val*](#-method----fin-extract---str-to-val-)
-        * [*method* **Fin_Extract**.*extract*](#-method----fin-extract---extract-)
-        * [*method* **Fin_Extract**.*extract_columns*](#-method----fin-extract---extract-columns-)
-      - [***Fin_Select*** class](#---fin-select----class)
-        * [*method* **Fin_Select**.*select_isolate*](#-method----fin-select---select-isolate-)
-        * [*method* **Fin_Select**.*select_item*](#-method----fin-select---select-item-)
-        * [*method* **Fin_Select**.*select_year*](#-method----fin-select---select-year-)
-
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
-### Introduction
+### :wave: Introduction
 
 Hey everyone! :wave: This project is a stock data scrapper that I made for my own analysis purposes! It uses **Python** to extract financial and technical data from stocks and stores them into a database on your local computer. :smile:
 
@@ -36,17 +9,17 @@ Hey everyone! :wave: This project is a stock data scrapper that I made for my ow
 
 > *For the financial data side, we are using BeautifulSoup4 to scrap data from MarketWatch.com. Then we organise the data using pandas and export it to a JSON file in our database.*
 
-We then use these 2 components to build a complete stock data database; afterwhich you can use for your own analysis or research purposes. :grin:
+We then use these 2 components to build a complete stock data database; afterwhich you can use for your own analysis or research purposes. :grin: 	:moneybag:
 
 *For now I will be adding my own analysis features in periodically into this project.*
 
-### Contributing
+### :+1: Contributing
 
 All pull requests are welcome! :upside_down_face: However, changes to the code are not available for now. 
 
 *Do drop me a message if you want to contribute and we can work something out!*
 
-### Ongoing Tasks
+### :calendar: Ongoing Tasks
 - [x] Download stock data to database
 - [x] Create extraction module to pull data from database (in both data and view format)
 - [ ] Create module for usage across different folders
@@ -54,10 +27,8 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - [ ] Add analysis and viewing features
 - [ ] Calcuate intrinsic value using Discounted Cash Flow (DCF) model
 - [ ] Add specific documentation of different class methods and their usage
-- [x] Add table of contents for README.md to navigate through documentation easily
 
-
-### Required modules
+### :books: Required modules
 - pandas
 - numpy
 - BeautifulSoup4
@@ -66,7 +37,7 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - pprint
 - yfinance
 
-### How to use this module and Examples
+### :question: How to use this module and Examples
 *Before starting, install the Chromium WebDriver for Google Chrome. Then put the driver into C:\Program Files (x86)\chromedriver.exe*
 
 After that, open a new python file in the folder. Then import the **Downloader** class and the **DBExtract** class.
@@ -76,7 +47,7 @@ from DBExtract import DBExtract
 from Download import Downloader
 ```
 
-#### *Downloader* class
+#### 	:floppy_disk: *Downloader* class
 
 > The Downloader class is the stock data downloader component. It allows one to download financial data from MarketWatch or technical data from YahooFinance.
 ```python
@@ -85,7 +56,7 @@ d = Downloader()
 d.download(type_="string", ticker="MSFT", DB_PATH=r'C:\Users\rawsashimi1604\FinData')
 ```
 
-#### *DBExtract* class
+#### :electric_plug: *DBExtract* class
 
 > The DBExtract class is the database extraction component. It allows one to pull data from database and display in a string or pandas DataFrame format.
 ```python
@@ -94,7 +65,7 @@ extract = DBExtract(DB_PATH=r'C:\Users\rawsashimi1604\FinData')
 df = extract.json_extract("view", ticker="MSFT", FILE_NAME="IncomeStatement") # returns pandas DataFrame
 ```
 
-### Documentation
+### 	:file_folder: Documentation
 #### ***Downloader*** class
 > The Downloader class is the stock data downloader component. It allows one to download financial data from MarketWatch or technical data from YahooFinance.
 ##### *method* **Downloader**.*download*
