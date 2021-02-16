@@ -22,11 +22,11 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 ### :calendar: Ongoing Tasks
 - [x] Download stock data to database
 - [x] Create extraction module to pull data from database (in both data and view format)
-- [ ] Create module for usage across different folders
+- [ ] Create module for installation across folders
 - [ ] Remove selenium dependency from code
 - [ ] Add analysis and viewing features
 - [ ] Calcuate intrinsic value using Discounted Cash Flow (DCF) model
-- [ ] Add specific documentation of different class methods and their usage
+- [x] Add specific documentation of different class methods and their usage
 
 ### :books: Required modules
 - pandas
