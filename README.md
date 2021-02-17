@@ -148,7 +148,7 @@ class Downloader:
 
 ##### *method* **Downloader**.*download*
 ```python
-download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=None, max=None, ticker=None, list_=None, csv=None, buffer=5, download="ALL")
+Downloader.download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=None, max=None, ticker=None, list_=None, csv=None, buffer=5, download="ALL")
 ```
 > *Downloads data from MarketWatch and YahooFinance.*
 - Arguments are:
@@ -196,7 +196,7 @@ class DBExtract(Fin_Extract):
 
 ##### *method* **DBExtract**.*json_extract*
 ```python
-json_extract(format, ticker, country = "U.S.", FILE_NAME='StockInformation')
+DBExtract.json_extract(format, ticker, country = "U.S.", FILE_NAME='StockInformation')
 ```
 > *Extracts pandas DataFrame from JSON file.*
 - Arguments are:
@@ -226,7 +226,7 @@ class Fin_Extract(Fin_Select):
     
 ##### *method* **Fin_Extract**.*determine_symbol*
 ```python
-determine_symbol(cell_val)
+Fin_Extract.determine_symbol(cell_val)
 ```
 > *Determines what symbols are in string specified. Then returns a list of symbols.*
 - Arguments are:
@@ -237,7 +237,7 @@ determine_symbol(cell_val)
 
 ##### *method* **Fin_Extract**.*str_to_val*
 ```python
-str_to_val(cell_val)
+Fin_Extract.str_to_val(cell_val)
 ```
 > *Converts string which contains symbols to either float or int value. Returns scientific value.*
 - Arguments are:
@@ -248,7 +248,7 @@ str_to_val(cell_val)
  
 ##### *method* **Fin_Extract**.*extract*
 ```python
-extract(cell_val)
+Fin_Extract.extract(cell_val)
 ```
 > *Determines what type of data is passed into input. Then returns either a string or pandas Series of scientific values.*
 - Arguments are:
@@ -259,7 +259,7 @@ extract(cell_val)
 
 ##### *method* **Fin_Extract**.*extract_columns*
 ```python
-extract_columns(from_df)
+Fin_Extract.extract_columns(from_df)
 ```
 > *Extracts list of columns from pandas DataFrame*
 - Arguments are:
@@ -281,7 +281,7 @@ class Fin_Select:
     
 ##### *method* **Fin_Select**.*select_isolate*
 ```python
-select_isolate(from_df, year=None, item=None)
+Fin_Select.select_isolate(from_df, year=None, item=None)
 ```
 > *Selects pandas DataFrame specific column and row for respective arguments.*
 - Arguments are:
@@ -296,7 +296,7 @@ select_isolate(from_df, year=None, item=None)
 
 ##### *method* **Fin_Select**.*select_item*
 ```python
-select_item(from_df, item=None)
+Fin_Select.select_item(from_df, item=None)
 ```
 > *Selects pandas DataFrame specific row for respective arguments.*
 - Arguments are:
@@ -309,7 +309,7 @@ select_item(from_df, item=None)
 
 ##### *method* **Fin_Select**.*select_year*
 ```python
-select_item(from_df, year=None)
+Fin_Select.select_item(from_df, year=None)
 ```
 > *Selects pandas DataFrame specific column for respective arguments.*
 - Arguments are:
@@ -337,7 +337,7 @@ class WebDriver:
     
 ##### *method* **WebDriver**.*driver*
 ```python
-driver()
+WebDriver.driver()
 ```
 > *Initializes Chromium WebDriver and options*
 - Arguments are:
@@ -364,7 +364,7 @@ class Fin_Data(WebDriver):
     
 ##### *method* **Fin_Data**.*remove_logging*
 ```python
-remove_logging()
+Fin_Data.remove_logging()
 ```
 > *Disables logging for selenium scraping*
 - Arguments are:
@@ -374,7 +374,7 @@ remove_logging()
  
 ##### *method* **Fin_Data**.*reorder_df*
 ```python
-reorder_df(from_df, reverse=False)
+Fin_Data.reorder_df(from_df, reverse=False)
 ```
 > *Reorders pandas DataFrame columns in descending order.*
 - Arguments are:
@@ -387,7 +387,7 @@ reorder_df(from_df, reverse=False)
 
 ##### *method* **Fin_Data**.*name*
 ```python
-name()
+Fin_Data.name()
 ```
 > *Get stock's name.*
 - Arguments are:
@@ -397,7 +397,7 @@ name()
 
 ##### *method* **Fin_Data**.*industry*
 ```python
-industry()
+Fin_Data.industry()
 ```
 > *Get stock's industry.*
 - Arguments are:
@@ -407,7 +407,7 @@ industry()
 
 ##### *method* **Fin_Data**.*sector*
 ```python
-sector()
+Fin_Data.sector()
 ```
 > *Get stock's sector.*
 - Arguments are:
@@ -417,7 +417,7 @@ sector()
 
 ##### *method* **Fin_Data**.*exchange*
 ```python
-exchange()
+Fin_Data.exchange()
 ```
 > *Get stock's exchange location.*
 - Arguments are:
@@ -427,7 +427,7 @@ exchange()
   
 ##### *method* **Fin_Data**.*ceo*
 ```python
-ceo()
+Fin_Data.ceo()
 ```
 > *Get stock's CEO name.*
 - Arguments are:
@@ -437,7 +437,7 @@ ceo()
   
 ##### *method* **Fin_Data**.*business_model*
 ```python
-business_model()
+Fin_Data.business_model()
 ```
 > *Get stock's business_model overview.*
 - Arguments are:
@@ -447,7 +447,7 @@ business_model()
   
 ##### *method* **Fin_Data**.*stock_info*
 ```python
-stock_info()
+Fin_Data.stock_info()
 ```
 > *Get stock's information overview. Includes name, sector, industry, exchange, ceo and business model.*
 - Arguments are:
@@ -457,7 +457,7 @@ stock_info()
 
 ##### *method* **Fin_Data**.*price*
 ```python
-price()
+Fin_Data.price()
 ```
 > *Get stock's current price.*
 - Arguments are:
@@ -467,7 +467,7 @@ price()
 
 ##### *method* **Fin_Data**.*check_ticker*
 ```python
-check_ticker()
+Fin_Data.check_ticker()
 ```
 > *Uses stock price and sector to check whether the ticker exists in MarketWatch database.*
 - Arguments are:
@@ -477,7 +477,7 @@ check_ticker()
 
 ##### *method* **Fin_Data**.*valuations*
 ```python
-valuations()
+Fin_Data.valuations()
 ```
 > *Get table of valuation metrics under MarketWatch Profile page.*
 - Arguments are:
@@ -487,7 +487,7 @@ valuations()
 
 ##### *method* **Fin_Data**.*efficiency*
 ```python
-efficiency()
+Fin_Data.efficiency()
 ```
 > *Get table of efficiency metrics under MarketWatch Profile page.*
 - Arguments are:
@@ -497,7 +497,7 @@ efficiency()
   
 ##### *method* **Fin_Data**.*liquidity*
 ```python
-liquidity()
+Fin_Data.liquidity()
 ```
 > *Get table of liquidity metrics under MarketWatch Profile page.*
 - Arguments are:
@@ -507,7 +507,7 @@ liquidity()
 
 ##### *method* **Fin_Data**.*profitability*
 ```python
-profitability()
+Fin_Data.profitability()
 ```
 > *Get table of profitability metrics under MarketWatch Profile page.*
 - Arguments are:
@@ -517,7 +517,7 @@ profitability()
 
 ##### *method* **Fin_Data**.*captialization*
 ```python
-captialization()
+Fin_Data.captialization()
 ```
 > *Get table of captialization metrics under MarketWatch Profile page.*
 - Arguments are:
@@ -527,7 +527,7 @@ captialization()
   
 ##### *method* **Fin_Data**.*main_page*
 ```python
-main_page()
+Fin_Data.main_page()
 ```
 > *Get table of stock information from MarketWatch landing page.*
 - Arguments are:
@@ -537,7 +537,7 @@ main_page()
   
 ##### *method* **Fin_Data**.*income_statement*
 ```python
-income_statement()
+Fin_Data.income_statement()
 ```
 > *Get dataframe of stock income statement*
 - Arguments are:
@@ -547,7 +547,7 @@ income_statement()
   
 ##### *method* **Fin_Data**.*balance_sheet_assets*
 ```python
-balance_sheet_assets()
+Fin_Data.balance_sheet_assets()
 ```
 > *Get dataframe of stock balance sheet assets*
 - Arguments are:
@@ -557,7 +557,7 @@ balance_sheet_assets()
   
 ##### *method* **Fin_Data**.*balance_sheet_lia*
 ```python
-balance_sheet_lia()
+Fin_Data.balance_sheet_lia()
 ```
 > *Get dataframe of stock balance sheet liabilities*
 - Arguments are:
@@ -567,7 +567,7 @@ balance_sheet_lia()
   
 ##### *method* **Fin_Data**.*cash_flow_opr*
 ```python
-cash_flow_opr()
+Fin_Data.cash_flow_opr()
 ```
 > *Get dataframe of stock cash flow operating activities*
 - Arguments are:
@@ -577,7 +577,7 @@ cash_flow_opr()
   
 ##### *method* **Fin_Data**.*cash_flow_inv*
 ```python
-cash_flow_inv()
+Fin_Data.cash_flow_inv()
 ```
 > *Get dataframe of stock cash flow investing activities*
 - Arguments are:
@@ -587,7 +587,7 @@ cash_flow_inv()
   
 ##### *method* **Fin_Data**.*cash_flow_fin*
 ```python
-cash_flow_fin()
+Fin_Data.cash_flow_fin()
 ```
 > *Get dataframe of stock cash flow financing activities*
 - Arguments are:
@@ -597,7 +597,7 @@ cash_flow_fin()
   
 ##### *method* **Fin_Data**.*balance_sheet*
 ```python
-balance_sheet()
+Fin_Data.balance_sheet()
 ```
 > *Prints full balance sheet for viewing.*
 - Arguments are:
@@ -607,7 +607,7 @@ balance_sheet()
 
 ##### *method* **Fin_Data**.*cash_flow*
 ```python
-cash_flow()
+Fin_Data.cash_flow()
 ```
 > *Prints full cash flow statement for viewing.*
 - Arguments are:
@@ -617,7 +617,7 @@ cash_flow()
 
 ##### *method* **Fin_Data**.*years*
 ```python
-years()
+Fin_Data.years()
 ```
 > *Gets list of years of availble scrapped data from MarketWatch using income statement.*
 - Arguments are:
@@ -627,7 +627,7 @@ years()
 
 ##### *method* **Fin_Data**.*fiscal_month*
 ```python
-fiscal_month()
+Fin_Data.fiscal_month()
 ```
 > *Gets first month of fiscal year of stock.*
 - Arguments are:
@@ -637,7 +637,7 @@ fiscal_month()
 
 ##### *method* **Fin_Data**.*fiscal_year_dates*
 ```python
-fiscal_year_dates()
+Fin_Data.fiscal_year_dates()
 ```
 > *Gets list of start fiscal year dates*
 - Arguments are:
@@ -675,7 +675,7 @@ class FData(Fin_Data, Fin_Extract):
 
 ##### *method* **TData**.*check_name*
 ```python
-check_name()
+TData.check_name()
 ```
 > *Checks if ticker name contains '.'. If it does, change to '-' for yfinance portability.*
 - Arguments are:
@@ -685,7 +685,7 @@ check_name()
 
 ##### *method* **TData**.*get_info*
 ```python
-get_info(command="nil", print=False)
+TData.get_info(command="nil", print=False)
 ```
 > *Gets stock data metric depending on command.*
 - Arguments are:
@@ -711,7 +711,7 @@ get_info(command="nil", print=False)
 
 ##### *method* **TData**.*get_data*
 ```python
-get_data(candle_interval=1, print=False)
+TData.get_data(candle_interval=1, print=False)
 ```
 > *Gets stock max period technical data depending on interval of each candlestick. Default is 1D candles.*
 - Arguments are:
@@ -724,7 +724,7 @@ get_data(candle_interval=1, print=False)
 
 ##### *method* **TData**.*get_close*
 ```python
-get_close(candle_interval=1, print=False)
+TData.get_close(candle_interval=1, print=False)
 ```
 > *Gets stock max period close price data depending on interval of each candlestick. Default is 1D candles.*
 - Arguments are:
@@ -737,7 +737,7 @@ get_close(candle_interval=1, print=False)
  
 ##### *method* **TData**.*get_open*
 ```python
-get_open(candle_interval=1, print=False)
+TData.get_open(candle_interval=1, print=False)
 ```
 > *Gets stock max period open price data depending on interval of each candlestick. Default is 1D candles.*
 - Arguments are:
@@ -750,7 +750,7 @@ get_open(candle_interval=1, print=False)
   
 ##### *method* **TData**.*get_prevclose*
 ```python
-get_prevclose(candle_interval=1, print=False)
+TData.get_prevclose(candle_interval=1, print=False)
 ```
 > *Gets stock previous candlestick's close price data depending on interval of each candlestick. Default is 1D candles.*
 - Arguments are:
@@ -773,7 +773,7 @@ class ToJson:
   
 ##### *method* **ToJson**.*json*
 ```python
-json(from_obj=None, export_to=None, filename=None, orient='columns')
+ToJson.json(from_obj=None, export_to=None, filename=None, orient='columns')
 ```
 > *Stores pandas DataFrame or Series into JSON file and store into database.*
 - Arguments are:
@@ -806,7 +806,7 @@ class Stock_Data(TData, FData, ToJson):
 
 ##### *method* **Stock_Data**.*fiscal_year_prices*
 ```python
-fiscal_year_prices()
+Stock_Data.fiscal_year_prices()
 ```
 > *Get fiscal year start dates and their respective open prices.*
 - Arguments are:
@@ -817,7 +817,7 @@ fiscal_year_prices()
 #### ***StockDL***(*Stock_Data*) class
 > The StockDL class is a optimized downloader class. It allows for download of scrapped data in a consolidated fashion, then stores the data into JSON files and finally store it in a database.
 ```python
-class ToJson:
+class StockDL:
     def __init__(self, ticker, PATH=r'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
         Stock_Data.__init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True)
 ```
@@ -831,7 +831,7 @@ class ToJson:
 
 ##### *method* **Stock_Data**.*stockdl*
 ```python
-stockdl(DB_PATH='C:/Users/rawsashimi1604/Desktop/FinData', download="ALL", buffer=5)
+StockDL.stockdl(DB_PATH='C:/Users/rawsashimi1604/Desktop/FinData', download="ALL", buffer=5)
 ```
 > *Downloads data, stores into JSON, finally storing it into database.*
 - Arguments are:
