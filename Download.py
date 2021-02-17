@@ -4,34 +4,46 @@ import pandas as pd
 
 class Downloader:
     '''
-    Download Scraped Market Data formatter.
+    The Downloader class is the stock data downloader component. It allows one to download financial data from MarketWatch or technical data from YahooFinance.
+    Attributes are:
+        None
     '''
     def __init__(self):
-        '''
-        Initialize Downloader Class. Downloads from StockDL. Download data in a individual, list, csv format.
-        '''
         pass
     
 
     def download(self,  type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=None, max=None, ticker=None, list_=None, csv=None, buffer=5, download="ALL", from_=None):
         '''
-        Download Stock Data supplied by tickers in either string, list or csv.
-        type_ keys:
-            "string" : Download from specific ticker. Must specifiy arg* ticker.
-            "list" : Download from a list. Must specify arg* list.
-            "csv" : Download from a csv. Must specify arg* csv. CSV must contain column "Ticker"
-        DB_PATH = Place to store downloaded JSON files
-        Minimum buffer = 2 second
-        From = Start downloading from. Please provide a string.
-        Download parameters:
-            - 'ALL' - Download All Parameters
-            - 'PRICE' Download PriceData
-            - 'MAIN' Download StockInfo and KeyData
-            - 'PROFILE' Download all Profile Data
-            - 'INCOME' Download IncomeStatement
-            - 'BALANCE' Download BalanceSheet
-            - 'CASHFLOW' Download CashFlow
-            - 'FISCALYEAR' Download FiscalYear
+        Downloads data from MarketWatch and YahooFinance.
+        Arguments are:
+            type_ : str
+                Specifies which tickers to download. (Required) Available parameters are:
+                    "string" - downloads single ticker
+                    "list" - downloads list of tickers
+                    "csv" - downloads list of tickers from csv
+            Driver_PATH : str
+                Directory path of Chorimum WebDriver. Default is 'C:\Program Files (x86)\chromedriver.exe' (Optional)
+            DB_PATH : str
+                Directory path to store downloaded files in. Also known as the database path. Default is None (Optional)
+            max : int
+                Limit number of tickers to download at once. Default is None (Optional)
+            ticker : str
+                Specifies which ticker to download when using type_ = "string". Default is None (Optional)
+            list_ : list
+                Specifies list of tickers to download when using type_ = "list". Default is None (Optional)
+            csv : str
+                Specifies directory of CSV file. Downloads list of tickers to download from csv when using type_ = "csv". Make sure that ticker symbols are available and under a column called "Ticker" Default is None (Optional)
+            buffer : int
+                Specifies buffer time in seconds in between each download. Default is 5 (Optional)
+            download : str
+                Specifies what data to download. Default is "ALL" (Optional) Available parameters are:
+                "ALL" - download all data available
+                "PRICE" - download price data
+                "MAIN" - download stock information and key data
+                "PROFILE" - download stock profile data
+                "INCOME" - download income statement
+                "BALANCE" - download balance sheet
+                "CASHFLOW" - download cash flow statement
         '''
         # Start time of code
         start_time = datetime.now()

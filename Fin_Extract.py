@@ -7,19 +7,10 @@ import numpy as np
 # Class Fin_Extract, inheritance from Fin_Data and Fin_Select
 class Fin_Extract(Fin_Select):
     '''
-    # Financial Data Scrapper Made by Gavin Loo 2021.
-    Uses data from MarketWatch.com
-    Uses Fin_Select Class to extract individual data in str/pandas format. Then converts it into values
-
-    "K" = Thousand, 1_000
-    "M" = Million, 1_000_000
-    "B" = Billion, 1_000_000_000
-    "T" = Trillion, 1_000_000_000_000
-    "%" = 0.01
-    "()" = -, Negative
-    "-" = NaN, No Values
-
-    Args = None
+    The Fin_Extract class allows extraction of data from str/ pandas DataFrame/ pandas Series format. Then, it is able to convert values into scientific values for analysis purposes. Inherits Fin_Select class.
+    Attributes are:
+        ticker : str
+            Specifies which ticker to extract data from. (Required)
     '''
     
     # List of symbols to be checked in class
@@ -44,28 +35,21 @@ class Fin_Extract(Fin_Select):
     
 
     def __repr__(self):
-        '''
-        Output when inspecting Class
-        # Returns str
-        '''
-
         return (f'{self.__class__.__name__}('f'{self.ticker!r}')
 
 
     def __str__(self):
-        '''      
-        Class print's output
-        # Returns str
-        '''
-
         return f'Selecting {self.ticker} financial data.'
 
 
     def determine_symbol(self, cell_val):
         '''
-        Determines symbol in table cell. Gets symbol of cell, 
-        cell_val = str
-        # Returns list of str
+        Determines what symbols are in string specified. Then returns a list of symbols.
+        Arguments are:
+            cell_val : str
+                Specifies what string to get symbols from. (Required)
+        Returns: list
+            Returns list of symbols available in string.
         '''
 
         # Output list of symbols found
@@ -87,8 +71,12 @@ class Fin_Extract(Fin_Select):
 
     def str_to_val(self, cell_val):
         '''
-        Converts string with symbols to value.
-        # Returns int64
+        Converts string which contains symbols to either float or int value. Returns scientific value.
+        Arguments are:
+            cell_val : str
+            Specifies what string to get symbols from. (Required)
+        Returns: pandas dtype int64 / float64
+            Returns scientific value of string in pandas datatype int64 or float64.
         '''
         # List of symbols in cells
         sym_in_cell = self.determine_symbol(cell_val) 
@@ -140,9 +128,12 @@ class Fin_Extract(Fin_Select):
 
     def extract(self, cell_val):
         '''
-        Determines value in table cell. Must cell value or pandas Series, 
-        symbol = str, cell_val = str
-        # Returns int64, float64 or pandas Series of int64, float64
+        Determines what type of data is passed into input. Then returns either a string or pandas Series of scientific values.
+        Arguments are:
+            cell_val : str / pandas Series
+                Specifies what string(s) to get symbols from. (Required)
+        Returns: pandas dtype int64 / float64 or pandas Series
+            Returns scientific value of string in pandas datatype int64 or float64. Can also return pandas Series if cell_val is a pandas Series.
         '''
 
         # If input is a string
@@ -197,8 +188,12 @@ class Fin_Extract(Fin_Select):
         
     def extract_columns(self, from_df):
         '''
-        Extracts columns of pandas DataFrame.
-        # returns list
+        Extracts list of columns from pandas DataFrame
+        Arguments are:
+            from_df : pandas DataFrame
+                Specifies what DataFrame to get list of columns from. (Required)
+        Returns: list
+            Returns list of columns of pandas DataFrame
         '''
         col_list = []
 

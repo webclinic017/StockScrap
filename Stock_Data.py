@@ -10,33 +10,26 @@ from pathlib import Path
 
 class Stock_Data(TData, FData, ToJson):
     '''
-    Full stock data information scraper by Gavin Loo
-    Uses data from YahooFinance and MarketWatch.com
+    The Stock_Data class is a combination of all methods found to scrap technical and financial data. It also allows for JSON file storage. Inherits TData, FData, ToJson classes.
+    Attributes are:
+        ticker : str
+            Specifies which ticker to extract data from. (Required)
+        PATH : str
+            Directory path of Chorimum WebDriver. Default is 'C:\Program Files (x86)\chromedriver.exe' (Optional)
+        ignore_errors : "bool"
+            Option whether to ignore errors for selenium WebDriver. True = ignore errors. Default is True (Optional)
     '''
 
     def __init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
-        '''
-        Initialize FData and TData class then consolidate into Stock_Data class.
-        '''
         TData.__init__(self, ticker)
         FData.__init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True)
 
 
     def __repr__(self):
-        '''
-        Output when inspecting Class
-        # Returns str
-        '''
-
         return (f'{self.__class__.__name__}('f'{self.ticker!r}, {self.PATH!r}')
 
     
     def __str__(self):
-        '''      
-        Class print's output
-        # Returns str
-        '''
-
         return f'''
         Returning Stock Data
         Financial / Technical Data for {self.ticker}, Chromedriver PATH = {self.PATH}
@@ -44,8 +37,11 @@ class Stock_Data(TData, FData, ToJson):
 
     def fiscal_year_prices(self):
         '''
-        Gets fiscal year dates and open prices in a series
-        # Returns pandas Series
+        Get fiscal year start dates and their respective open prices.
+        Arguments are:
+            None
+        Returns: pandas Series
+            Returns pandas Series of fiscal year start dates and their respective open prices.
         '''
         # Gets a list of fiscal year dates
         date_list = self.fiscal_year_dates()
@@ -81,6 +77,3 @@ class Stock_Data(TData, FData, ToJson):
 
         else:
             raise KeyError('Price data not available at fiscal year date. Check company fundamentals for more information.')
-
-
-        

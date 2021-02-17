@@ -8,31 +8,40 @@ from pathlib import Path
 
 class StockDL(Stock_Data):
     '''
-    Full optimized stock data information scraper by Gavin Loo
-    Stores data into JSON format on folder
-    Uses data from YahooFinance and MarketWatch.com
+    The StockDL class is a optimized downloader class. It allows for download of scrapped data in a consolidated fashion, then stores the data into JSON files and finally store it in a database.
+    Attributes are:
+        ticker : str
+            Specifies which ticker to extract data from. (Required)
+        PATH : str
+            Directory path of Chorimum WebDriver. Default is 'C:\Program Files (x86)\chromedriver.exe' (Optional)
+        ignore_errors : "bool"
+            Option whether to ignore errors for selenium WebDriver. True = ignore errors. Default is True (Optional)
     '''
-
-    # Initialize StockDL Class
+    
     def __init__(self, ticker, PATH=r'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
-        '''
-        Initialize StockDL Class, consolidated from Stock_Data class and added Database PATH
-        '''
         Stock_Data.__init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True)
+
 
     def stockdl(self, DB_PATH='C:/Users/Dennis Loo.000/Desktop/FinData', download="ALL", buffer=5):
         '''    
-        DB_PATH = Place to store downloaded JSON files
-        Minimum buffer = 1 second
-        Download parameters:
-            - 'ALL' - Download All Parameters
-            - 'PRICE' Download PriceData
-            - 'MAIN' Download StockInfo and KeyData
-            - 'PROFILE' Download all Profile Data
-            - 'INCOME' Download IncomeStatement
-            - 'BALANCE' Download BalanceSheet
-            - 'CASHFLOW' Download CashFlow
-            - 'FISCALYEAR' Download FiscalYear
+        Downloads data, stores into JSON, finally storing it into database.
+        Arguments are:
+            DB_PATH : str
+                Specifies database directory to extract data from. Default is 'C:/Users/rawsashimi1604/Desktop/FinData' (Optional)
+            download : str
+                Specifies what data to download. Default is "ALL" (Optional) Available parameters are:
+                    "ALL" - download all data available
+                    "PRICE" - download price data
+                    "MAIN" - download stock information and key data
+                    "PROFILE" - download stock profile data
+                    "INCOME" - download income statement
+                    "BALANCE" - download balance sheet
+                    "CASHFLOW" - download cash flow statement
+                    "FISCALYEAR" - download fiscal year information
+            buffer : int
+                Specifies buffer time in seconds in between each download. Default is 5 (Optional)
+        Returns: bool
+            Returns whether stock ticker exists. exist = True
         '''  
         #--------------------------------------------------------------------------------------------------------------
         #       Create Directory

@@ -5,36 +5,21 @@ import numpy as np
 
 class DBExtract(Fin_Extract):
     '''
-    Database Extractor. Able to get files in a JSON format and extract them, in either view format or data format.
-    Methods:
-        select_item()
-        - Get certain rows
-        select_isolate()
-        - Get specific cell
+    The DBExtract class is the database extraction component. It allows one to pull data from database and display in a string or pandas DataFrame format. Inherits Fin_Extract class.
+    Attributes are:
+        DB_PATH : str
+        Specifies database directory to extract data from. Default is 'C:/Users/rawsashimi1604/Desktop/FinData' (Optional)
     '''
 
     def __init__(self, DB_PATH='C:/Users/Gavin/Desktop/FinData'):
-        '''
-        Initialize DBExtract Class and its attributes.
-        '''
         self.DB_PATH = DB_PATH
 
     
     def __repr__(self):
-        '''
-        Output when inspecting Class
-        # Returns str
-        '''
-
         return f'{self.__class__.__name__}({self.format!r}, {self.DB_PATH})'
 
 
     def __str__(self):
-        '''      
-        Class print's output
-        # Returns str
-        '''
-
         return f'''
 /----------
 # DBExtract Parameters
@@ -46,12 +31,21 @@ Database PATH: {self.DB_PATH}
 
     def json_extract(self, format, country = "U.S.", ticker = "TSLA", FILE_NAME='StockInformation'):
         '''
-        Extract dataframe/series from JSON file.
-        # Returns pandas DataFrame or pandas Series
-        Format Args:
-            "view" Format: for viewing, formatted
-            "data" Format: for analysis, big numbers, floats etc
-        
+        Extracts pandas DataFrame from JSON file.
+        Arguments are:
+            format : str
+                Specifies which format to view in dataframe. (Required) Available parameters are:
+                    "view" - view in default format.
+                    "data" - view in scientific data format.
+            ticker : str
+                Specifies which ticker to extract. (Required)
+            country : str
+                Specifies which country ticker is from. Default is "U.S." (Optional)
+            FILE_NAME : str
+                Specifies which data file to pull from. Default is "StockInformation" (Optional)
+
+        Returns: pandas DataFrame or pandas Series
+            Returns dataframe or series of extracted file.
         '''
 
         path = f'{self.DB_PATH}/{country}/{ticker[0]}/{ticker}/{FILE_NAME}'

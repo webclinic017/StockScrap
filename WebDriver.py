@@ -22,8 +22,14 @@ from selenium.webdriver.remote.remote_connection import LOGGER
 
 class WebDriver:        
     '''
-    Creates Selenium WebDriver object
+    The WebDriver class allows customization of Chromium WebDriver for selenium.
+    Attributes are:
+        PATH : str
+            Specifies where the Chromium WebDriver is located. (Required)
+        ignore_errors : "bool"
+            Option whether to ignore errors. True = ignore errors. Default is True (Optional)
     '''
+
     def __init__(self, PATH='C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
         self.PATH = PATH
         self.ignore_errors = ignore_errors
@@ -31,8 +37,11 @@ class WebDriver:
 
     def driver(self):
         '''
-        Initialize Selenium WebDriver
-        # returns Selenium WebDriver
+        Initializes Chromium WebDriver and options
+        Arguments are:
+            None
+        Returns: selenium WebDriver
+            Returns selenium WebDriver with custom options
         '''
         # Remove logging
         if self.ignore_errors == True:
@@ -44,5 +53,4 @@ class WebDriver:
             return webdriver.Chrome(self.PATH, chrome_options=options)
 
         else: 
-            
             return webdriver.Chrome(self.PATH)

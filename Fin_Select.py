@@ -4,44 +4,36 @@ import pandas as pd
 # Class Fin_Select, inheritance from Fin_Data
 class Fin_Select:
     '''
-    # Financial Data Scrapper Made by Gavin Loo 2021.
-    Uses data from MarketWatch.com
-    Selects data from dataFrame provided by Fin_Data class. Then returns output.
-
-    Args = year(int), item(str)
+    The Fin_Select class allows selection of specific cells or rows Then, it is able to convert values into scientific values for analysis purposes. Inherits Fin_Select class.
+    Attributes are:
+        ticker : str
+            Specifies which ticker to select data from. (Required)
     '''
 
     def __init__(self, ticker):
-        '''
-        Initialize Fin_Select class from Fin_Data (and other __init__ arguments) for DataFrame extraction.
-        
-        '''
-        # Gets Fin_Data class inherits __init__ args
         self.ticker = ticker
 
 
     def __repr__(self):
-        '''
-        Output when inspecting Class
-        # Returns str
-        '''
-
         return (f'{self.__class__.__name__}('f'{self.ticker!r}')
 
 
     def __str__(self):
-        '''      
-        Class print's output
-        # Returns str
-        '''
-
         return f'Selecting {self.ticker} financial data.'
 
     
     def select_isolate(self, from_df, year=None, item=None):
         '''
-        Select's dataframe specific column and row for respective class arguments.
-        # Returns str
+        Selects pandas DataFrame specific column and row for respective arguments.
+        Arguments are:
+            from_df : pandas DataFrame
+                Specifies what DataFrame to get list of columns from. (Required)
+            year : int
+                Specifies which column to get data from. Default is None (Optional)
+            item : str
+                Specifies which row to get data from. Default is None (Optional)
+        Returns: str
+            Returns string of specific cell.
         '''
         if year and item != None:
             try:
@@ -56,8 +48,14 @@ class Fin_Select:
 
     def select_item(self, from_df, item=None):
         '''
-        Select's dataframe row for respective class arguments.
-        # Returns pd.Series of rows
+        Selects pandas DataFrame specific row for respective arguments.
+        Arguments are:
+            from_df : pandas DataFrame
+                Specifies what DataFrame to get list of columns from. (Required)
+            item : str
+                Specifies which row to get data from. Default is None (Optional)
+        Returns: pandas Series
+            Returns pandas Series of row.
         '''
         if item != None:
             try:
@@ -68,4 +66,25 @@ class Fin_Select:
         
         else: 
             return None
-    
+
+
+    def select_year(self, from_df, year=None):
+        '''
+        Selects pandas DataFrame specific column for respective arguments.
+        Arguments are:
+            from_df : pandas DataFrame
+                Specifies what DataFrame to get list of columns from. (Required)
+            year  : int
+                Specifies which row to get data from. Default is None (Optional)
+        Returns: pandas Series
+            Returns pandas Series of row.
+        '''
+        if item != None:
+            try:
+                val = from_df.loc[year]
+                return val
+            except KeyError:
+                print('Input does not exist. Please double check args year and item again.')
+        
+        else: 
+            return None

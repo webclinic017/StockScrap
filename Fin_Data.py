@@ -1,6 +1,3 @@
-######################################################################
-# IMPORTS                                                            #
-######################################################################
 # Import BS4 Classes
 from bs4 import BeautifulSoup as bs
 import requests
@@ -40,53 +37,41 @@ import pandas_market_calendars as mcal
 # Import pandas and numpy
 import pandas as pd
 import numpy as np
-######################################################################
-# CLASS INIT                                                         #
-######################################################################
+
 
 class Fin_Data(WebDriver):
     '''
-    # Financial Data Scrapper Made by Gavin Loo 2021.
-    Uses data from MarketWatch.com
-    Returns pandas DataFrame of income statements, balance sheets, cash flow statements of any stock
-    listed on US Stock Exchange.
-
-    Args = ticker name(str), PATH of chromedriver
-    Finish with driver_end() to end drawing data.
+    The Fin_Data class allows for scraping of financial data from MarketWatch. It then returns it in a pandas DataFrame or Series format. Inherits WebDriver class.
+    Attributes are:
+        ticker : str
+            Specifies which ticker to draw financial data from. (Required)
+        PATH : str
+            Specifies where the Chromium WebDriver is located. (Required)
+        ignore_errors : "bool"
+            Option whether to ignore errors. True = ignore errors. Default is True (Optional)
     '''
     
     def __init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
-        '''
-        Initialize Fin_Data class, intialize self.driver requirements for selenium
-        '''
-
         WebDriver.__init__(self, PATH='C:\Program Files (x86)\chromedriver.exe', ignore_errors=True)
         self.ticker = ticker
         self.PATH = PATH
         # self.driver = self.driver()
 
     def __repr__(self):
-        '''
-        Output when inspecting Class
-        # Returns str
-        '''
-
         return (f'{self.__class__.__name__}('f'{self.ticker!r}, {self.PATH!r}')
 
 
     def __str__(self):
-        '''      
-        Class print's output
-        # Returns str
-        '''
-
         return f'Financial Data for {self.ticker}, Chromedriver PATH = {self.PATH}'
 
     
     def remove_logging(self):
         '''
-        Disables logging from selenium
-        # Returns None
+        Disables logging for selenium scraping
+        Arguments are:
+            None
+        Returns: None
+            Returns None
         '''
         LOGGER.setLevel(logging.WARNING)
         
@@ -97,14 +82,27 @@ class Fin_Data(WebDriver):
 
 
     def reorder_df(self, from_df, reverse=False):
+        '''
+        Reorders pandas DataFrame columns in descending order.
+        Arguments are:
+            from_df : pandas DataFrame
+                Specifies what DataFrame to get list of columns from. (Required)
+            reverse : boolean
+                Specifies whether to reorder in descending. False = descending. Default is False (Optional)
+        Returns: pandas DataFrame
+            Returns reordered pandas DataFrame
+        '''
         df = from_df.reindex(columns=sorted(from_df.columns, reverse=reverse))
         return df
 
 
     def name(self):
         '''
-        Get stock name
-        # returns str
+        Get stock's name.
+        Arguments are:
+            None
+        Returns: str
+            Returns stock name in string value.
         ''' 
 
         # URL to check for stock name.
@@ -123,8 +121,12 @@ class Fin_Data(WebDriver):
 
     def industry(self):
         '''
-        Get stock industry
-        # returns str
+        Get stock's industry.
+        Arguments are:
+            None
+        Returns: str
+            Returns stock's industry in string value.
+
         '''
 
         # URL to check for stock name.
@@ -147,8 +149,11 @@ class Fin_Data(WebDriver):
 
     def sector(self):
         '''
-        Get stock sector
-        # returns str
+        Get stock's sector.
+        Arguments are:
+            None
+        Returns: str
+            Returns stock's sector in string value.
         '''
 
         # URL to check for stock name.
@@ -176,8 +181,11 @@ class Fin_Data(WebDriver):
 
     def exchange(self):
         '''
-        Get stock exchange
-        # returns str
+        Get stock's exchange location.
+        Arguments are:
+            None
+        Returns: str
+            Returns stock's exchange location in string value.
         '''
 
         # URL to check for stock name.
@@ -201,8 +209,11 @@ class Fin_Data(WebDriver):
 
     def ceo(self):
         '''
-        Get stock CEO
-        # returns str
+        Get stock's CEO name.
+        Arguments are:
+            None
+        Returns: str
+            Returns stock's CEO name in string value.
         '''
 
         # URL to check for stock name.
@@ -222,8 +233,11 @@ class Fin_Data(WebDriver):
 
     def business_model(self):
         '''
-        Get information of businesss model
-        # returns str
+        Get stock's business_model overview.
+        Arguments are:
+            None
+        Returns: str
+            Returns stock's business_model overview in string value.
         '''
         # URL to check for stock name.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}/company-profile?mod=mw_quote_tab'
@@ -241,8 +255,11 @@ class Fin_Data(WebDriver):
     
     def stock_info(self):
         '''
-        Summarises all the main info in a stock into a dataframe.
-        # Returns pandas Series
+        Get stock's information overview. Includes name, sector, industry, exchange, ceo and business model.
+        Arguments are:
+            None
+        Returns: pandas DataFrame
+            Returns stock's main information in pandas DataFrame format.
         '''
 
         # Name, Sector, Industry, 
@@ -264,8 +281,11 @@ class Fin_Data(WebDriver):
 
     def price(self):
         '''
-        Get current price of stock, regardless of PreMarket, PostMarket or OpenMarket.
-        # returns float
+        Get stock's current price.
+        Arguments are:
+            None
+        Returns: float
+            Returns stock's price in float value.
         '''
         # URL to check for stock price.
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}?mod=mw_quote_tab'
@@ -288,8 +308,11 @@ class Fin_Data(WebDriver):
 
     def check_ticker(self):
         '''
-        Check if ticker exists? use price element to get boolean value.
-        # Returns bool
+        Uses stock price and sector to check whether the ticker exists in MarketWatch database.
+        Arguments are:
+            None
+        Returns: bool
+            Returns True or False depending on whether the stock exists. Returns True for exist.
         '''
     
         exist = True
@@ -325,8 +348,11 @@ class Fin_Data(WebDriver):
     
     def valuations(self):
         '''
-        Get current valuations of the stock.
-        # returns pandas Series
+        Get table of valuation metrics under MarketWatch Profile page.
+        Arguments are:
+            None
+        Returns: pandas Series
+            Returns pandas Series of valuation metrics.
         '''
 
         # URL to check for valuations table.
@@ -360,8 +386,11 @@ class Fin_Data(WebDriver):
 
     def efficiency(self):
         '''
-        Get current efficiency of the stock.
-        # returns pandas Series
+        Get table of efficiency metrics under MarketWatch Profile page.
+        Arguments are:
+            None
+        Returns: pandas Series
+            Returns pandas Series of efficiency metrics.
         '''
 
         # URL to check for efficiency table.
@@ -395,8 +424,11 @@ class Fin_Data(WebDriver):
 
     def liquidity(self):
         '''
-        Get current liquidity of the stock.
-        # returns pandas Series
+        Get table of liquidity metrics under MarketWatch Profile page.
+        Arguments are:
+            None
+        Returns: pandas Series
+            Returns pandas Series of liquidity metrics.
         '''
 
         # URL to check for liquidity table.
@@ -430,8 +462,11 @@ class Fin_Data(WebDriver):
 
     def profitability(self):
         '''
-        Get current profitability of the stock.
-        # returns pandas Series
+        Get table of profitability metrics under MarketWatch Profile page.
+        Arguments are:
+            None
+        Returns: pandas Series
+            Returns pandas Series of profitability metrics.
         '''
 
         # URL to check for profitability table.
@@ -465,8 +500,11 @@ class Fin_Data(WebDriver):
 
     def captialization(self):
         '''
-        Get current captialization of the stock.
-        # returns pandas Series
+        Get table of captialization metrics under MarketWatch Profile page.
+        Arguments are:
+            None
+        Returns: pandas Series
+            Returns pandas Series of captialization metrics.
         '''
 
         # URL to check for profitability table.
@@ -500,8 +538,11 @@ class Fin_Data(WebDriver):
 
     def main_page(self):
         '''
-        Get Main Data
-        # Returns pandas Series
+        Get table of stock information from MarketWatch landing page.
+        Arguments are:
+            None
+        Returns: pandas Series
+            Returns pandas Series of stock information.
         '''
 
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}'
@@ -543,8 +584,11 @@ class Fin_Data(WebDriver):
     
     def income_statement(self):
         '''
-        Get Income Statement from Financials page
-        # Returns pandas DataFrame
+        Get dataframe of stock income statement
+        Arguments are:
+            None
+        Returns: pandas DataFrame
+            Returns pandas DataFrame of stock income statement.
         '''
 
         # URL Settings and initialise driver as self.driver
@@ -611,8 +655,11 @@ class Fin_Data(WebDriver):
     
     def balance_sheet_assets(self):
         '''
-        Get Balance Sheet, Assets from Financials page
-        # Returns pandas DataFrame
+        Get dataframe of stock balance sheet assets
+        Arguments are:
+            None
+        Returns: pandas DataFrame
+            Returns pandas DataFrame of stock balance sheet assets.
         '''
 
         # URL Settings and initialise driver as self.driver
@@ -679,8 +726,11 @@ class Fin_Data(WebDriver):
     
     def balance_sheet_lia(self):
         '''
-        Get Balance Sheet, Libabilities from Financials page
-        # Returns pandas DataFrame
+        Get dataframe of stock balance sheet liabilities
+        Arguments are:
+            None
+        Returns: pandas DataFrame
+            Returns pandas DataFrame of stock balance sheet liabilities.
         '''
 
         # URL Settings and initialise driver as self.driver
@@ -746,8 +796,11 @@ class Fin_Data(WebDriver):
     
     def cash_flow_opr(self):
         '''
-        Get Cash Flow, Operating Activies from Financials page
-        # Returns pandas DataFrame
+        Get dataframe of stock cash flow operating activities
+        Arguments are:
+            None
+        Returns: pandas DataFrame
+            Returns pandas DataFrame of cash flow operating activities.
         '''
 
         # URL Settings and initialise driver as self.driver
@@ -813,8 +866,11 @@ class Fin_Data(WebDriver):
     
     def cash_flow_inv(self):
         '''
-        Get Cash Flow, Investing Activies from Financials page
-        # Returns pandas DataFrame
+        Get dataframe of stock cash flow investing activities
+        Arguments are:
+            None
+        Returns: pandas DataFrame
+            Returns pandas DataFrame of cash flow investing activities.
         '''
 
         # URL Settings and initialise driver as self.driver
@@ -880,8 +936,11 @@ class Fin_Data(WebDriver):
     
     def cash_flow_fin(self):
         '''
-        Get Cash Flow, Financing Activities from Financials page
-        # Returns pandas DataFrame
+        Get dataframe of stock cash flow financing activities
+        Arguments are:
+            None
+        Returns: pandas DataFrame
+            Returns pandas DataFrame of cash flow financing activities.
         '''
 
         # URL Settings and initialise driver as self.driver
@@ -946,8 +1005,11 @@ class Fin_Data(WebDriver):
     
     def balance_sheet(self):
         '''
-        Get Full Balance Sheet from Financials page
-        # Returns str
+        Prints full balance sheet for viewing.
+        Arguments are:
+            None
+        Returns: str
+            Returns 'Printed balance sheet successfully.'
         '''
         asset = self.balance_sheet_assets()
         time.sleep(3)
@@ -960,8 +1022,11 @@ class Fin_Data(WebDriver):
     
     def cash_flow(self):
         '''
-        Get Full Cash Flow Statement from Cash Flow page
-        # Returns str
+        Prints full cash flow statement for viewing.
+        Arguments are:
+            None
+        Returns: str
+            Returns 'Printed cash flow statement successfully.'
         '''
         opr = self.cash_flow_opr()
         time.sleep(2)
@@ -977,8 +1042,11 @@ class Fin_Data(WebDriver):
 
     def years(self):
         '''
-        Get list of years with scraped financial data.
-        # Returns list
+        Gets list of years of availble scrapped data from MarketWatch using income statement.
+        Arguments are:
+            None
+        Returns: list
+            Returns list of years.
         '''
 
         # Use income statement DataFrame
@@ -997,8 +1065,11 @@ class Fin_Data(WebDriver):
 
     def fiscal_month(self):
         '''
-        Get starting month of Fiscal Year for stock.
-        # Returns int
+        Gets first month of fiscal year of stock.
+        Arguments are:
+            None
+        Returns: int
+            Returns first month of fiscal year.
         '''
 
         # URL to check for valuations table.
@@ -1034,8 +1105,11 @@ class Fin_Data(WebDriver):
 
     def fiscal_year_dates(self):
         '''
-        Get a list of stock Fiscal Year Start Dates
-        # Returns list
+        Gets list of start fiscal year dates
+        Arguments are:
+            None
+        Returns: list
+            Returns list of start fiscal year dates.
         '''
 
         # For each date get price of each stock into a list
@@ -1076,14 +1150,3 @@ class Fin_Data(WebDriver):
                         break
                     
         return fiscal_year_list
-        
-
-    # def driver_end(self):
-    #     '''
-    #     Quits Google Chrome browser.
-    #     # Returns str
-    #     '''
-    #     time.sleep(0.5)
-    #     self.driver.quit()
-    #     return 'Driver successfully quit.'
-

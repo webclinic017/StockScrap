@@ -2,29 +2,25 @@ import yfinance as yf
 import pandas as pd
 import pprint
 
-
-# Initialize TData class.
 class TData:
     '''
-    Technical Stock Data Scrapper using yfinance and talib module.
-    Uses data from Yahoo Finance
-    Returns pandas Series of prices, information of stock.
-
-    args = period_years(int), candle_interval(int), print(boolean)
+    The TData class uses yfinance module to extract technical price data for stocks.
+    Attributes are:
+        ticker : str
+            Specifies which ticker to extract data from. (Required)
     '''
     def __init__(self, ticker):
-        '''
-        Initialize TData class
-        '''
         self.ticker = ticker
         pass
     
 
     def check_name(self):
         '''
-        Check if name contains '.', change to '-'
-        Returns the new name of ticker for TData class.
-        # Returns str
+        Checks if ticker name contains '.'. If it does, change to '-' for yfinance portability.
+        Arguments are:
+            None
+        Returns: str
+            Returns str of new ticker name for yfinance portability.
         '''
 
         ticker_name = self.ticker
@@ -37,25 +33,30 @@ class TData:
         return ticker_name   
 
 
-    # Info section of each stock
     def get_info(self, command="nil", print=False):
         '''
-        Get Information of stock in dictionary format
-        ### Important commands to get crucial information of stock: ####
-            averageVolume : Get Average Volume of Stock
-            currency : Get Currency of Stock
-            dividendYield : Get Dividend Yield of Stock
-            forwardEps : Get Forward Earnings per Share of Stock
-            forwardPE : Get Forward P/E Ratio of Stock
-            industry : Get Industry of Stock
-            longBusinessSummary : Get Business Summary of Stock
-            longName : Get Name of Stock
-            marketCap : Get Market Capitalization of Stock
-            pegRatio : Get Price to Earnings Growth Ratio of Stock
-            previousClose : Get Previous Close of Stock
-            priceToBook : Get Price to Book Ratio of Stock
-            quoteType : Get Type of Asset 
-            '''
+        Gets stock data metric depending on command.
+        Arguments are:
+        command : str
+            Specifies which metric to get. (Optional) Default is "nil" Available parameters are:
+                "nil" - all information printed
+                "averageVolume" - stock average volume
+                "currency" - stock currency
+                "dividendYield" - stock dividend yield
+                "forwardEps" - stock forward EPS
+                "forwardPE" - stock forward P/E Ratio
+                "longBusinessSummary" - stock business summary
+                "longName" - stock name
+                "marketCap" - stock market capitalization
+                "pegRatio" - stock PEG Ratio
+                "previousClose" - stock previous closing price
+                "priceToBook" - stock price to book ratio
+                "quoteType" - type of asset
+        print : bool
+            Specifies whether to print data using pprint. Default is False (Optional)
+        Returns: dict or int or float or str
+            Returns various values depending on command
+        '''
         # Rename stock for Yfinance
         ticker_name = self.check_name()
 
@@ -77,8 +78,14 @@ class TData:
 
     def get_data(self, candle_interval=1, print=False):
         '''
-        Downloads market data from Yahoo Finance
-        returns pandas DataFrame
+        Gets stock max period technical data depending on interval of each candlestick. Default is 1D candles.
+        Arguments are:
+            candle_interval : int
+                Specifies interval of each candlestick. Default is 1 (Optional)
+            print : bool
+                Specifies whether to print data using pprint. Default is False (Optional)
+        Returns: pandas DataFrame
+            Returns pandas DataFrame of stock data. Open, High, Low, Close, Volume, Dividends, Stock Splits.
         '''
         # Rename stock for Yfinance
         ticker_name = self.check_name()
@@ -92,8 +99,14 @@ class TData:
 
     def get_close(self, candle_interval=1, print=False):
         '''
-        Get Close market data from Yahoo Finance
-        returns pandas Series
+        Gets stock max period close price data depending on interval of each candlestick. Default is 1D candles.
+        Arguments are:
+            candle_interval : int
+                Specifies interval of each candlestick. Default is 1 (Optional)
+            print : bool
+                Specifies whether to print data using pprint. Default is False (Optional)
+        Returns: pandas Series
+            Returns pandas Series of stock data.
         '''
         # Rename stock for Yfinance
         ticker_name = self.check_name()
@@ -108,8 +121,14 @@ class TData:
 
     def get_open(self, candle_interval=1, print=False):
         '''
-        Get Open market data from Yahoo Finance
-        returns pandas Series
+        Gets stock max period open price data depending on interval of each candlestick. Default is 1D candles.
+        Arguments are:
+            candle_interval : int
+                Specifies interval of each candlestick. Default is 1 (Optional)
+            print : bool
+                Specifies whether to print data using pprint. Default is False (Optional)
+        Returns: pandas Series
+            Returns pandas Series of stock data.
         '''
         # Rename stock for Yfinance
         ticker_name = self.check_name()
@@ -124,8 +143,14 @@ class TData:
 
     def get_prevclose(self, candle_interval=1, print=False):
         '''
-        Get Yesterday's close value for stock
-        returns float
+        Gets stock previous candlestick's close price data depending on interval of each candlestick. Default is 1D candles.
+        Arguments are:
+            candle_interval : int
+                Specifies interval of each candlestick. Default is 1 (Optional)
+            print : bool
+                Specifies whether to print data using pprint. Default is False (Optional)
+        Returns: float
+            Returns price of previous candlestick's close price.
         '''
         # Rename stock for Yfinance
         ticker_name = self.check_name()
