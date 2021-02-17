@@ -62,7 +62,7 @@ class Fin_Select:
                 val = from_df.loc[f'{item}']
                 return val
             except KeyError:
-                print('Input does not exist. Please double check args year and item again.')
+                print('Input does not exist. Please double check args item again.')
         
         else: 
             return None
@@ -79,12 +79,12 @@ class Fin_Select:
         Returns: pandas Series
             Returns pandas Series of row.
         '''
-        if item != None:
+        if year != None:
             try:
                 val = from_df.loc[year]
                 return val
             except KeyError:
-                print('Input does not exist. Please double check args year and item again.')
+                print('Input does not exist. Please double check args year again.')
         
         else: 
             return None
