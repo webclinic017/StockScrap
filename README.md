@@ -9,8 +9,8 @@
     + [Ongoing Tasks](#ongoing-tasks)
     + [Required modules](#required-modules)
     + [How to use this module and Examples](#how-to-use-this-module-and-examples)
-      - [*Downloader* class](#-downloader--class)
-      - [*DBExtract* class](#-dbextract--class)
+      - [*Downloader* class](#downloader-class)
+      - [*DBExtract* class](#dbextract-class)
     + [Documentation](#documentation)
 
 ### Introduction
