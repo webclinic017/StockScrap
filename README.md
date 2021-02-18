@@ -12,64 +12,6 @@
       - [*Downloader* class](#-downloader--class)
       - [*DBExtract* class](#-dbextract--class)
     + [Documentation](#documentation)
-      - [Downloader class](#downloader-class)
-        * [method Downloader.download](#method-downloaderdownload)
-      - [DBExtract(Fin_Extract) class](#dbextract-fin-extract--class)
-        * [method DBExtract.json_extract](#method-dbextractjson-extract)
-      - [Fin_Extract(Fin_Select) class](#fin-extract-fin-select--class)
-        * [method Fin_Extract.determine_symbol](#method-fin-extractdetermine-symbol)
-        * [method Fin_Extract.str_to_val](#method-fin-extractstr-to-val)
-        * [method Fin_Extract.extract](#method-fin-extractextract)
-        * [method Fin_Extract.extract_columns](#method-fin-extractextract-columns)
-      - [Fin_Select class](#fin-select-class)
-        * [method Fin_Select.select_isolate](#method-fin-selectselect-isolate)
-        * [method Fin_Select.select_item](#method-fin-selectselect-item)
-        * [method Fin_Select.select_year](#method-fin-selectselect-year)
-      - [WebDriver class](#webdriver-class)
-        * [method WebDriver.driver](#method-webdriverdriver)
-      - [Fin_Data(WebDriver) class](#fin-data-webdriver--class)
-        * [method Fin_Data.remove_logging](#method-fin-dataremove-logging)
-        * [method Fin_Data.reorder_df](#method-fin-datareorder-df)
-        * [method Fin_Data.name](#method-fin-dataname)
-        * [method Fin_Data.industry](#method-fin-dataindustry)
-        * [method Fin_Data.sector](#method-fin-datasector)
-        * [method Fin_Data.exchange](#method-fin-dataexchange)
-        * [method Fin_Data.ceo](#method-fin-dataceo)
-        * [method Fin_Data.business_model](#method-fin-databusiness-model)
-        * [method Fin_Data.stock_info](#method-fin-datastock-info)
-        * [method Fin_Data.price](#method-fin-dataprice)
-        * [method Fin_Data.check_ticker](#method-fin-datacheck-ticker)
-        * [method Fin_Data.valuations](#method-fin-datavaluations)
-        * [method Fin_Data.efficiency](#method-fin-dataefficiency)
-        * [method Fin_Data.liquidity](#method-fin-dataliquidity)
-        * [method Fin_Data.profitability](#method-fin-dataprofitability)
-        * [method Fin_Data.captialization](#method-fin-datacaptialization)
-        * [method Fin_Data.main_page](#method-fin-datamain-page)
-        * [method Fin_Data.income_statement](#method-fin-dataincome-statement)
-        * [method Fin_Data.balance_sheet_assets](#method-fin-databalance-sheet-assets)
-        * [method Fin_Data.balance_sheet_lia](#method-fin-databalance-sheet-lia)
-        * [method Fin_Data.cash_flow_opr](#method-fin-datacash-flow-opr)
-        * [method Fin_Data.cash_flow_inv](#method-fin-datacash-flow-inv)
-        * [method Fin_Data.cash_flow_fin](#method-fin-datacash-flow-fin)
-        * [method Fin_Data.balance_sheet](#method-fin-databalance-sheet)
-        * [method Fin_Data.cash_flow](#method-fin-datacash-flow)
-        * [method Fin_Data.years](#method-fin-datayears)
-        * [method Fin_Data.fiscal_month](#method-fin-datafiscal-month)
-        * [method Fin_Data.fiscal_year_dates](#method-fin-datafiscal-year-dates)
-      - [FData(Fin_Data, Fin_Extract) class](#fdata-fin-data--fin-extract--class)
-      - [TData class](#tdata-class)
-        * [method TData.check_name](#method-tdatacheck-name)
-        * [method TData.get_info](#method-tdataget-info)
-        * [method TData.get_data](#method-tdataget-data)
-        * [method TData.get_close](#method-tdataget-close)
-        * [method TData.get_open](#method-tdataget-open)
-        * [method TData.get_prevclose](#method-tdataget-prevclose)
-      - [ToJson class](#tojson-class)
-        * [method ToJson.json](#method-tojsonjson)
-      - [Stock_Data(TData, FData, ToJson) class](#stock-data-tdata--fdata--tojson--class)
-        * [method Stock_Data.fiscal_year_prices](#method-stock-datafiscal-year-prices)
-      - [StockDL(Stock_Data) class](#stockdl-stock-data--class)
-        * [method Stock_Data.stockdl](#method-stock-datastockdl)
 
 ### Introduction
 
@@ -117,7 +59,7 @@ from DBExtract import DBExtract
 from Download import Downloader
 ```
 
-#### *Downloader* class
+#### Downloader class
 
 > The Downloader class is the stock data downloader component. It allows one to download financial data from MarketWatch or technical data from YahooFinance.
 ```python
@@ -126,7 +68,7 @@ d = Downloader()
 d.download(type_="string", ticker="MSFT", DB_PATH=r'C:\Users\rawsashimi1604\FinData')
 ```
 
-#### *DBExtract* class
+#### DBExtract class
 
 > The DBExtract class is the database extraction component. It allows one to pull data from database and display in a string or pandas DataFrame format.
 ```python
