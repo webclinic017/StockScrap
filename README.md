@@ -1,77 +1,19 @@
 # Stock Data Scrapper using MarketWatch and Yahoo Finance!
 *Made by rawsashimi1604*
 
-## :scroll: Table of Contents (Use Ctrl - F to find) *Links do not work*
+## Table of Contents
 - [Stock Data Scrapper using MarketWatch and Yahoo Finance!](#stock-data-scrapper-using-marketwatch-and-yahoo-finance-)
-  * [Table of Contents](#table-of-contents)
-    + [:wave: Introduction](#-wave--introduction)
-    + [:+1: Contributing](#--1--contributing)
-    + [:calendar: Ongoing Tasks](#-calendar--ongoing-tasks)
-    + [:books: Required modules](#-books--required-modules)
-    + [:question: How to use this module and Examples](#-question--how-to-use-this-module-and-examples)
-      - [:floppy_disk: *Downloader* class](#-floppy-disk---downloader--class)
-      - [:electric_plug: *DBExtract* class](#-electric-plug---dbextract--class)
-    + [:file_folder: Documentation](#-file-folder--documentation)
-      - [***Downloader*** class](#---downloader----class)
-        * [*method* **Downloader**.*download*](#-method----downloader---download-)
-      - [***DBExtract***(*Fin_Extract*) class](#---dbextract-----fin-extract---class)
-        * [*method* **DBExtract**.*json_extract*](#-method----dbextract---json-extract-)
-      - [***Fin_Extract***(*Fin_Select*) class](#---fin-extract-----fin-select---class)
-        * [*method* **Fin_Extract**.*determine_symbol*](#-method----fin-extract---determine-symbol-)
-        * [*method* **Fin_Extract**.*str_to_val*](#-method----fin-extract---str-to-val-)
-        * [*method* **Fin_Extract**.*extract*](#-method----fin-extract---extract-)
-        * [*method* **Fin_Extract**.*extract_columns*](#-method----fin-extract---extract-columns-)
-      - [***Fin_Select*** class](#---fin-select----class)
-        * [*method* **Fin_Select**.*select_isolate*](#-method----fin-select---select-isolate-)
-        * [*method* **Fin_Select**.*select_item*](#-method----fin-select---select-item-)
-        * [*method* **Fin_Select**.*select_year*](#-method----fin-select---select-year-)
-      - [***WebDriver*** class](#---webdriver----class)
-        * [*method* **WebDriver**.*driver*](#-method----webdriver---driver-)
-      - [***Fin_Data***(*WebDriver*) class](#---fin-data-----webdriver---class)
-        * [*method* **Fin_Data**.*remove_logging*](#-method----fin-data---remove-logging-)
-        * [*method* **Fin_Data**.*reorder_df*](#-method----fin-data---reorder-df-)
-        * [*method* **Fin_Data**.*name*](#-method----fin-data---name-)
-        * [*method* **Fin_Data**.*industry*](#-method----fin-data---industry-)
-        * [*method* **Fin_Data**.*sector*](#-method----fin-data---sector-)
-        * [*method* **Fin_Data**.*exchange*](#-method----fin-data---exchange-)
-        * [*method* **Fin_Data**.*ceo*](#-method----fin-data---ceo-)
-        * [*method* **Fin_Data**.*business_model*](#-method----fin-data---business-model-)
-        * [*method* **Fin_Data**.*stock_info*](#-method----fin-data---stock-info-)
-        * [*method* **Fin_Data**.*price*](#-method----fin-data---price-)
-        * [*method* **Fin_Data**.*check_ticker*](#-method----fin-data---check-ticker-)
-        * [*method* **Fin_Data**.*valuations*](#-method----fin-data---valuations-)
-        * [*method* **Fin_Data**.*efficiency*](#-method----fin-data---efficiency-)
-        * [*method* **Fin_Data**.*liquidity*](#-method----fin-data---liquidity-)
-        * [*method* **Fin_Data**.*profitability*](#-method----fin-data---profitability-)
-        * [*method* **Fin_Data**.*captialization*](#-method----fin-data---captialization-)
-        * [*method* **Fin_Data**.*main_page*](#-method----fin-data---main-page-)
-        * [*method* **Fin_Data**.*income_statement*](#-method----fin-data---income-statement-)
-        * [*method* **Fin_Data**.*balance_sheet_assets*](#-method----fin-data---balance-sheet-assets-)
-        * [*method* **Fin_Data**.*balance_sheet_lia*](#-method----fin-data---balance-sheet-lia-)
-        * [*method* **Fin_Data**.*cash_flow_opr*](#-method----fin-data---cash-flow-opr-)
-        * [*method* **Fin_Data**.*cash_flow_inv*](#-method----fin-data---cash-flow-inv-)
-        * [*method* **Fin_Data**.*cash_flow_fin*](#-method----fin-data---cash-flow-fin-)
-        * [*method* **Fin_Data**.*balance_sheet*](#-method----fin-data---balance-sheet-)
-        * [*method* **Fin_Data**.*cash_flow*](#-method----fin-data---cash-flow-)
-        * [*method* **Fin_Data**.*years*](#-method----fin-data---years-)
-        * [*method* **Fin_Data**.*fiscal_month*](#-method----fin-data---fiscal-month-)
-        * [*method* **Fin_Data**.*fiscal_year_dates*](#-method----fin-data---fiscal-year-dates-)
-      - [***FData***(*Fin_Data, Fin_Extract*) class](#---fdata-----fin-data--fin-extract---class)
-      - [***TData*** class](#---tdata----class)
-        * [*method* **TData**.*check_name*](#-method----tdata---check-name-)
-        * [*method* **TData**.*get_info*](#-method----tdata---get-info-)
-        * [*method* **TData**.*get_data*](#-method----tdata---get-data-)
-        * [*method* **TData**.*get_close*](#-method----tdata---get-close-)
-        * [*method* **TData**.*get_open*](#-method----tdata---get-open-)
-        * [*method* **TData**.*get_prevclose*](#-method----tdata---get-prevclose-)
-      - [***ToJson*** class](#---tojson----class)
-        * [*method* **ToJson**.*json*](#-method----tojson---json-)
-      - [***Stock_Data***(*TData, FData, ToJson*) class](#---stock-data-----tdata--fdata--tojson---class)
-        * [*method* **Stock_Data**.*fiscal_year_prices*](#-method----stock-data---fiscal-year-prices-)
-      - [***StockDL***(*Stock_Data*) class](#---stockdl-----stock-data---class)
-        * [*method* **Stock_Data**.*stockdl*](#-method----stock-data---stockdl-)
+  * [Table of Contents](#table-of-contents-)
+    + [Introduction](#introduction)
+    + [Contributing](#contributing)
+    + [Ongoing Tasks](#ongoing-tasks)
+    + [Required modules](#required-modules)
+    + [How to use this module and Examples](#how-to-use-this-module-and-examples)
+      - [*Downloader* class](#downloader-class)
+      - [*DBExtract* class](#dbextract-class)
+    + [Documentation](#documentation)
 
-### :wave: Introduction
+### Introduction
 
 Hey everyone! :wave: This project is a stock data scrapper that I made for my own analysis purposes! It uses **Python** to extract financial and technical data from stocks and stores them into a database on your local computer. :smile:
 
@@ -83,13 +25,13 @@ We then use these 2 components to build a complete stock data database; afterwhi
     
 *For now I will be adding my own analysis features in periodically into this project.*
 
-### :+1: Contributing
+### Contributing
 
 All pull requests are welcome! :upside_down_face: However, changes to the code are not available for now. 
 
 *Do drop me a message if you want to contribute and we can work something out!*
 
-### :calendar: Ongoing Tasks
+### Ongoing Tasks
 - [x] Download stock data to database
 - [x] Create extraction module to pull data from database (in both data and view format)
 - [ ] Create module for installation across folders
@@ -98,7 +40,7 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - [ ] Calcuate intrinsic value using Discounted Cash Flow (DCF) model
 - [x] Add specific documentation of different class methods and their usage
 
-### :books: Required modules
+### Required modules
 - pandas
 - numpy
 - BeautifulSoup4
@@ -107,7 +49,7 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - pprint
 - yfinance
 
-### :question: How to use this module and Examples
+### How to use this module and Examples
 *Before starting, install the Chromium WebDriver for Google Chrome. Then put the driver into C:\Program Files (x86)\chromedriver.exe*
 
 After that, open a new python file in the folder. Then import the **Downloader** class and the **DBExtract** class.
@@ -117,7 +59,7 @@ from DBExtract import DBExtract
 from Download import Downloader
 ```
 
-#### 	:floppy_disk: *Downloader* class
+#### Downloader class
 
 > The Downloader class is the stock data downloader component. It allows one to download financial data from MarketWatch or technical data from YahooFinance.
 ```python
@@ -126,7 +68,7 @@ d = Downloader()
 d.download(type_="string", ticker="MSFT", DB_PATH=r'C:\Users\rawsashimi1604\FinData')
 ```
 
-#### :electric_plug: *DBExtract* class
+#### DBExtract class
 
 > The DBExtract class is the database extraction component. It allows one to pull data from database and display in a string or pandas DataFrame format.
 ```python
@@ -135,8 +77,8 @@ extract = DBExtract(DB_PATH=r'C:\Users\rawsashimi1604\FinData')
 df = extract.json_extract("view", ticker="MSFT", FILE_NAME="IncomeStatement") # returns pandas DataFrame
 ```
 
-### :file_folder: Documentation
-#### ***Downloader*** class
+### Documentation
+#### Downloader class
 > The Downloader class is the stock data downloader component. It allows one to download financial data from MarketWatch or technical data from YahooFinance.
 ```python
 class Downloader:
@@ -146,7 +88,7 @@ class Downloader:
 - Attributes are:
   - *None*
 
-##### *method* **Downloader**.*download*
+##### method Downloader.download
 ```python
 Downloader.download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=None, max=None, ticker=None, list_=None, csv=None, buffer=5, download="ALL")
 ```
@@ -183,7 +125,7 @@ Downloader.download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe'
       - ~*"FISCALYEAR"* - download fiscal year information~
 - Returns: *None*
 
-#### ***DBExtract***(*Fin_Extract*) class
+#### DBExtract(Fin_Extract) class
 > The DBExtract class is the database extraction component. It allows one to pull data from database and display in a string or pandas DataFrame format. Inherits Fin_Extract class.
 ```python
 class DBExtract(Fin_Extract):
@@ -194,7 +136,7 @@ class DBExtract(Fin_Extract):
   - DB_PATH : *str*
     - Specifies database directory to extract data from. Default is *'C:/Users/rawsashimi1604/Desktop/FinData'* *(Optional)*
 
-##### *method* **DBExtract**.*json_extract*
+##### method DBExtract.json_extract
 ```python
 DBExtract.json_extract(format, ticker, country = "U.S.", FILE_NAME='StockInformation')
 ```
@@ -213,7 +155,7 @@ DBExtract.json_extract(format, ticker, country = "U.S.", FILE_NAME='StockInforma
 - Returns: *pandas DataFrame or pandas Series*
   -  Returns dataframe or series of extracted file.
 
-#### ***Fin_Extract***(*Fin_Select*) class
+#### Fin_Extract(Fin_Select) class
 > The Fin_Extract class allows extraction of data from str/ pandas DataFrame/ pandas Series format. Then, it is able to convert values into scientific values for analysis purposes. Inherits Fin_Select class.
 ```python
 class Fin_Extract(Fin_Select):
@@ -224,7 +166,7 @@ class Fin_Extract(Fin_Select):
   - ticker : *str*
     - Specifies which ticker to extract data from. **(Required)**
     
-##### *method* **Fin_Extract**.*determine_symbol*
+##### method Fin_Extract.determine_symbol
 ```python
 Fin_Extract.determine_symbol(cell_val)
 ```
@@ -235,7 +177,7 @@ Fin_Extract.determine_symbol(cell_val)
 - Returns: *list*
   - Returns list of symbols available in string.
 
-##### *method* **Fin_Extract**.*str_to_val*
+##### method Fin_Extract.str_to_val
 ```python
 Fin_Extract.str_to_val(cell_val)
 ```
@@ -246,7 +188,7 @@ Fin_Extract.str_to_val(cell_val)
 - Returns: *pandas dtype int64 / float64*
   - Returns scientific value of string in pandas datatype int64 or float64.
  
-##### *method* **Fin_Extract**.*extract*
+##### method Fin_Extract.extract
 ```python
 Fin_Extract.extract(cell_val)
 ```
@@ -257,7 +199,7 @@ Fin_Extract.extract(cell_val)
 - Returns: *pandas dtype int64 / float64 or pandas Series*
   - Returns scientific value of string in pandas datatype int64 or float64. Can also return pandas Series if *cell_val* is a pandas Series.
 
-##### *method* **Fin_Extract**.*extract_columns*
+##### method Fin_Extract.extract_columns
 ```python
 Fin_Extract.extract_columns(from_df)
 ```
@@ -268,7 +210,7 @@ Fin_Extract.extract_columns(from_df)
 - Returns: *list*
   - Returns list of columns of pandas DataFrame
 
-#### ***Fin_Select*** class
+#### Fin_Select class
 > The Fin_Select class allows selection of specific cells or rows  Then, it is able to convert values into scientific values for analysis purposes. Inherits Fin_Select class.
 ```python
 class Fin_Select:
@@ -279,7 +221,7 @@ class Fin_Select:
   - ticker : *str*
     - Specifies which ticker to select data from. **(Required)**
     
-##### *method* **Fin_Select**.*select_isolate*
+##### method Fin_Select.select_isolate
 ```python
 Fin_Select.select_isolate(from_df, year=None, item=None)
 ```
@@ -294,7 +236,7 @@ Fin_Select.select_isolate(from_df, year=None, item=None)
 - Returns: *str*
   - Returns string of specific cell.
 
-##### *method* **Fin_Select**.*select_item*
+##### method Fin_Select.select_item
 ```python
 Fin_Select.select_item(from_df, item=None)
 ```
@@ -307,7 +249,7 @@ Fin_Select.select_item(from_df, item=None)
 - Returns: *pandas Series*
   - Returns pandas Series of row.
 
-##### *method* **Fin_Select**.*select_year*
+##### method Fin_Select.select_year
 ```python
 Fin_Select.select_item(from_df, year=None)
 ```
@@ -321,7 +263,7 @@ Fin_Select.select_item(from_df, year=None)
   - Returns pandas Series of column.
   
 
-#### ***WebDriver*** class
+#### WebDriver class
 > The WebDriver class allows customization of Chromium WebDriver for selenium.
 ```python
 class WebDriver:
@@ -335,7 +277,7 @@ class WebDriver:
   - ignore_errors : "bool"
     - Option whether to ignore errors. True = ignore errors.  Default is *True* *(Optional)*
     
-##### *method* **WebDriver**.*driver*
+##### method WebDriver.driver
 ```python
 WebDriver.driver()
 ```
@@ -345,7 +287,7 @@ WebDriver.driver()
 - Returns: *selenium WebDriver*
   - Returns selenium WebDriver with custom options
 
-#### ***Fin_Data***(*WebDriver*) class
+#### Fin_Data(WebDriver) class
 > The Fin_Data class allows for scraping of financial data from MarketWatch. It then returns it in a pandas DataFrame or Series format. Inherits WebDriver class.
 ```python
 class Fin_Data(WebDriver):
@@ -362,7 +304,7 @@ class Fin_Data(WebDriver):
   - ignore_errors : "bool"
     - Option whether to ignore errors. True = ignore errors.  Default is *True* *(Optional)*
     
-##### *method* **Fin_Data**.*remove_logging*
+##### method Fin_Data.remove_logging
 ```python
 Fin_Data.remove_logging()
 ```
@@ -372,7 +314,7 @@ Fin_Data.remove_logging()
 - Returns: *None*
   - Returns None
  
-##### *method* **Fin_Data**.*reorder_df*
+##### method Fin_Data.reorder_df
 ```python
 Fin_Data.reorder_df(from_df, reverse=False)
 ```
@@ -385,7 +327,7 @@ Fin_Data.reorder_df(from_df, reverse=False)
 - Returns: *pandas DataFrame*
   - Returns reordered pandas DataFrame
 
-##### *method* **Fin_Data**.*name*
+##### method Fin_Data.name
 ```python
 Fin_Data.name()
 ```
@@ -395,7 +337,7 @@ Fin_Data.name()
 - Returns: *str*
   - Returns stock name in string value.
 
-##### *method* **Fin_Data**.*industry*
+##### method Fin_Data.industry
 ```python
 Fin_Data.industry()
 ```
@@ -405,7 +347,7 @@ Fin_Data.industry()
 - Returns: *str*
   - Returns stock's industry in string value.
 
-##### *method* **Fin_Data**.*sector*
+##### method Fin_Data.sector
 ```python
 Fin_Data.sector()
 ```
@@ -415,7 +357,7 @@ Fin_Data.sector()
 - Returns: *str*
   - Returns stock's sector in string value.
 
-##### *method* **Fin_Data**.*exchange*
+##### method Fin_Data.exchange
 ```python
 Fin_Data.exchange()
 ```
@@ -425,7 +367,7 @@ Fin_Data.exchange()
 - Returns: *str*
   - Returns stock's exchange location in string value.
   
-##### *method* **Fin_Data**.*ceo*
+##### method Fin_Data.ceo
 ```python
 Fin_Data.ceo()
 ```
@@ -435,7 +377,7 @@ Fin_Data.ceo()
 - Returns: *str*
   - Returns stock's CEO name in string value.
   
-##### *method* **Fin_Data**.*business_model*
+##### method Fin_Data.business_model
 ```python
 Fin_Data.business_model()
 ```
@@ -445,7 +387,7 @@ Fin_Data.business_model()
 - Returns: *str*
   - Returns stock's business_model overview in string value.
   
-##### *method* **Fin_Data**.*stock_info*
+##### method Fin_Data.stock_info
 ```python
 Fin_Data.stock_info()
 ```
@@ -455,7 +397,7 @@ Fin_Data.stock_info()
 - Returns: *pandas DataFrame*
   - Returns stock's main information in pandas DataFrame format.
 
-##### *method* **Fin_Data**.*price*
+##### method Fin_Data.price
 ```python
 Fin_Data.price()
 ```
@@ -465,7 +407,7 @@ Fin_Data.price()
 - Returns: *float*
   - Returns stock's price in float value.
 
-##### *method* **Fin_Data**.*check_ticker*
+##### method Fin_Data.check_ticker
 ```python
 Fin_Data.check_ticker()
 ```
@@ -475,7 +417,7 @@ Fin_Data.check_ticker()
 - Returns: *bool*
   - Returns True or False depending on whether the stock exists. Returns True for exist.
 
-##### *method* **Fin_Data**.*valuations*
+##### method Fin_Data.valuations
 ```python
 Fin_Data.valuations()
 ```
@@ -485,7 +427,7 @@ Fin_Data.valuations()
 - Returns: *pandas Series*
   - Returns pandas Series of valuation metrics.
 
-##### *method* **Fin_Data**.*efficiency*
+##### method Fin_Data.efficiency
 ```python
 Fin_Data.efficiency()
 ```
@@ -495,7 +437,7 @@ Fin_Data.efficiency()
 - Returns: *pandas Series*
   - Returns pandas Series of efficiency metrics.
   
-##### *method* **Fin_Data**.*liquidity*
+##### method Fin_Data.liquidity
 ```python
 Fin_Data.liquidity()
 ```
@@ -505,7 +447,7 @@ Fin_Data.liquidity()
 - Returns: *pandas Series*
   - Returns pandas Series of liquidity metrics.
 
-##### *method* **Fin_Data**.*profitability*
+##### method Fin_Data.profitability
 ```python
 Fin_Data.profitability()
 ```
@@ -515,7 +457,7 @@ Fin_Data.profitability()
 - Returns: *pandas Series*
   - Returns pandas Series of profitability metrics.
 
-##### *method* **Fin_Data**.*captialization*
+##### method Fin_Data.captialization
 ```python
 Fin_Data.captialization()
 ```
@@ -525,7 +467,7 @@ Fin_Data.captialization()
 - Returns: *pandas Series*
   - Returns pandas Series of captialization metrics.
   
-##### *method* **Fin_Data**.*main_page*
+##### method Fin_Data.main_page
 ```python
 Fin_Data.main_page()
 ```
@@ -535,7 +477,7 @@ Fin_Data.main_page()
 - Returns: *pandas Series*
   - Returns pandas Series of stock information.
   
-##### *method* **Fin_Data**.*income_statement*
+##### method Fin_Data.income_statement
 ```python
 Fin_Data.income_statement()
 ```
@@ -545,7 +487,7 @@ Fin_Data.income_statement()
 - Returns: *pandas DataFrame*
   - Returns pandas DataFrame of stock income statement.
   
-##### *method* **Fin_Data**.*balance_sheet_assets*
+##### method Fin_Data.balance_sheet_assets
 ```python
 Fin_Data.balance_sheet_assets()
 ```
@@ -555,7 +497,7 @@ Fin_Data.balance_sheet_assets()
 - Returns: *pandas DataFrame*
   - Returns pandas DataFrame of stock balance sheet assets.
   
-##### *method* **Fin_Data**.*balance_sheet_lia*
+##### method Fin_Data.balance_sheet_lia
 ```python
 Fin_Data.balance_sheet_lia()
 ```
@@ -565,7 +507,7 @@ Fin_Data.balance_sheet_lia()
 - Returns: *pandas DataFrame*
   - Returns pandas DataFrame of stock balance sheet liabilities.
   
-##### *method* **Fin_Data**.*cash_flow_opr*
+##### method Fin_Data.cash_flow_opr
 ```python
 Fin_Data.cash_flow_opr()
 ```
@@ -575,7 +517,7 @@ Fin_Data.cash_flow_opr()
 - Returns: *pandas DataFrame*
   - Returns pandas DataFrame of cash flow operating activities.
   
-##### *method* **Fin_Data**.*cash_flow_inv*
+##### method Fin_Data.cash_flow_inv
 ```python
 Fin_Data.cash_flow_inv()
 ```
@@ -585,7 +527,7 @@ Fin_Data.cash_flow_inv()
 - Returns: *pandas DataFrame*
   - Returns pandas DataFrame of cash flow investing activities.
   
-##### *method* **Fin_Data**.*cash_flow_fin*
+##### method Fin_Data.cash_flow_fin
 ```python
 Fin_Data.cash_flow_fin()
 ```
@@ -595,7 +537,7 @@ Fin_Data.cash_flow_fin()
 - Returns: *pandas DataFrame*
   - Returns pandas DataFrame of cash flow financing activities.
   
-##### *method* **Fin_Data**.*balance_sheet*
+##### method Fin_Data.balance_sheet
 ```python
 Fin_Data.balance_sheet()
 ```
@@ -605,7 +547,7 @@ Fin_Data.balance_sheet()
 - Returns: *str*
   - Returns 'Printed balance sheet successfully.'
 
-##### *method* **Fin_Data**.*cash_flow*
+##### method Fin_Data.cash_flow
 ```python
 Fin_Data.cash_flow()
 ```
@@ -615,7 +557,7 @@ Fin_Data.cash_flow()
 - Returns: *str*
   - Returns 'Printed cash flow statement successfully.'
 
-##### *method* **Fin_Data**.*years*
+##### method Fin_Data.years
 ```python
 Fin_Data.years()
 ```
@@ -625,7 +567,7 @@ Fin_Data.years()
 - Returns: *list*
   - Returns list of years.
 
-##### *method* **Fin_Data**.*fiscal_month*
+##### method Fin_Data.fiscal_month
 ```python
 Fin_Data.fiscal_month()
 ```
@@ -635,7 +577,7 @@ Fin_Data.fiscal_month()
 - Returns: *int*
   - Returns first month of fiscal year.
 
-##### *method* **Fin_Data**.*fiscal_year_dates*
+##### method Fin_Data.fiscal_year_dates
 ```python
 Fin_Data.fiscal_year_dates()
 ```
@@ -645,7 +587,7 @@ Fin_Data.fiscal_year_dates()
 - Returns: *list*
   - Returns list of start fiscal year dates.
 
-#### ***FData***(*Fin_Data, Fin_Extract*) class
+#### FData(Fin_Data, Fin_Extract) class
 > The FData class merges Financial Data methods with extraction methods. Inherits Fin_Data and Fin_Extract.
 ```python
 class FData(Fin_Data, Fin_Extract):
@@ -661,7 +603,7 @@ class FData(Fin_Data, Fin_Extract):
   - ignore_errors : "bool"
     - Option whether to ignore errors for selenium WebDriver. True = ignore errors.  Default is *True* *(Optional)*
  
-#### ***TData*** class
+#### TData class
 > The TData class uses yfinance module to extract technical price data for stocks. 
 ```python
 class FData(Fin_Data, Fin_Extract):
@@ -673,7 +615,7 @@ class FData(Fin_Data, Fin_Extract):
   - ticker : *str*
     - Specifies which ticker to extract data from. **(Required)**
 
-##### *method* **TData**.*check_name*
+##### method TData.check_name
 ```python
 TData.check_name()
 ```
@@ -683,7 +625,7 @@ TData.check_name()
 - Returns: *str*
   - Returns str of new ticker name for yfinance portability.
 
-##### *method* **TData**.*get_info*
+##### method TData.get_info
 ```python
 TData.get_info(command="nil", print=False)
 ```
@@ -709,7 +651,7 @@ TData.get_info(command="nil", print=False)
 - Returns: *dict or int or float or str*
   - Returns various values depending on command
 
-##### *method* **TData**.*get_data*
+##### method TData.get_data
 ```python
 TData.get_data(candle_interval=1, print=False)
 ```
@@ -722,7 +664,7 @@ TData.get_data(candle_interval=1, print=False)
 - Returns: *pandas DataFrame*
   - Returns pandas DataFrame of stock data. Open, High, Low, Close, Volume, Dividends, Stock Splits.
 
-##### *method* **TData**.*get_close*
+##### method TData.get_close
 ```python
 TData.get_close(candle_interval=1, print=False)
 ```
@@ -735,7 +677,7 @@ TData.get_close(candle_interval=1, print=False)
 - Returns: *pandas Series*
   - Returns pandas Series of stock data.
  
-##### *method* **TData**.*get_open*
+##### method TData.get_open
 ```python
 TData.get_open(candle_interval=1, print=False)
 ```
@@ -748,7 +690,7 @@ TData.get_open(candle_interval=1, print=False)
 - Returns: *pandas Series*
   - Returns pandas Series of stock data.
   
-##### *method* **TData**.*get_prevclose*
+##### method TData.get_prevclose
 ```python
 TData.get_prevclose(candle_interval=1, print=False)
 ```
@@ -761,7 +703,7 @@ TData.get_prevclose(candle_interval=1, print=False)
 - Returns: *float*
   - Returns price of previous candlestick's close price.
 
-#### ***ToJson*** class
+#### ToJson class
 > The ToJson class stores pandas DataFrames and Series' into JSON files and stores it in a database.
 ```python
 class ToJson:
@@ -771,7 +713,7 @@ class ToJson:
 - Attributes are:
   - *None*
   
-##### *method* **ToJson**.*json*
+##### method ToJson.json
 ```python
 ToJson.json(from_obj=None, export_to=None, filename=None, orient='columns')
 ```
@@ -788,7 +730,7 @@ ToJson.json(from_obj=None, export_to=None, filename=None, orient='columns')
 - Returns: *None*
   - Returns None.
 
-#### ***Stock_Data***(*TData, FData, ToJson*) class
+#### Stock_Data(TData, FData, ToJson) class
 > The Stock_Data class is a combination of all methods found to scrap technical and financial data. It also allows for JSON file storage. Inherits TData, FData, ToJson classes.
 ```python
 class Stock_Data(TData, FData, ToJson):
@@ -804,7 +746,7 @@ class Stock_Data(TData, FData, ToJson):
   - ignore_errors : "bool"
     - Option whether to ignore errors for selenium WebDriver. True = ignore errors.  Default is *True* *(Optional)*
 
-##### *method* **Stock_Data**.*fiscal_year_prices*
+##### method Stock_Data.fiscal_year_prices
 ```python
 Stock_Data.fiscal_year_prices()
 ```
@@ -814,7 +756,7 @@ Stock_Data.fiscal_year_prices()
 - Returns: *pandas Series*
   - Returns pandas Series of fiscal year start dates and their respective open prices.
   
-#### ***StockDL***(*Stock_Data*) class
+#### StockDL(Stock_Data) class
 > The StockDL class is a optimized downloader class. It allows for download of scrapped data in a consolidated fashion, then stores the data into JSON files and finally store it in a database.
 ```python
 class StockDL:
@@ -829,7 +771,7 @@ class StockDL:
   - ignore_errors : "bool"
     - Option whether to ignore errors for selenium WebDriver. True = ignore errors.  Default is *True* *(Optional)*
 
-##### *method* **Stock_Data**.*stockdl*
+##### method Stock_Data.stockdl
 ```python
 StockDL.stockdl(DB_PATH='C:/Users/rawsashimi1604/Desktop/FinData', download="ALL", buffer=5)
 ```
