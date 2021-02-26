@@ -5,10 +5,10 @@ import numpy as np
 import statistics as stat
 
 ticker = "AAPL"
-DB_PATH = r'C:\Users\Gavin\Desktop\FinData'
+DB_PATH = r'C:\Users\Dennis Loo.000\Desktop\FinData'
 
-# d = Downloader()
-# d.download(type_="string", DB_PATH = DB_PATH, buffer=1, ticker = ticker)
+d = Downloader()
+d.download(type_="string", DB_PATH = DB_PATH, buffer=1, ticker = ticker)
 
 # Extract FCF from database
 

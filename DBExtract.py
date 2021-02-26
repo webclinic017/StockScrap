@@ -29,7 +29,7 @@ Database PATH: {self.DB_PATH}
         '''
     
 
-    def json_extract(self, format, country = "U.S.", ticker = "TSLA", FILE_NAME='StockInformation'):
+    def json_extract(self, format, country = "U.S.", ticker = "TSLA", FILE_NAME='StockInformation', dtype='object'):
         '''
         Extracts pandas DataFrame from JSON file.
         Arguments are:
@@ -50,12 +50,12 @@ Database PATH: {self.DB_PATH}
 
         path = f'{self.DB_PATH}/{country}/{ticker[0]}/{ticker}/{FILE_NAME}'
         try:
-            df = pd.read_json(path)
+            df = pd.read_json(path, dtype='object')
             if format == 'data': 
                 df = df.applymap(self.str_to_val)
             # If dosen't work, json object is a series.
         except ValueError:
-            df = pd.read_json(path, typ='series')
+            df = pd.read_json(path, typ='series', dtype='object')
             if format == 'data': 
                 df = df.map(self.str_to_val)
 

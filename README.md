@@ -138,7 +138,7 @@ class DBExtract(Fin_Extract):
 
 ##### method DBExtract.json_extract
 ```python
-DBExtract.json_extract(format, ticker, country = "U.S.", FILE_NAME='StockInformation')
+DBExtract.json_extract(format, ticker, country = "U.S.", FILE_NAME='StockInformation', dtype='object')
 ```
 > *Extracts pandas DataFrame from JSON file.*
 - Arguments are:
@@ -152,6 +152,8 @@ DBExtract.json_extract(format, ticker, country = "U.S.", FILE_NAME='StockInforma
     - Specifies which country ticker is from. Default is *"U.S."* *(Optional)*
   - FILE_NAME : *str*
     - Specifies which data file to pull from. Default is *"StockInformation"* *(Optional)*
+  - dtype : *str*
+    - Specifies what type of data. Default is *"object"* *(Optional)*
 - Returns: *pandas DataFrame or pandas Series*
   -  Returns dataframe or series of extracted file.
 
