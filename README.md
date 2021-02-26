@@ -151,7 +151,21 @@ DBExtract.json_extract(format, ticker, country = "U.S.", FILE_NAME='StockInforma
   - country : *str*
     - Specifies which country ticker is from. Default is *"U.S."* *(Optional)*
   - FILE_NAME : *str*
-    - Specifies which data file to pull from. Default is *"StockInformation"* *(Optional)*
+    - Specifies which data file to pull from. Default is *"StockInformation"* *(Optional)* Available *"FILE_NAME"*:
+      - *"BalanceSheet_Assets"*
+      - *"BalanceSheet_Liabilities"*
+      - *"CashFlow_Financing"*
+      - *"CashFlow_Investing"*
+      - *"CashFlow_Operating"*
+      - *"IncomeStatement"*
+      - *"KeyData"*
+      - *"PriceData"*
+      - *"Profile_Capitalization"*
+      - *"Profile_Efficiency"*
+      - *"Profile_Liquidity"*
+      - *"Profile_Profitability"*
+      - *"Profile_Valuations"*
+      - *"StockInformation"*
   - dtype : *str*
     - Specifies what type of data. Default is *"object"* *(Optional)*
 - Returns: *pandas DataFrame or pandas Series*
