@@ -4,14 +4,15 @@ import pandas as pd
 import numpy as np
 import statistics as stat
 
-ticker = "AAPL"
+
+# Calculate Intrinsic using DCF Model
+ticker = "XPEV"
 DB_PATH = r'C:\Users\Dennis Loo.000\Desktop\FinData'
 
 d = Downloader()
 d.download(type_="string", DB_PATH = DB_PATH, buffer=1, ticker = ticker)
 
 # Extract FCF from database
-
 e = DBExtract(DB_PATH)
 inc_df = e.json_extract("data", ticker=ticker, FILE_NAME="CashFlow_Financing")
 free_cashflow = e.select_item(inc_df, "Free Cash Flow").tolist()
@@ -34,8 +35,9 @@ for i in range(0, estimation_years):
     recent_fcf = recent_fcf * (1+avg_cf)
     print(recent_fcf)
 
-# Get PEG, growth rate
-peg = e.json_extract("view", ticker=ticker, FILE_NAME="Profile_Valuations")
-print(peg)
+
+
+
+
 
 
