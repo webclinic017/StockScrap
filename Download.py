@@ -12,7 +12,7 @@ class Downloader:
         pass
     
 
-    def download(self,  type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=None, max=None, ticker=None, list_=None, csv=None, buffer=5, download="ALL", from_=None):
+    def download(self,  type_, DB_PATH=None, max=None, ticker=None, list_=None, csv=None, buffer=5, download="ALL", from_=None):
         '''
         Downloads data from MarketWatch and YahooFinance.
         Arguments are:
@@ -21,8 +21,6 @@ class Downloader:
                     "string" - downloads single ticker
                     "list" - downloads list of tickers
                     "csv" - downloads list of tickers from csv
-            Driver_PATH : str
-                Directory path of Chorimum WebDriver. Default is 'C:\Program Files (x86)\chromedriver.exe' (Optional)
             DB_PATH : str
                 Directory path to store downloaded files in. Also known as the database path. Default is None (Optional)
             max : int
@@ -57,7 +55,7 @@ class Downloader:
 
         # IF string
         if type_ == "string":
-            stock = StockDL(ticker, PATH=Driver_PATH)
+            stock = StockDL(ticker)
             try:
                 dl = stock.stockdl(DB_PATH=DB_PATH, download=download, buffer=buffer)
                 if dl == False:

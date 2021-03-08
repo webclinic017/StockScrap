@@ -2,30 +2,6 @@
 from bs4 import BeautifulSoup as bs
 import requests
 
-# Import WebDriver Class
-from WebDriver import WebDriver
-
-# Import selenium and get PATH for chromedriver.exe, initialize driver, give access to enter key, esc key.
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-
-# Import action chains
-from selenium.webdriver.common.action_chains import ActionChains
-
-# Imports selenium wait until expected_conditions required modules.
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
-from selenium.webdriver.chrome.options import Options
-
-# Imports selenium errors and exceptions.
-from selenium.common.exceptions import *
-
-# Imports selenium logger, to disable logging on selenium
-import logging
-from selenium.webdriver.remote.remote_connection import LOGGER
-
 # Import time for sleep functions
 import time
 
@@ -33,52 +9,28 @@ import time
 from datetime import datetime, timedelta
 import pandas_market_calendars as mcal
 
-
 # Import pandas and numpy
 import pandas as pd
 import numpy as np
 
 
-class Fin_Data(WebDriver):
+class Fin_Data:
     '''
-    The Fin_Data class allows for scraping of financial data from MarketWatch. It then returns it in a pandas DataFrame or Series format. Inherits WebDriver class.
+    The Fin_Data class allows for scraping of financial data from MarketWatch. It then returns it in a pandas DataFrame or Series format.
     Attributes are:
         ticker : str
             Specifies which ticker to draw financial data from. (Required)
-        PATH : str
-            Specifies where the Chromium WebDriver is located. (Required)
-        ignore_errors : "bool"
-            Option whether to ignore errors. True = ignore errors. Default is True (Optional)
     '''
     
-    def __init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
-        WebDriver.__init__(self, PATH='C:\Program Files (x86)\chromedriver.exe', ignore_errors=True)
+    def __init__(self, ticker):
         self.ticker = ticker
-        self.PATH = PATH
-        # self.driver = self.driver()
 
     def __repr__(self):
-        return (f'{self.__class__.__name__}('f'{self.ticker!r}, {self.PATH!r}')
+        return (f'{self.__class__.__name__}('f'{self.ticker!r}')
 
 
     def __str__(self):
-        return f'Financial Data for {self.ticker}, Chromedriver PATH = {self.PATH}'
-
-    
-    def remove_logging(self):
-        '''
-        Disables logging for selenium scraping
-        Arguments are:
-            None
-        Returns: None
-            Returns None
-        '''
-        LOGGER.setLevel(logging.WARNING)
-        
-        options = webdriver.ChromeOptions()
-
-
-        return None
+        return f'Financial Data for {self.ticker}'
 
 
     def reorder_df(self, from_df, reverse=False):

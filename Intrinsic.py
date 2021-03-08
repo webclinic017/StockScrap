@@ -142,11 +142,6 @@ def intrinsic(ticker, DB_PATH, estimated_yrs = 4, expected_rate_return = 0.1, pe
     # --------------
 
     # Get WACC
-    print(f'weighted_debt : {weighted_debt}' )
-    print(f'cost_of_debt : {cost_of_debt}' )
-    print(f'weighted_equity : {weighted_equity}' )
-    print(f'capital_asset_pricing_model : {capital_asset_pricing_model}' )
-
     wacc = round(weighted_debt * (cost_of_debt) + weighted_equity * capital_asset_pricing_model,4)
 
     # --------------
@@ -192,11 +187,12 @@ def intrinsic(ticker, DB_PATH, estimated_yrs = 4, expected_rate_return = 0.1, pe
     df = df.transpose()
 
     margin_of_safety = margin_safety
-    print(df)
+    print("")
     print(f"Today's Value : ${todays_value}")
     print(f"Intrinsic Value : ${intrinsic_value}")
     print(f"BuyPrice w/ margin of safety : ${round(intrinsic_value * margin_of_safety,2)}")
 
     return round(intrinsic_value * margin_of_safety,2)
 
-intrinsic("AAPL", DB_PATH, download = True)
+
+intrinsic("AAPL", DB_PATH, download = False)

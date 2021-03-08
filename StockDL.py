@@ -12,14 +12,10 @@ class StockDL(Stock_Data):
     Attributes are:
         ticker : str
             Specifies which ticker to extract data from. (Required)
-        PATH : str
-            Directory path of Chorimum WebDriver. Default is 'C:\Program Files (x86)\chromedriver.exe' (Optional)
-        ignore_errors : "bool"
-            Option whether to ignore errors for selenium WebDriver. True = ignore errors. Default is True (Optional)
     '''
     
-    def __init__(self, ticker, PATH=r'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
-        Stock_Data.__init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True)
+    def __init__(self, ticker):
+        Stock_Data.__init__(self, ticker)
 
 
     def stockdl(self, DB_PATH='C:/Users/Dennis Loo.000/Desktop/FinData', download="ALL", buffer=5):

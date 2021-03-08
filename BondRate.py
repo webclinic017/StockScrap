@@ -2,11 +2,22 @@ from bs4 import BeautifulSoup as bs
 import requests
 
 class BondRate:
+    '''
+    The BondRate class allows you to get US 10 year bond rates (Risk Free Rate)
+    Attributes are:
+        None
+    '''
     def __init__(self):
         pass
 
     def bondrate(self):
-        # URL to get bond Rate
+        '''
+        Get current US 10 year bond rate.
+        Arguments are:
+            None
+        Returns: float
+            Returns float value of US 10 year bond rate.
+        '''
         URL = "https://www.marketwatch.com/investing/bond/tmubmusd10y?countrycode=bx"
 
         # GET Request
