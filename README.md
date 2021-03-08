@@ -90,7 +90,7 @@ class Downloader:
 
 ##### method Downloader.download
 ```python
-Downloader.download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe', DB_PATH=None, max=None, ticker=None, list_=None, csv=None, buffer=5, download="ALL")
+Downloader.download(type_, DB_PATH=None, max=None, ticker=None, list_=None, csv=None, buffer=5, download="ALL")
 ```
 > *Downloads data from MarketWatch and YahooFinance.*
 - Arguments are:
@@ -99,8 +99,6 @@ Downloader.download(type_, Driver_PATH='C:\Program Files (x86)\chromedriver.exe'
       - *"string"* - downloads single ticker
       - *"list"* - downloads list of tickers
       - *"csv"* - downloads list of tickers from csv
-  - Driver_PATH : *str*
-    - Directory path of Chorimum WebDriver. Default is *'C:\Program Files (x86)\chromedriver.exe'* *(Optional)*
   - DB_PATH : *str*
     - Directory path to store downloaded files in. Also known as the database path. Default is *None* *(Optional)*
   - max : *int*
@@ -277,58 +275,17 @@ Fin_Select.select_item(from_df, year=None)
     - Specifies which column to get data from. Default is *None* *(Optional)*
 - Returns: *pandas Series*
   - Returns pandas Series of column.
-  
 
-#### WebDriver class
-> The WebDriver class allows customization of Chromium WebDriver for selenium.
-```python
-class WebDriver:
-    def __init__(self, PATH='C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
-        self.PATH = PATH
-        self.ignore_errors = ignore_errors
-```
-- Attributes are:
-  - PATH : *str*
-    - Specifies where the Chromium WebDriver is located. **(Required)**
-  - ignore_errors : "bool"
-    - Option whether to ignore errors. True = ignore errors.  Default is *True* *(Optional)*
-    
-##### method WebDriver.driver
-```python
-WebDriver.driver()
-```
-> *Initializes Chromium WebDriver and options*
-- Arguments are:
-  - *None*
-- Returns: *selenium WebDriver*
-  - Returns selenium WebDriver with custom options
-
-#### Fin_Data(WebDriver) class
-> The Fin_Data class allows for scraping of financial data from MarketWatch. It then returns it in a pandas DataFrame or Series format. Inherits WebDriver class.
+#### Fin_Data class
+> The Fin_Data class allows for scraping of financial data from MarketWatch. It then returns it in a pandas DataFrame or Series format.
 ```python
 class Fin_Data(WebDriver):
-    def __init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
+    def __init__(self, ticker):
         self.ticker = ticker
-        self.PATH = PATH
-        self.ignore_errors = ignore_errors
 ```
 - Attributes are:
   - ticker : *str*
     - Specifies which ticker to draw financial data from. **(Required)**
-  - PATH : *str*
-    - Specifies where the Chromium WebDriver is located. **(Required)**
-  - ignore_errors : "bool"
-    - Option whether to ignore errors. True = ignore errors.  Default is *True* *(Optional)*
-    
-##### method Fin_Data.remove_logging
-```python
-Fin_Data.remove_logging()
-```
-> *Disables logging for selenium scraping*
-- Arguments are:
-  - *None*
-- Returns: *None*
-  - Returns None
  
 ##### method Fin_Data.reorder_df
 ```python
@@ -607,17 +564,13 @@ Fin_Data.fiscal_year_dates()
 > The FData class merges Financial Data methods with extraction methods. Inherits Fin_Data and Fin_Extract.
 ```python
 class FData(Fin_Data, Fin_Extract):
-    def __init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
-        Fin_Data.__init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe')
+    def __init__(self, ticker):
+        Fin_Data.__init__(self, ticker)
         Fin_Extract.__init__(self,ticker)
 ```
 - Attributes are:
   - ticker : *str*
     - Specifies which ticker to extract data from. **(Required)**
-  - PATH : *str*
-    - Specifies where the Chromium WebDriver is located. **(Required)**
-  - ignore_errors : "bool"
-    - Option whether to ignore errors for selenium WebDriver. True = ignore errors.  Default is *True* *(Optional)*
  
 #### TData class
 > The TData class uses yfinance module to extract technical price data for stocks. 
@@ -750,17 +703,13 @@ ToJson.json(from_obj=None, export_to=None, filename=None, orient='columns')
 > The Stock_Data class is a combination of all methods found to scrap technical and financial data. It also allows for JSON file storage. Inherits TData, FData, ToJson classes.
 ```python
 class Stock_Data(TData, FData, ToJson):
-    def __init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
+    def __init__(self, ticker):
         TData.__init__(self, ticker)
-        FData.__init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True)
+        FData.__init__(self, ticker)
 ```
 - Attributes are:
   - ticker : *str*
     - Specifies which ticker to extract data from. **(Required)**
-  - PATH : *str*
-    - Directory path of Chorimum WebDriver. Default is *'C:\Program Files (x86)\chromedriver.exe'* *(Optional)*
-  - ignore_errors : "bool"
-    - Option whether to ignore errors for selenium WebDriver. True = ignore errors.  Default is *True* *(Optional)*
 
 ##### method Stock_Data.fiscal_year_prices
 ```python
@@ -776,16 +725,12 @@ Stock_Data.fiscal_year_prices()
 > The StockDL class is a optimized downloader class. It allows for download of scrapped data in a consolidated fashion, then stores the data into JSON files and finally store it in a database.
 ```python
 class StockDL:
-    def __init__(self, ticker, PATH=r'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True):
-        Stock_Data.__init__(self, ticker, PATH = 'C:\Program Files (x86)\chromedriver.exe', ignore_errors=True)
+    def __init__(self, ticker):
+        Stock_Data.__init__(self, ticker)
 ```
 - Attributes are:
   - ticker : *str*
     - Specifies which ticker to extract data from. **(Required)**
-  - PATH : *str*
-    - Directory path of Chorimum WebDriver. Default is *'C:\Program Files (x86)\chromedriver.exe'* *(Optional)*
-  - ignore_errors : "bool"
-    - Option whether to ignore errors for selenium WebDriver. True = ignore errors.  Default is *True* *(Optional)*
 
 ##### method Stock_Data.stockdl
 ```python
