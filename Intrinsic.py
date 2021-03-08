@@ -103,7 +103,7 @@ class Intrinsic(BondRate):
             diff = rev[i+1] - rev[i]
             prc_change = round(diff/rev[i],2)
             rev_growth.append(prc_change)
-        rev_gr = stat.median(rev_growth)
+        rev_gr = stat.mean(rev_growth)
 
         # Get profit margins & Net income Growth Rate
         net_income_margins = []
@@ -126,7 +126,7 @@ class Intrinsic(BondRate):
         for i in range(0,estimated_yrs):
             # Get index
             index = i-estimated_yrs
-            est_fcf = net_income[index] * min(fcf_ratio)
+            est_fcf = net_income[index] * stat.mean(fcf_ratio)
             fcf_to_eq.append(est_fcf)
 
         # Add estimated 4 years to years column
