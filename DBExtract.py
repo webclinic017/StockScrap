@@ -8,7 +8,7 @@ class DBExtract(Fin_Extract):
     The DBExtract class is the database extraction component. It allows one to pull data from database and display in a string or pandas DataFrame format. Inherits Fin_Extract class.
     Attributes are:
         DB_PATH : str
-            Specifies database directory to extract data from. Default is 'C:/Users/rawsashimi1604/Desktop/FinData' (Optional)
+            Specifies database directory to extract data from. Default is 'C:/Users/rawsashimi1604/Desktop/FinData'
     '''
 
     def __init__(self, DB_PATH='C:/Users/Gavin/Desktop/FinData'):
