@@ -46,13 +46,12 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - pandas
 - numpy
 - BeautifulSoup4
-- selenium (***needed for installation, but not in use currently. Will remove in a later update***)
 - pandas_market_calendars
 - pprint
 - yfinance
 
 ### How to use this module and Examples
-*Before starting, install the Chromium WebDriver for Google Chrome. Then put the driver into C:\Program Files (x86)\chromedriver.exe*
+*Before starting, pip install all required modules.*
 
 After that, open a new python file in the folder. Then import the **Downloader** class and the **DBExtract** class.
 
