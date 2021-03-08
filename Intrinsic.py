@@ -93,7 +93,11 @@ class Intrinsic(BondRate):
             fcf_ratio.append(val)
 
         # Get Revenue & Rev Growth Rate
-        rev = list(map(div_thousand,e.select_item(income_df, "Sales/Revenue").tolist()))
+        try:
+            rev = list(map(div_thousand,e.select_item(income_df, "Sales/Revenue").tolist()))
+        except AttributeError:
+            print("Error in retrieving Intrinsic Value. Please try another stock ticker. Currently not working for bank stocks.")
+            exit()
         rev_growth = []
         for i in range(0,len(rev)-1):
             diff = rev[i+1] - rev[i]
