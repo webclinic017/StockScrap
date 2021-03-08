@@ -82,8 +82,8 @@ df = extract.json_extract("view", ticker="MSFT", FILE_NAME="IncomeStatement") # 
 > The Intrinsic class allows you to get intrinsic value of stock using Discounted Cash Flow Model. Required downloading of stock data using Downloader class before using.
 ```python
 # Gets Intrinsic Value for Microsoft Stock, database is C:\Users\rawsashimi1604\FinData
-int = Intrinsic()
-int.intrinsic("MSFT", DB_PATH = r'C:\Users\rawsashimi1604\FinData') # returns intrinsic value of MSFT stock
+i = Intrinsic()
+i.intrinsic("MSFT", DB_PATH = r'C:\Users\rawsashimi1604\FinData') # returns intrinsic value of MSFT stock
 ```
 
 ### Documentation
