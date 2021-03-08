@@ -15,7 +15,7 @@ class Fin_Extract(Fin_Select):
     
     # List of symbols to be checked in class
     list_symbols = [
-            'K', 'M', 'B', 'T', '%', '(', '-'
+            'K', 'M', 'B', 'T', '%', '(', '-', '$'
     ]
 
     # Dictionary of symbols and their values
@@ -26,7 +26,8 @@ class Fin_Extract(Fin_Select):
         'T' : 1_000_000_000_000,
         '%' : 0.01,
         '(' : -1,
-        '-' : 1
+        '-' : 1,
+        '$' : 1
     }
 
     # Initializes Fin_Extract class inherits __init__ args
@@ -125,6 +126,7 @@ class Fin_Extract(Fin_Select):
                 val = int(val)
 
             return val
+            
 
     def extract(self, cell_val):
         '''
