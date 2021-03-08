@@ -24,7 +24,7 @@ class Intrinsic(BondRate):
     def __init__(self):
         pass
 
-    def intrinsic(ticker, DB_PATH, estimated_yrs = 4, expected_rate_return = 0.1, perpetual_growth = 0.025, margin_safety = 0.5, download = True):
+    def intrinsic(self, ticker, DB_PATH, estimated_yrs = 4, expected_rate_return = 0.1, perpetual_growth = 0.025, margin_safety = 0.5, download = True):
         '''
         Get intrinsic value of stock using Discounted Cash Flow Model. Required downloading of stock data using Downloader class before using.
         Arguments are:
@@ -41,7 +41,7 @@ class Intrinsic(BondRate):
             margin_safety : float
                 Specifies personal margin of safety to stock price in percent. Default is 0.5 (Optional)
             download : bool
-                Specifies whether to download stock data. Default is True. (Optional)
+                Specifies whether to download stock data. Default is True (Optional)
         Returns: float
             Returns float value of US 10 year bond rate.
         '''
