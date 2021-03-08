@@ -785,7 +785,7 @@ BondRate.bondrate()
   - Returns float value of US 10 year bond rate.
 
 #### Intrinsic(BondRate) class
-> The Intrinsic class allows you to get the intrinsic value of a stock using the DCF (Discounted Cash Flow) model. Inherits BondRate class.
+> The Intrinsic class allows you to get the intrinsic value of a stock using the DCF (Discounted Cash Flow) model. Inherits BondRate class. Currently does not work for bank stocks.
 ```python
 class Intrinsic(BondRate):
     def __init__(self):
@@ -798,7 +798,7 @@ class Intrinsic(BondRate):
 ```python
 Intrinsic.intrinsic(ticker, DB_PATH, estimated_yrs = 4, expected_rate_return = 0.1, perpetual_growth = 0.025, margin_safety = 0.5, download = True)
 ```
-> *Get intrinsic value of stock using Discounted Cash Flow Model. Required downloading of stock data using Downloader class before using.*
+> *Get intrinsic value of stock using Discounted Cash Flow Model. Required downloading of stock data using Downloader class before using. Currently does not work for bank stocks.*
 - Arguments are:
   - ticker : *str*
     - Specifies which ticker to extract. **(Required)**

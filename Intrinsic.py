@@ -17,7 +17,7 @@ Works rather well on big cap companies such as Apple and Google.
 
 class Intrinsic(BondRate):
     '''
-    The Intrinsic class allows you to get the intrinsic value of a stock using the DCF (Discounted Cash Flow) model. Inherits BondRate class.
+    The Intrinsic class allows you to get the intrinsic value of a stock using the DCF (Discounted Cash Flow) model. Inherits BondRate class. Currently does not work for bank stocks.
     Attributes are:
         None
     '''
@@ -26,7 +26,7 @@ class Intrinsic(BondRate):
 
     def intrinsic(self, ticker, DB_PATH, estimated_yrs = 4, expected_rate_return = 0.1, perpetual_growth = 0.025, margin_safety = 0.5, download = True):
         '''
-        Get intrinsic value of stock using Discounted Cash Flow Model. Required downloading of stock data using Downloader class before using.
+        Get intrinsic value of stock using Discounted Cash Flow Model. Required downloading of stock data using Downloader class before using. Currently does not work for bank stocks.
         Arguments are:
             ticker : str
                 Specifies which ticker to extract. (Required)
