@@ -3,17 +3,17 @@
 
 ## Table of Contents
 - [Stock Data Scrapper using MarketWatch and Yahoo Finance!](#stock-data-scrapper-using-marketwatch-and-yahoo-finance-)
-  * [Table of Contents](#table-of-contents-)
+  * [Table of Contents](#table-of-contents)
     + [Introduction](#introduction)
     + [Contributing](#contributing)
     + [Ongoing Tasks](#ongoing-tasks)
     + [Required modules](#required-modules)
     + [How to use this module and Examples](#how-to-use-this-module-and-examples)
-      - [*Downloader* class](#downloader-class)
-      - [*DBExtract* class](#dbextract-class)
-      - [*Intrinsic* class](#intrisic-class)
+      - [Downloader class](#downloader-class)
+      - [DBExtract class](#dbextract-class)
+      - [Intrinsic class](#intrinsic-class)
     + [Documentation](#documentation)
-
+        
 ### Introduction
 
 Hey everyone! :wave: This project is a stock data scrapper that I made for my own analysis purposes! It uses **Python** to extract financial and technical data from stocks and stores them into a database on your local computer. :smile:
@@ -40,6 +40,7 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - [ ] Add analysis and viewing features
 - [x] Calcuate intrinsic value using Discounted Cash Flow (DCF) model
 - [x] Add specific documentation of different class methods and their usage
+- [ ] Create Graphic User Interface
 
 ### Required modules
 - pandas
