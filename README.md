@@ -35,9 +35,9 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - [x] Download stock data to database
 - [x] Create extraction module to pull data from database (in both data and view format)
 - [ ] Create module for installation across folders
-- [ ] Remove selenium dependency from code
+- [x] Remove selenium dependency from code
 - [ ] Add analysis and viewing features
-- [ ] Calcuate intrinsic value using Discounted Cash Flow (DCF) model
+- [x] Calcuate intrinsic value using Discounted Cash Flow (DCF) model
 - [x] Add specific documentation of different class methods and their usage
 
 ### Required modules
@@ -75,6 +75,13 @@ d.download(type_="string", ticker="MSFT", DB_PATH=r'C:\Users\rawsashimi1604\FinD
 # Extracts IncomeStatement data for Microsoft Stock, from C:\Users\rawsashimi1604\FinData
 extract = DBExtract(DB_PATH=r'C:\Users\rawsashimi1604\FinData')
 df = extract.json_extract("view", ticker="MSFT", FILE_NAME="IncomeStatement") # returns pandas DataFrame
+```
+#### Intrinsic class
+> The Intrinsic class allows you to get intrinsic value of stock using Discounted Cash Flow Model. Required downloading of stock data using Downloader class before using.
+```python
+# Gets Intrinsic Value for Microsoft Stock, database is C:\Users\rawsashimi1604\FinData
+int = Intrinsic()
+int.intrinsic("MSFT", DB_PATH = r'C:\Users\rawsashimi1604\FinData') # returns intrinsic value of MSFT stock
 ```
 
 ### Documentation
