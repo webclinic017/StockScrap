@@ -11,6 +11,7 @@
     + [How to use this module and Examples](#how-to-use-this-module-and-examples)
       - [*Downloader* class](#downloader-class)
       - [*DBExtract* class](#dbextract-class)
+      - [*Intrinsic* class](#intrisic-class)
     + [Documentation](#documentation)
 
 ### Introduction
