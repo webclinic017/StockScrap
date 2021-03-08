@@ -755,3 +755,55 @@ StockDL.stockdl(DB_PATH='C:/Users/rawsashimi1604/Desktop/FinData', download="ALL
 - Returns: *bool*
   - Returns whether stock ticker exists. exist = True
 
+#### BondRate class
+> The BondRate class allows you to get US 10 year bond rates (Risk Free Rate).
+```python
+class BondRate:
+    def __init__(self):
+        pass
+```
+- Attributes are:
+  - None
+
+##### method BondRate.bondrate
+```python
+BondRate.bondrate()
+```
+> *Get current US 10 year bond rate.*
+- Arguments are:
+  - None
+- Returns: *float*
+  - Returns float value of US 10 year bond rate.
+
+#### Intrinsic(BondRate) class
+> The Intrinsic class allows you to get the intrinsic value of a stock using the DCF (Discounted Cash Flow) model. Inherits BondRate class.
+```python
+class Intrinsic(BondRate):
+    def __init__(self):
+        pass
+```
+- Attributes are:
+  - None
+
+##### method Intrinsic.intrinsic
+```python
+Intrinsic.intrinsic(ticker, DB_PATH, estimated_yrs = 4, expected_rate_return = 0.1, perpetual_growth = 0.025, margin_safety = 0.5, download = True)
+```
+> *Get intrinsic value of stock using Discounted Cash Flow Model. Required downloading of stock data using Downloader class before using.*
+- Arguments are:
+  - ticker : *str*
+    - Specifies which ticker to extract. **(Required)**
+  - DB_PATH : *str*
+    - Specifies database directory to extract data from. **(Required)**
+  - estimated_yrs : *int*
+    - Specifies number of years to estimate using DCF model. Default is *4* *(Optional)*
+  - expected_rate_return : *float*
+    - Specifies expected rate of return of the stock market in percent. Default is *0.1* *(Optional)*
+  - perpetual_growth : *float*
+    - Specifies rate of perpetual growth (est) of companies Free Cash Flow in percent. Default is *0.025* *(Optional)*
+  - margin_safety : *float*
+    - Specifies personal margin of safety to stock price in percent. Default is *0.5* *(Optional)*
+  - download : *bool*
+    - Specifies whether to download stock data. Default is *True* *(Optional)*
+- Returns: *float*
+  - Returns float value of intrinsic value of stock.
