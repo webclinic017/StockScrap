@@ -43,7 +43,7 @@ class Intrinsic(BondRate):
             download : bool
                 Specifies whether to download stock data. Default is True (Optional)
         Returns: float
-            Returns float value of US 10 year bond rate.
+            Returns float value of intrinsic value of stock.
         '''
         # Calculate Intrinsic using DCF Model
         ticker = ticker
