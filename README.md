@@ -40,6 +40,7 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - [ ] Add analysis and viewing features
 - [x] Calcuate intrinsic value using Discounted Cash Flow (DCF) model
 - [x] Add specific documentation of different class methods and their usage
+- [ ] Create Graphic User Interface
 
 ### Required modules
 - pandas
