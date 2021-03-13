@@ -241,7 +241,7 @@ DOWNLOADING {self.ticker}...
             print(f'''
 
 ********************************************************************************************************************
-Data Downloaded from MarketWatch.com
+Data Downloaded from MarketWatch and YahooFinance
 Beginning Data Download for {self.ticker}.
             ''')
         
@@ -277,14 +277,14 @@ Thank you.
 
             # Output to run
             print(f'''
-Finished Data Download for {self.ticker}, closing browser now.
+Finished Data Download for {self.ticker}.
 ********************************************************************************************************************
 
             ''')
 
         # If ticker is not found, pass.
         else:
-            print(f'{self.ticker} not found in MarketWatch.com Database. Will continue downloading next ticker.')
+            print(f'{self.ticker} not found in MarketWatch or YahooFinance Database. Will continue downloading next ticker.')
             pass
 
         # # End browser session
@@ -302,4 +302,3 @@ Finished Data Download for {self.ticker}, closing browser now.
 
         # Returns whether ticker existed
         return exists
-

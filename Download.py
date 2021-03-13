@@ -77,7 +77,7 @@ class Downloader:
                     components_list = components_list[index_ticker:]
             
             for ticker in components_list:
-                stock = StockDL(ticker, PATH=Driver_PATH)
+                stock = StockDL(ticker)
                 try:
                     dl = stock.stockdl(DB_PATH=DB_PATH, download=download, buffer=buffer)
                     if dl == False:
@@ -117,7 +117,7 @@ class Downloader:
                 for ticker in components_list:
                     # Starting time
                     start_time_csv = datetime.now()
-                    stock = StockDL(ticker, PATH=Driver_PATH)
+                    stock = StockDL(ticker)
                     try:
                         dl = stock.stockdl(DB_PATH=DB_PATH, download=download, buffer=buffer)
 
