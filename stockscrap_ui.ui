@@ -6,107 +6,92 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>332</width>
-    <height>220</height>
+    <width>275</width>
+    <height>136</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>StockScrap - Financial Data Downloader</string>
   </property>
-  <widget class="QLabel" name="label_info">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>201</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>StockScrap Financial Data Downloader</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_madeby">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>30</y>
-     <width>191</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Made by Gavin Loo rawsashimi1604</string>
-   </property>
-  </widget>
-  <widget class="QWidget" name="">
-   <property name="geometry">
-    <rect>
-     <x>11</x>
-     <y>71</y>
-     <width>291</width>
-     <height>93</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout_inputs">
-    <property name="sizeConstraint">
-     <enum>QLayout::SetDefaultConstraint</enum>
-    </property>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_choosefolder">
-      <property name="text">
-       <string>Choose DB_PATH:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_chooseticker">
-      <property name="text">
-       <string>Ticker Symbol:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QLineEdit" name="lineEdit_chooseticker"/>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="lineEdit_choosefolder"/>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>180</y>
-     <width>256</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_buttons">
-    <item>
-     <widget class="QPushButton" name="pushButton_choosefolder">
-      <property name="text">
-       <string>Choose DB_PATH</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="pushButton_download">
-      <property name="text">
-       <string>Download</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="pushButton_quit">
-      <property name="text">
-       <string>Quit</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="label_info">
+       <property name="text">
+        <string>StockScrap Financial Data Downloader</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_madeby">
+       <property name="text">
+        <string>Made by Gavin Loo rawsashimi1604</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSplitter" name="splitter">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <widget class="QWidget" name="layoutWidget">
+        <layout class="QGridLayout" name="gridLayout_inputs">
+         <property name="sizeConstraint">
+          <enum>QLayout::SetDefaultConstraint</enum>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_choosefolder">
+           <property name="text">
+            <string>Choose DB_PATH:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_chooseticker">
+           <property name="text">
+            <string>Ticker Symbol:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="lineEdit_chooseticker"/>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="lineEdit_choosefolder"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="layoutWidget">
+        <layout class="QHBoxLayout" name="horizontalLayout_buttons">
+         <item>
+          <widget class="QPushButton" name="pushButton_choosefolder">
+           <property name="text">
+            <string>Browse DB_PATH</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_download">
+           <property name="text">
+            <string>Download</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_quit">
+           <property name="text">
+            <string>Quit</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
