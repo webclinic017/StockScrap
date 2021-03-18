@@ -225,5 +225,6 @@ class Intrinsic(BondRate):
 
         return round(intrinsic_value * margin_of_safety,2)
 
-i = Intrinsic()
-val = i.intrinsic("INTC", DB_PATH=r'C:\Users\Dennis Loo.000\Desktop\FinData', download = True)
+if __name__ == "__main__":
+    i = Intrinsic()
+    val = i.intrinsic("INTC", DB_PATH=r'C:\Users\Dennis Loo.000\Desktop\FinData', download = True)

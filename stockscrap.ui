@@ -23,6 +23,18 @@
    <string notr="true">background-color: rgb(67, 67, 111);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="minimumSize">
+    <size>
+     <width>430</width>
+     <height>623</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>430</width>
+     <height>623</height>
+    </size>
+   </property>
    <widget class="QFrame" name="fr_download">
     <property name="geometry">
      <rect>
@@ -32,13 +44,19 @@
       <height>281</height>
      </rect>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>400</width>
+      <height>281</height>
+     </size>
+    </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
     </property>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>1</x>
@@ -415,7 +433,7 @@
               </item>
               <item>
                <property name="text">
-                <string>CSV </string>
+                <string>CSV</string>
                </property>
               </item>
              </widget>
@@ -503,13 +521,19 @@
       <height>231</height>
      </rect>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>400</width>
+      <height>231</height>
+     </size>
+    </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
     </property>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -1075,6 +1099,12 @@
       <height>51</height>
      </rect>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>120</width>
+      <height>51</height>
+     </size>
+    </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
     </property>
@@ -1163,13 +1193,19 @@
       <height>80</height>
      </rect>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>381</width>
+      <height>80</height>
+     </size>
+    </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
     </property>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -1254,6 +1290,12 @@
       <height>80</height>
      </rect>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>291</width>
+      <height>80</height>
+     </size>
+    </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
     </property>
@@ -1266,7 +1308,7 @@
        <x>0</x>
        <y>10</y>
        <width>259</width>
-       <height>61</height>
+       <height>62</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="vert_header">
@@ -1297,6 +1339,11 @@
      </layout>
     </widget>
    </widget>
+   <zorder>fr_intrinsic</zorder>
+   <zorder>fr_download</zorder>
+   <zorder>fr_topmenu</zorder>
+   <zorder>fr_botmenu</zorder>
+   <zorder>fr_header</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
