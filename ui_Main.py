@@ -2,7 +2,7 @@ import sys
 import webbrowser
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QColor
 from PyQt5 import uic
 from Download import Downloader
@@ -27,6 +27,9 @@ if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
 ################################################################################
 # --- ==> Import SplashScreen python file
 from ui_Circular_Splash import Ui_SplashScreen
+
+# --- ==> Import Download python file
+from ui_download import DownloadUI
 
 class SplashScreen(QMainWindow):
     def __init__(self):
@@ -208,9 +211,9 @@ class UI(QMainWindow):
         #---- ==> fr_topmenu
 
 
-################################################################################
-#  Button Signals
-################################################################################
+    ################################################################################
+    #  Button Signals
+    ################################################################################
     def signal_quit(self):
         # Quit application
         return QApplication.instance().quit()
@@ -264,7 +267,9 @@ class UI(QMainWindow):
 
         # ==> Run Download Function
         d = Downloader()
-        d.download(type_=type_option, DB_PATH=DB_PATH, ticker=ticker, csv=CSV_PATH, download=download_option, buffer=1)
+        d_status = d.download(type_=type_option, DB_PATH=DB_PATH, ticker=ticker, csv=CSV_PATH, download=download_option, buffer=1)
+
+        return d_status
 
 
     def signal_intrinsic(self):
@@ -298,6 +303,54 @@ class UI(QMainWindow):
         # ==> Run Intrinsic Function
         i = Intrinsic()
         i.intrinsic(ticker=ticker, DB_PATH=DB_PATH, estimated_yrs=est_years, expected_rate_return=exp_ror,perpetual_growth=per_growth,margin_safety=margin,download=dl_option)
+
+################################################################################
+#  Download Widget
+################################################################################
+class DownloadUI(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        # ==> Load UI from QtDesigner
+        self.ui = uic.loadUi('download.ui', self)  
+        
+        # Remove Standard bars
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+
+        # ==> Find progress bar widget
+        self.prog_progbar = self.findChild(QtWidgets.QProgressBar, 'prog_progbar')
+        
+        # ==> Find label
+        self.lb_stockName = self.findChild(QtWidgets.QLabel, 'lb_stockName')
+
+    def set_value(self, value):
+        return self.prog_progbar.setProperty("value", value)
+
+    def set_ticker(self, ticker):
+        return self.lb_stockName.setProperty("text", f'TICKER: {ticker}')
+
+    def start_progress_bar(self):
+        self.thread = DLThread()
+        self.thread.change_value.connect(self.set_value)
+        self.thread.start()
+        
+################################################################################
+#  QThread Class
+################################################################################
+class DLThread(QThread):
+
+    change_value = pyqtSignal(int)
+    
+    def run(self):
+        count = 0
+        while count < 100:
+            count+=1
+
+            time.sleep(0.5)
+            self.change_value.emit(count)
+
+            
 
 ################################################################################
 #  Open Window
