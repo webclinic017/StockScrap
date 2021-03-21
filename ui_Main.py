@@ -208,7 +208,6 @@ class UI(QMainWindow):
         
         #---- ==> fr_topmenu
 
-
     ################################################################################
     #  Button Signals
     ################################################################################
@@ -232,16 +231,22 @@ class UI(QMainWindow):
         self.edit_dl_csvpath.setText(csv_path[0])
         return csv_path
 
-    def signal_download(self):
+    def params_download(self):
         # ==> Get Line Edit inputs
         # ---- ==> DB_PATH:
         DB_PATH = self.edit_dl_dbpath.text()
+        if DB_PATH == '':
+            DB_PATH == None
 
         # ---- ==> CSV_PATH:
         CSV_PATH = self.edit_dl_csvpath.text()
+        if CSV_PATH == '':
+            CSV_PATH = None
 
         # ---- ==> Ticker Symbol:
         ticker = self.edit_dl_ticker.text()
+        if ticker == '':
+            ticker = None
 
         #  ==> Get Combo box inputs
         # ---- ==> DL Options:
@@ -263,12 +268,14 @@ class UI(QMainWindow):
         }
         type_option = dl_type.get(self.combo_dl_downloadt.currentText())
 
-        # ==> Run Download Function
-        d = Downloader()
-        d_status = d.download(type_=type_option, DB_PATH=DB_PATH, ticker=ticker, csv=CSV_PATH, download=download_option, buffer=1)
+        buffer = 1
+        download_parameters = (type_option, DB_PATH, ticker, CSV_PATH, download_option, buffer)
 
-        return d_status
+        return download_parameters
 
+    def signal_download(self):
+        self.download_UI = DownloadUI(*self.params_download())
+        self.download_UI.show()
 
     def signal_intrinsic(self):
         # ==> Get Line Edit inputs
@@ -302,20 +309,35 @@ class UI(QMainWindow):
         i = Intrinsic()
         i.intrinsic(ticker=ticker, DB_PATH=DB_PATH, estimated_yrs=est_years, expected_rate_return=exp_ror,perpetual_growth=per_growth,margin_safety=margin,download=dl_option)
 
+        intrinsic_parameters = (ticker, DB_PATH, est_years, exp_ror, per_growth, margin, dl_option)
+        return intrinsic_parameters
+
 
 ################################################################################
 #  Download Widget
 ################################################################################      
 class DownloadUI(QWidget):
-    def __init__(self):
+    def __init__(self, type_option, DB_PATH, ticker, CSV_PATH, download_option, buffer):
         super().__init__()
 
+        # Attributes
+        self.type_option = type_option
+        self.DB_PATH = DB_PATH
+        self.ticker = ticker
+        self.CSV_PATH = CSV_PATH
+        self.download_option = download_option
+        self.buffer = buffer
+
+        self.parameters = (self.type_option, self.DB_PATH, self.ticker, self.CSV_PATH, self.download_option, self.buffer)
+        #####################################################################   
+        # External Classes
+        #####################################################################
         # ==> Load UI from QtDesigner
         self.ui = uic.loadUi('download.ui', self)
         
         # ==> Remove Standard bars
-        # self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
-        # self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
 
         # ==> Find progress bar widget
         self.prog_progbar = self.findChild(QtWidgets.QProgressBar, 'prog_progbar')
@@ -323,7 +345,8 @@ class DownloadUI(QWidget):
 
         # ==> Find label
         self.lb_stockName = self.findChild(QtWidgets.QLabel, 'lb_stockName')
-        self.set_ticker('AAPL')
+        self.set_ticker(self.parameters[2])
+
         #######################
         # Progress Bar Thread
         #######################
@@ -347,8 +370,9 @@ class DownloadUI(QWidget):
         #######################
         # Downloading Thread
         #######################
-        # ==> Create Loading Worker and Thread
-        self.obj_download = DownloadWorker("string", r'C:\Users\Dennis Loo.000\Desktop\FinData', 'AAPL', None, 'ALL', 1)
+
+        # ==> Create Loading Worker and Thread, input Downloader.download args (unpacked from tuple)
+        self.obj_download = DownloadWorker(*self.parameters)
         self.thread_download = QThread()
 
         # ==> Move the Worker Object to the Thread Object
@@ -378,7 +402,7 @@ class DownloadUI(QWidget):
         # When download is finished, I want to stop loader Thread, and set progress bar to finish, the time sleep 0.1 secs, then self.close
         self.thread_loader.quit()
         self.set_value(100)
-        time.sleep(5)
+        time.sleep(0.5)
         self.close()
 
 ################################################################################

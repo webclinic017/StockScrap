@@ -48,6 +48,7 @@ class Downloader:
 
         download_list = []
         error_list = []
+        dl = False
 
         if DB_PATH == None:
             print("Please specify a Database Path for downloads. Use DB_PATH var.")
@@ -66,6 +67,9 @@ class Downloader:
             
             if dl == True:
                 download_list.append(ticker)
+
+            if ticker in error_list:
+                raise ValueError(f"{ticker} does not exist in the database. Please try another ticker.")
 
         # IF list
         if type_ == "list":
@@ -88,6 +92,9 @@ class Downloader:
 
                 if dl == True:
                     download_list.append(ticker)
+
+                if ticker in error_list:
+                    raise ValueError(f"{ticker} does not exist in the database. Please try another ticker.")
 
                 # index
                 idx_element = components_list.index(ticker)
@@ -131,6 +138,9 @@ class Downloader:
                     if dl == True:
                         download_list.append(ticker)
 
+                    if ticker in error_list:
+                        raise ValueError(f"{ticker} does not exist in the database. Please try another ticker.")
+
                     #Time
                     time_taken_csv = datetime.now() - start_time_csv    
 
@@ -150,7 +160,10 @@ class Downloader:
 
 
         time_taken = datetime.now() - start_time
-        
         print(f'---Time taken = {time_taken}---')
 
         return None
+
+if __name__ == "__main__":
+    d = Downloader()
+    d.download("string", r'C:\Users\Dennis Loo.000\Desktop\FinData', ticker = "DIS", buffer=1)

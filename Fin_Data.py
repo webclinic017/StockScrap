@@ -798,6 +798,7 @@ class Fin_Data:
                 val = select.find("div").contents[0].get_text()
                 data_list[i-1].append(val)
 
+        
         # Data list add
         data_list.insert(0,index)
         # create dataframe
@@ -1102,3 +1103,8 @@ class Fin_Data:
                         break
                     
         return fiscal_year_list
+
+if __name__ == "__main__":
+    fd = Fin_Data('XPEV')
+    df = fd.cash_flow_opr()
+    print(df)
