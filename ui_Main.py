@@ -278,8 +278,17 @@ class UI(QMainWindow):
         self.download_UI.show()
 
     def signal_intrinsic(self):
-        self.intrinsic_UI = IntrinsicUI(*self.params_intrinsic())
-        self.intrinsic_UI.show()
+        parameters = self.params_intrinsic()
+
+        if parameters[-1] == False:
+            self.intrinsic_UI = IntrinsicUI(*parameters)
+            self.intrinsic_UI.show()
+        
+        elif parameters[-1] == True:
+            self.download_UI = DownloadUI("string", parameters[1], parameters[0], None, 'ALL', 1)
+            self.download_UI.show()
+            self.intrinsic_UI = IntrinsicUI(*parameters)
+            self.intrinsic_UI.show()
 
     def params_intrinsic(self):
         # ==> Get Line Edit inputs
@@ -399,6 +408,7 @@ class DownloadUI(QWidget):
     def finished(self):
         # When download is finished, I want to stop loader Thread, and set progress bar to finish, the time sleep 0.1 secs, then self.close
         self.thread_loader.quit()
+        self.thread_download.quit()
         self.set_value(100)
         time.sleep(0.5)
         self.close()
@@ -515,7 +525,7 @@ class IntrinsicUI(QWidget):
         self.edit_buyprice.setText(str(val))
 
     def signal_quit(self):
-        return QApplication.instance().quit()
+        return self.close()
     
 
 ################################################################################
