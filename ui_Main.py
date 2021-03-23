@@ -278,6 +278,10 @@ class UI(QMainWindow):
         self.download_UI.show()
 
     def signal_intrinsic(self):
+        self.intrinsic_UI = IntrinsicUI(*self.params_intrinsic())
+        self.intrinsic_UI.show()
+
+    def params_intrinsic(self):
         # ==> Get Line Edit inputs
         # ---- ==> DB_PATH:
         DB_PATH = self.edit_int_dbpath.text()
@@ -304,10 +308,6 @@ class UI(QMainWindow):
             "False": False
         }
         dl_option = int_options.get(self.combo_int_downloadopt.currentText())
-        
-        # ==> Run Intrinsic Function
-        i = Intrinsic()
-        i.intrinsic(ticker=ticker, DB_PATH=DB_PATH, estimated_yrs=est_years, expected_rate_return=exp_ror,perpetual_growth=per_growth,margin_safety=margin,download=dl_option)
 
         intrinsic_parameters = (ticker, DB_PATH, est_years, exp_ror, per_growth, margin, dl_option)
         return intrinsic_parameters
@@ -329,9 +329,7 @@ class DownloadUI(QWidget):
         self.buffer = buffer
 
         self.parameters = (self.type_option, self.DB_PATH, self.ticker, self.CSV_PATH, self.download_option, self.buffer)
-        #####################################################################   
-        # External Classes
-        #####################################################################
+    
         # ==> Load UI from QtDesigner
         self.ui = uic.loadUi('download.ui', self)
         
@@ -371,14 +369,14 @@ class DownloadUI(QWidget):
         # Downloading Thread
         #######################
 
-        # ==> Create Loading Worker and Thread, input Downloader.download args (unpacked from tuple)
+        # ==> Create Download Worker and Thread, input Downloader.download args (unpacked from tuple)
         self.obj_download = DownloadWorker(*self.parameters)
         self.thread_download = QThread()
 
         # ==> Move the Worker Object to the Thread Object
         self.obj_download.moveToThread(self.thread_download)
 
-        # ==> Connect Worker Finished (for loop) to UI, to quit thread when finished is emitted.
+        # ==> Connect Worker Finished to UI, to quit thread when finished is emitted.
         self.obj_download.finished.connect(self.thread_download.quit)
 
         # ==> Connect Thread starting signal to run download method
@@ -449,6 +447,106 @@ class DownloadWorker(QObject):
 
         # Emit when finished downloading
         self.finished.emit() 
+
+################################################################################
+#  Intrinsic Widget
+################################################################################
+class IntrinsicUI(QWidget):
+    def __init__(self, ticker, DB_PATH, est_years, exp_ror, per_growth, margin, dl_option):
+        super().__init__()
+        
+        # Attributes
+        self.ticker = ticker
+        self.DB_PATH = DB_PATH
+        self.est_years = est_years
+        self.exp_ror = exp_ror
+        self.per_growth = per_growth
+        self.margin = margin
+        self.dl_option = dl_option
+
+        self.parameters = (self.ticker, self.DB_PATH, self.est_years, self.exp_ror, self.per_growth, self.margin, self.dl_option)
+        # ==> Load External UI
+        self.ui = uic.loadUi('intrinsic.ui', self)
+
+        # ==> Remove Standard bars
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+
+        # ==> Find LineEdits
+        self.edit_ticker = self.findChild(QtWidgets.QLineEdit, 'edit_ticker')
+        self.edit_intrinsic = self.findChild(QtWidgets.QLineEdit, 'edit_intrinsic')
+        self.edit_buyprice = self.findChild(QtWidgets.QLineEdit, 'edit_buyprice')
+
+        # ==> Find PushButtons
+        self.bn_quit = self.findChild(QtWidgets.QPushButton, 'bn_quit')
+        self.bn_quit.clicked.connect(self.signal_quit)
+        
+        # ==> Set Ticker
+        self.set_ticker(self.ticker)
+
+        #######################
+        # Intrinsic Thread
+        #######################
+        
+        # ==> Create Intrinsic Worker and thread
+        self.obj_intrinsic = IntrinsicWorker(*self.parameters)
+        self.thread_intrinsic = QThread()
+
+        # ==> Move the Worker Object to the Thread Object
+        self.obj_intrinsic.moveToThread(self.thread_intrinsic)
+
+        # ==> Send intrinsic therad emit to set_value
+        self.obj_intrinsic.intrinsic_val.connect(self.set_value)
+
+        # ==> Connect Worker finished to UI, to quit thread when finished is emitted.
+        self.obj_intrinsic.finished.connect(self.thread_intrinsic.quit)
+
+        # ==> Connect Thread starting signal to run intrinsic method
+        self.thread_intrinsic.started.connect(self.obj_intrinsic.start_intrinsic)
+
+        # ==> Start the Thread
+        self.thread_intrinsic.start()
+
+    def set_ticker(self, ticker):
+        return self.edit_ticker.setText(ticker)
+    
+    def set_value(self, val):
+        self.edit_intrinsic.setText(str(val/self.margin))
+        self.edit_buyprice.setText(str(val))
+
+    def signal_quit(self):
+        return QApplication.instance().quit()
+    
+
+################################################################################
+#  Intrinsic Worker Classes
+################################################################################
+class IntrinsicWorker(QObject):
+
+    # Thread emits / outputs
+    finished = pyqtSignal()
+    intrinsic_val = pyqtSignal(float)
+
+    # Initialize Attribute types for Intrinsic Class
+    def __init__(self, ticker, DB_PATH, est_years, exp_ror, per_growth, margin, dl_option):
+        super().__init__()
+        self.ticker = ticker
+        self.DB_PATH = DB_PATH
+        self.est_years = est_years
+        self.exp_ror = exp_ror
+        self.per_growth = per_growth
+        self.margin = margin
+        self.dl_option = dl_option
+    
+    @pyqtSlot() # Mark connector as pyqtSlot
+    def start_intrinsic(self):
+        i = Intrinsic()
+        val = i.intrinsic(self.ticker, self.DB_PATH, self.est_years, self.exp_ror, self.per_growth, self.margin, self.dl_option)
+
+        # Emit when finished intrinsic
+        self.intrinsic_val.emit(val)
+        self.finished.emit()
+        
 
 ################################################################################
 #  Open Window
