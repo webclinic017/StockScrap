@@ -172,6 +172,8 @@ class UI(QMainWindow):
         self.bn_topmenu_quit.clicked.connect(self.signal_quit)
         self.bn_topmenu_view = self.findChild(QtWidgets.QPushButton, 'bn_topmenu_view')
         self.bn_topmenu_view.clicked.connect(self.signal_view)
+        self.bn_topmenu_how = self.findChild(QtWidgets.QPushButton, 'bn_topmenu_how')
+        self.bn_topmenu_how.clicked.connect(self.signal_how)
 
         ################################################################################
         #  LineEdits (Input Fields)
@@ -224,6 +226,10 @@ class UI(QMainWindow):
     def signal_view(self):
         self.ViewUI = ViewUI()
         self.ViewUI.show()
+    
+    def signal_how(self):
+        self.HowUI = HowUI()
+        self.HowUI.show()
 
     def signal_db_path(self):
         # Get directory of chosen folder in a string format, then add it into lineEdit field
@@ -359,13 +365,22 @@ class DownloadUI(QWidget):
 
         # ==> Find label
         self.lb_stockName = self.findChild(QtWidgets.QLabel, 'lb_stockName')
-        self.set_ticker(self.parameters[2])
+        if self.type_option == "string":
+            self.set_ticker(self.parameters[2])
+        elif self.type_option == "csv":
+            self.lb_stockName.setText('Downloading CSV!')
 
         #######################
         # Progress Bar Thread
         #######################
+        # length of CSV
+        self.numline = 1
+        if self.type_option == "csv":
+            file_ = open(self.CSV_PATH)
+            self.numline = len(file_.readlines())
+
         # ==> Create Loading Worker and Thread
-        self.obj_loader = LoadingWorker()
+        self.obj_loader = LoadingWorker(self.type_option, self.numline)
         self.thread_loader = QThread()
 
         # ==> Move the Worker Object to the Thread Object
@@ -395,6 +410,9 @@ class DownloadUI(QWidget):
         # ==> Connect Worker Finished to UI, to quit thread when finished is emitted.
         self.obj_download.finished.connect(self.thread_download.quit)
 
+        # ==> Connect Thread error signal to run error method
+        self.obj_download.error.connect(self.error)
+
         # ==> Connect Thread starting signal to run download method
         self.thread_download.started.connect(self.obj_download.start_download)
 
@@ -412,6 +430,14 @@ class DownloadUI(QWidget):
     def set_ticker(self, ticker):
         return self.lb_stockName.setProperty("text", f'TICKER: {ticker}')
 
+    def error(self, error_signal):
+        if error_signal == "Yes":
+            self.error_dialog = QtWidgets.QErrorMessage()
+            self.error_dialog.showMessage('''
+Error Retrieving Ticker Data, please check ticker.
+Please note that StockScrap only works with listed US Equities.
+''')
+
     def finished(self):
         # When download is finished, I want to stop loader Thread, and set progress bar to finish, the time sleep 0.1 secs, then self.close
         self.thread_loader.quit()
@@ -426,6 +452,11 @@ class DownloadUI(QWidget):
 # Loading Progress Bar Class
 class LoadingWorker(QObject):
 
+    def __init__(self, download_type, len_):
+        super().__init__()
+        self.download_type = download_type
+        self.len_ = len_
+
     # Thread emits / outputs
     finished = pyqtSignal()
     int_val = pyqtSignal(int)
@@ -433,12 +464,20 @@ class LoadingWorker(QObject):
     @pyqtSlot() # Mark connector as pyqtSlot
     def procCounter(self):
         # For loop to add value to counter
-        counter = 0
-        while counter < 100:
-            time.sleep(0.2)
-            counter += 1
-            self.int_val.emit(counter) # Emit counter every iteration
+        if self.download_type != "csv":
+            counter = 0
+            while counter < 100:
+                time.sleep(0.2)
+                counter += 1
+                self.int_val.emit(counter) # Emit counter every iteration
         
+        if self.download_type == "csv":
+            counter = 0
+            while counter < 100:
+                time.sleep(0.2 * self.len_)
+                counter += 1
+                self.int_val.emit(counter) # Emit counter every iteration
+
         self.finished.emit() # Emit when finished loop
 
 # Loading DL Class
@@ -446,6 +485,7 @@ class DownloadWorker(QObject):
 
     # Thread emits / outputs
     finished = pyqtSignal()
+    error = pyqtSignal(str)
 
     # Initialize Attribute types for Download Class
     def __init__(self, type_, DB_PATH, ticker, csv, download, buffer):
@@ -459,11 +499,17 @@ class DownloadWorker(QObject):
 
     @pyqtSlot() # Mark connector as pyqtSlot
     def start_download(self):
-        d = Downloader()
-        d.download(type_ = self.type_, DB_PATH = self.DB_PATH, ticker = self.ticker, csv = self.csv, download = self.download, buffer = self.buffer)
+        error = "No"
+        try:
+            d = Downloader()
+            d.download(type_ = self.type_, DB_PATH = self.DB_PATH, ticker = self.ticker, csv = self.csv, download = self.download, buffer = self.buffer)
+
+        except (AttributeError, ValueError):
+            error = "Yes"
 
         # Emit when finished downloading
-        self.finished.emit() 
+        self.error.emit(error)
+        self.finished.emit()
 
 ################################################################################
 #  Intrinsic Widget
@@ -635,6 +681,24 @@ class PandasModel(QAbstractTableModel):
 
             if orientation == Qt.Vertical:
                 return str(self._data.index[section])
+
+################################################################################
+#  How Widget
+################################################################################
+class HowUI(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.ui = uic.loadUi('usage.ui', self)
+        # ==> Remove Standard bars
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        # ==> Find PushButton
+        self.bn_quit = self.findChild(QtWidgets.QPushButton, 'bn_quit')
+        self.bn_quit.clicked.connect(self.signal_quit)
+
+        # ==> Find 
+    def signal_quit(self):
+        self.close()
 
 ################################################################################
 #  Open Window

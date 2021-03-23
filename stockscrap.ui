@@ -1093,8 +1093,8 @@
    <widget class="QFrame" name="fr_topmenu">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>20</y>
+      <x>310</x>
+      <y>10</y>
       <width>120</width>
       <height>81</height>
      </rect>
@@ -1111,34 +1111,67 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>1</y>
-       <width>77</width>
-       <height>74</height>
+       <x>21</x>
+       <y>5</y>
+       <width>82</width>
+       <height>80</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="main_topmenu_layout">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>3</number>
+      </property>
       <item>
-       <widget class="QPushButton" name="bn_topmenu_github">
+       <widget class="QPushButton" name="bn_topmenu_view">
         <property name="minimumSize">
          <size>
-          <width>75</width>
-          <height>20</height>
+          <width>77</width>
+          <height>15</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>75</width>
-          <height>20</height>
+          <width>77</width>
+          <height>15</height>
          </size>
         </property>
         <property name="font">
          <font>
           <family>Segoe UI</family>
-          <pointsize>11</pointsize>
+          <pointsize>10</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="text">
+         <string>ViewData</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="bn_topmenu_github">
+        <property name="minimumSize">
+         <size>
+          <width>77</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>77</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>10</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
@@ -1155,20 +1188,20 @@
        <widget class="QPushButton" name="bn_topmenu_quit">
         <property name="minimumSize">
          <size>
-          <width>75</width>
-          <height>20</height>
+          <width>77</width>
+          <height>15</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>75</width>
-          <height>20</height>
+          <width>77</width>
+          <height>15</height>
          </size>
         </property>
         <property name="font">
          <font>
           <family>Segoe UI</family>
-          <pointsize>11</pointsize>
+          <pointsize>10</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
@@ -1182,23 +1215,23 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="bn_topmenu_view">
+       <widget class="QPushButton" name="bn_topmenu_how">
         <property name="minimumSize">
          <size>
-          <width>75</width>
-          <height>20</height>
+          <width>77</width>
+          <height>15</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>75</width>
-          <height>20</height>
+          <width>77</width>
+          <height>15</height>
          </size>
         </property>
         <property name="font">
          <font>
           <family>Segoe UI</family>
-          <pointsize>11</pointsize>
+          <pointsize>10</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
@@ -1207,7 +1240,7 @@
          <string notr="true">background-color: rgb(255, 255, 255);</string>
         </property>
         <property name="text">
-         <string>ViewData</string>
+         <string>How To Use?</string>
         </property>
        </widget>
       </item>

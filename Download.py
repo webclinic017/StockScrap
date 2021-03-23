@@ -42,6 +42,8 @@ class Downloader:
                 "INCOME" - download income statement
                 "BALANCE" - download balance sheet
                 "CASHFLOW" - download cash flow statement
+        Returns: list
+            Returns list of stock that had errors downloading.
         '''
         # Start time of code
         start_time = datetime.now()
@@ -132,7 +134,7 @@ class Downloader:
                             error_list.append(ticker)
                             
                     # Error handling
-                    except ValueError or KeyError:
+                    except (ValueError,KeyError):
                         error_list.append(ticker)
 
                     if dl == True:
@@ -162,10 +164,8 @@ class Downloader:
         time_taken = datetime.now() - start_time
         print(f'---Time taken = {time_taken}---')
 
-
-        
-        return None
+        return error_list
 
 if __name__ == "__main__":
     d = Downloader()
-    d.download("string", r'C:\Users\Dennis Loo.000\Desktop\FinData', ticker = "DIS", buffer=1)
+    d.download("string", r'C:\Users\Gavin\Desktop\FinData', ticker = "DISSSS", buffer=1)

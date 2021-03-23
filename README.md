@@ -131,7 +131,8 @@ Downloader.download(type_, DB_PATH=None, max=None, ticker=None, list_=None, csv=
       - *"BALANCE"* - download balance sheet
       - *"CASHFLOW"* - download cash flow statement
       - ~*"FISCALYEAR"* - download fiscal year information~
-- Returns: *None*
+- Returns: *list*
+  - Returns list of stock that had errors downloading.
 
 #### DBExtract(Fin_Extract) class
 > The DBExtract class is the database extraction component. It allows one to pull data from database and display in a string or pandas DataFrame format. Inherits Fin_Extract class.
