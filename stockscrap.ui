@@ -1096,7 +1096,7 @@
       <x>320</x>
       <y>20</y>
       <width>120</width>
-      <height>51</height>
+      <height>81</height>
      </rect>
     </property>
     <property name="minimumSize">
@@ -1111,16 +1111,16 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QWidget" name="">
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>0</y>
+       <y>1</y>
        <width>77</width>
-       <height>48</height>
+       <height>74</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="vert_topmenu_mainlayout">
+     <layout class="QVBoxLayout" name="main_topmenu_layout">
       <item>
        <widget class="QPushButton" name="bn_topmenu_github">
         <property name="minimumSize">
@@ -1178,6 +1178,36 @@
         </property>
         <property name="text">
          <string>Quit</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="bn_topmenu_view">
+        <property name="minimumSize">
+         <size>
+          <width>75</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>75</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>11</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="text">
+         <string>ViewData</string>
         </property>
        </widget>
       </item>

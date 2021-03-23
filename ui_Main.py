@@ -169,6 +169,8 @@ class UI(QMainWindow):
         self.bn_topmenu_github.clicked.connect(self.signal_github)
         self.bn_topmenu_quit = self.findChild(QtWidgets.QPushButton, 'bn_topmenu_quit')
         self.bn_topmenu_quit.clicked.connect(self.signal_quit)
+        self.bn_topmenu_view = self.findChild(QtWidgets.QPushButton, 'bn_topmenu_view')
+        self.bn_topmenu_view.clicked.connect(self.signal_view)
 
         ################################################################################
         #  LineEdits (Input Fields)
@@ -217,6 +219,9 @@ class UI(QMainWindow):
     
     def signal_github(self):
         return webbrowser.open('https://github.com/rawsashimi1604/StockScrap')
+
+    def signal_view(self):
+        pass
 
     def signal_db_path(self):
         # Get directory of chosen folder in a string format, then add it into lineEdit field

@@ -225,10 +225,9 @@ class Fin_Data:
         index = ['Name', 'Sector', 'Industry', 'Exchange', 'CEO', 'Business Model']
         val = [name, sector, industry, exchange, ceo, business_model]
 
-        # Create pandas Series using index list and val list.
-        stock_s = pd.Series(val, index, dtype='string', name=f'{self.ticker} Information')
+        df = pd.DataFrame(val, index=index)
 
-        return stock_s
+        return df
 
 
     def price(self):
@@ -303,8 +302,8 @@ class Fin_Data:
         Get table of valuation metrics under MarketWatch Profile page.
         Arguments are:
             None
-        Returns: pandas Series
-            Returns pandas Series of valuation metrics.
+        Returns: pandas DataFrame
+            Returns pandas DataFrame of valuation metrics.
         '''
 
         # URL to check for valuations table.
@@ -331,9 +330,9 @@ class Fin_Data:
             for val in header_selc:
                 values.append(val)
 
-        series = pd.Series(values, index=headers, dtype="string")
+        df = pd.DataFrame(values, index=headers)
 
-        return series
+        return df
 
 
     def efficiency(self):
@@ -341,8 +340,8 @@ class Fin_Data:
         Get table of efficiency metrics under MarketWatch Profile page.
         Arguments are:
             None
-        Returns: pandas Series
-            Returns pandas Series of efficiency metrics.
+        Returns: pandas DataFrame
+            Returns pandas DataFrame of efficiency metrics.
         '''
 
         # URL to check for efficiency table.
@@ -369,9 +368,9 @@ class Fin_Data:
             for val in header_selc:
                 values.append(val)
 
-        series = pd.Series(values, index=headers, dtype="string")
+        df = pd.DataFrame(values, index=headers)
 
-        return series
+        return df
 
 
     def liquidity(self):
@@ -379,8 +378,8 @@ class Fin_Data:
         Get table of liquidity metrics under MarketWatch Profile page.
         Arguments are:
             None
-        Returns: pandas Series
-            Returns pandas Series of liquidity metrics.
+        Returns: pandas DataFrame
+            Returns pandas DataFrame of liquidity metrics.
         '''
 
         # URL to check for liquidity table.
@@ -407,9 +406,9 @@ class Fin_Data:
             for val in header_selc:
                 values.append(val)
 
-        series = pd.Series(values, index=headers, dtype="string")
+        df = pd.DataFrame(values, index=headers)
 
-        return series
+        return df
 
 
     def profitability(self):
@@ -417,8 +416,8 @@ class Fin_Data:
         Get table of profitability metrics under MarketWatch Profile page.
         Arguments are:
             None
-        Returns: pandas Series
-            Returns pandas Series of profitability metrics.
+        Returns: pandas DataFrame
+            Returns pandas DataFrame of profitability metrics.
         '''
 
         # URL to check for profitability table.
@@ -445,9 +444,9 @@ class Fin_Data:
             for val in header_selc:
                 values.append(val)
 
-        series = pd.Series(values, index=headers, dtype="string")
+        df = pd.DataFrame(values, index=headers)
 
-        return series
+        return df
 
 
     def captialization(self):
@@ -455,8 +454,8 @@ class Fin_Data:
         Get table of captialization metrics under MarketWatch Profile page.
         Arguments are:
             None
-        Returns: pandas Series
-            Returns pandas Series of captialization metrics.
+        Returns: pandas DataFrame
+            Returns pandas DataFrame of captialization metrics.
         '''
 
         # URL to check for profitability table.
@@ -483,9 +482,9 @@ class Fin_Data:
             for val in header_selc:
                 values.append(val)
 
-        series = pd.Series(values, index=headers, dtype="string")
+        df = pd.DataFrame(values, index=headers)
 
-        return series
+        return df
 
 
     def main_page(self):
@@ -493,8 +492,8 @@ class Fin_Data:
         Get table of stock information from MarketWatch landing page.
         Arguments are:
             None
-        Returns: pandas Series
-            Returns pandas Series of stock information.
+        Returns: pandas DataFrame
+            Returns pandas DataFrame of stock information.
         '''
 
         URL = f'https://www.marketwatch.com/investing/stock/{self.ticker}'
@@ -527,11 +526,10 @@ class Fin_Data:
                 value = value.get_text()
                 values.append(value)
 
-        series = pd.Series(values, index=headers, dtype="string")
 
+        df = pd.DataFrame(values, index=headers)
 
-        # Returns dataframe table
-        return series
+        return df
             
     
     def income_statement(self):
@@ -1106,5 +1104,5 @@ class Fin_Data:
 
 if __name__ == "__main__":
     fd = Fin_Data('XPEV')
-    df = fd.cash_flow_opr()
+    df = fd.liquidity()
     print(df)

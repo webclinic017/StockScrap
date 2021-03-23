@@ -49,6 +49,8 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - pandas_market_calendars
 - pprint
 - yfinance
+- PyQt5
+- PyQt5-Tools
 
 ### How to use this module and Examples
 *Before starting, pip install all required modules.*
@@ -405,8 +407,8 @@ Fin_Data.valuations()
 > *Get table of valuation metrics under MarketWatch Profile page.*
 - Arguments are:
   - *None*
-- Returns: *pandas Series*
-  - Returns pandas Series of valuation metrics.
+- Returns: *pandas DataFrame*
+  - Returns pandas DataFrame of valuation metrics.
 
 ##### method Fin_Data.efficiency
 ```python
@@ -415,8 +417,8 @@ Fin_Data.efficiency()
 > *Get table of efficiency metrics under MarketWatch Profile page.*
 - Arguments are:
   - *None*
-- Returns: *pandas Series*
-  - Returns pandas Series of efficiency metrics.
+- Returns: *pandas DataFrame*
+  - Returns pandas DataFrame of efficiency metrics.
   
 ##### method Fin_Data.liquidity
 ```python
@@ -425,8 +427,8 @@ Fin_Data.liquidity()
 > *Get table of liquidity metrics under MarketWatch Profile page.*
 - Arguments are:
   - *None*
-- Returns: *pandas Series*
-  - Returns pandas Series of liquidity metrics.
+- Returns: *pandas DataFrame*
+  - Returns pandas DataFrame of liquidity metrics.
 
 ##### method Fin_Data.profitability
 ```python
@@ -435,8 +437,8 @@ Fin_Data.profitability()
 > *Get table of profitability metrics under MarketWatch Profile page.*
 - Arguments are:
   - *None*
-- Returns: *pandas Series*
-  - Returns pandas Series of profitability metrics.
+- Returns: *pandas DataFrame*
+  - Returns pandas DataFrame of profitability metrics.
 
 ##### method Fin_Data.captialization
 ```python
@@ -445,8 +447,8 @@ Fin_Data.captialization()
 > *Get table of captialization metrics under MarketWatch Profile page.*
 - Arguments are:
   - *None*
-- Returns: *pandas Series*
-  - Returns pandas Series of captialization metrics.
+- Returns: *pandas DataFrame*
+  - Returns pandas DataFrame of captialization metrics.
   
 ##### method Fin_Data.main_page
 ```python
@@ -455,8 +457,8 @@ Fin_Data.main_page()
 > *Get table of stock information from MarketWatch landing page.*
 - Arguments are:
   - *None*
-- Returns: *pandas Series*
-  - Returns pandas Series of stock information.
+- Returns: *pandas DataFrame*
+  - Returns pandas DataFrame of stock information.
   
 ##### method Fin_Data.income_statement
 ```python

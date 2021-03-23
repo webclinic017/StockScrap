@@ -91,7 +91,7 @@ class StockDL(Stock_Data):
 
                 self.json(from_obj=stock_info_df, export_to=p, filename=stock_info_name)
                 json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/StockInformation'
-                df = pd.read_json(json_path, typ='series')
+                df = pd.read_json(json_path)
                 df.to_csv(f'{path}/StockInformation.csv')
                 print('StockInfo exported')
                 
@@ -102,7 +102,7 @@ class StockDL(Stock_Data):
 
                 self.json(from_obj=keydata_df, export_to=p, filename=keydata_name)
                 json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/KeyData'
-                df = pd.read_json(json_path, typ='series')
+                df = pd.read_json(json_path)
                 df.to_csv(f'{path}/KeyData.csv')
                 print('KeyData exported')
             
@@ -115,7 +115,7 @@ class StockDL(Stock_Data):
 
                 self.json(from_obj=val_df, export_to=p, filename=val_name)
                 json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/Profile_Valuations'
-                df = pd.read_json(json_path, typ='series')
+                df = pd.read_json(json_path)
                 df.to_csv(f'{path}/Profile_Valuations.csv')
                 print('Profile_Valuations exported')
                 #------------------------------
@@ -125,7 +125,7 @@ class StockDL(Stock_Data):
 
                 self.json(from_obj=eff_df, export_to=p, filename=eff_name)
                 json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/Profile_Efficiency'
-                df = pd.read_json(json_path, typ='series')
+                df = pd.read_json(json_path)
                 df.to_csv(f'{path}/Profile_Efficiency.csv')
                 print('Profile_Efficiency exported')
                 #------------------------------
@@ -135,7 +135,7 @@ class StockDL(Stock_Data):
 
                 self.json(from_obj=liq_df, export_to=p, filename=liq_name)
                 json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/Profile_Liquidity'
-                df = pd.read_json(json_path, typ='series')
+                df = pd.read_json(json_path)
                 df.to_csv(f'{path}/Profile_Liquidity.csv')
                 print('Profile_Liquidity exported')
                 #------------------------------
@@ -145,7 +145,7 @@ class StockDL(Stock_Data):
 
                 self.json(from_obj=pro_df, export_to=p, filename=pro_name)
                 json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/Profile_Profitability'
-                df = pd.read_json(json_path, typ='series')
+                df = pd.read_json(json_path)
                 df.to_csv(f'{path}/Profile_Profitability.csv')
                 print('Profile_Profitability exported')
                 #------------------------------
@@ -155,7 +155,7 @@ class StockDL(Stock_Data):
 
                 self.json(from_obj=cap_df, export_to=p, filename=cap_name)
                 json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/Profile_Capitalization'
-                df = pd.read_json(json_path, typ='series')
+                df = pd.read_json(json_path)
                 df.to_csv(f'{path}/Profile_Capitalization.csv')
                 print('Profile_Capitalization exported')
                 #------------------------------

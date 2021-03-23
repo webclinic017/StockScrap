@@ -1,5 +1,4 @@
 import sys
-import webbrowser
 import time
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import *
@@ -106,6 +105,7 @@ class IntrinsicWorker(QObject):
 
         # Emit when finished intrinsic
         self.finished.emit()
+
 
 ################################################################################
 #  Open Window
