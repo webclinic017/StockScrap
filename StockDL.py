@@ -62,7 +62,8 @@ class StockDL(Stock_Data):
             ticker_index = self.ticker[0]
 
             # Path Class
-            p = Path(f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}')
+            path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}'
+            p = Path(path)
             p.mkdir(parents=True, exist_ok=True)
             #--------------------------------------------------------------------------------------------------------------
             #       Download Functions
@@ -76,6 +77,9 @@ class StockDL(Stock_Data):
                 price_data_name = 'PriceData'
 
                 self.json(from_obj=price_data_df, export_to=p, filename=price_data_name)
+                json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/PriceData'
+                df = pd.read_json(json_path)
+                df.to_csv(f'{path}/PriceData.csv')
                 print('PriceData exported')
                 
             
@@ -86,6 +90,9 @@ class StockDL(Stock_Data):
                 stock_info_name = 'StockInformation'
 
                 self.json(from_obj=stock_info_df, export_to=p, filename=stock_info_name)
+                json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/StockInformation'
+                df = pd.read_json(json_path, typ='series')
+                df.to_csv(f'{path}/StockInformation.csv')
                 print('StockInfo exported')
                 
                 # Key Data ----------------------------------------------------------------------------------------------
@@ -94,6 +101,9 @@ class StockDL(Stock_Data):
                 keydata_name = 'KeyData'
 
                 self.json(from_obj=keydata_df, export_to=p, filename=keydata_name)
+                json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/KeyData'
+                df = pd.read_json(json_path, typ='series')
+                df.to_csv(f'{path}/KeyData.csv')
                 print('KeyData exported')
             
 
@@ -104,6 +114,9 @@ class StockDL(Stock_Data):
                 val_name = 'Profile_Valuations'
 
                 self.json(from_obj=val_df, export_to=p, filename=val_name)
+                json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/Profile_Valuations'
+                df = pd.read_json(json_path, typ='series')
+                df.to_csv(f'{path}/Profile_Valuations.csv')
                 print('Profile_Valuations exported')
                 #------------------------------
                 # Export Efficiency
@@ -111,6 +124,9 @@ class StockDL(Stock_Data):
                 eff_name = 'Profile_Efficiency'
 
                 self.json(from_obj=eff_df, export_to=p, filename=eff_name)
+                json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/Profile_Efficiency'
+                df = pd.read_json(json_path, typ='series')
+                df.to_csv(f'{path}/Profile_Efficiency.csv')
                 print('Profile_Efficiency exported')
                 #------------------------------
                 # Export Liquidity
@@ -118,6 +134,9 @@ class StockDL(Stock_Data):
                 liq_name = 'Profile_Liquidity'
 
                 self.json(from_obj=liq_df, export_to=p, filename=liq_name)
+                json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/Profile_Liquidity'
+                df = pd.read_json(json_path, typ='series')
+                df.to_csv(f'{path}/Profile_Liquidity.csv')
                 print('Profile_Liquidity exported')
                 #------------------------------
                 # Export Profitability
@@ -125,6 +144,9 @@ class StockDL(Stock_Data):
                 pro_name = 'Profile_Profitability'
 
                 self.json(from_obj=pro_df, export_to=p, filename=pro_name)
+                json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/Profile_Profitability'
+                df = pd.read_json(json_path, typ='series')
+                df.to_csv(f'{path}/Profile_Profitability.csv')
                 print('Profile_Profitability exported')
                 #------------------------------
                 # Export Capitalization
@@ -132,6 +154,9 @@ class StockDL(Stock_Data):
                 cap_name = 'Profile_Capitalization'
 
                 self.json(from_obj=cap_df, export_to=p, filename=cap_name)
+                json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/Profile_Capitalization'
+                df = pd.read_json(json_path, typ='series')
+                df.to_csv(f'{path}/Profile_Capitalization.csv')
                 print('Profile_Capitalization exported')
                 #------------------------------
             
@@ -142,6 +167,9 @@ class StockDL(Stock_Data):
                 inc_name = 'IncomeStatement'
                 
                 self.json(from_obj=inc_df, export_to=p, filename=inc_name)
+                json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/IncomeStatement'
+                df = pd.read_json(json_path)
+                df.to_csv(f'{path}/IncomeStatement.csv')
                 print('IncomeStatement exported')
                 #------------------------------
 
@@ -153,6 +181,9 @@ class StockDL(Stock_Data):
                 balass_name = 'BalanceSheet_Assets'
 
                 self.json(from_obj=balass_df, export_to=p, filename=balass_name)
+                json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/BalanceSheet_Assets'
+                df = pd.read_json(json_path)
+                df.to_csv(f'{path}/BalanceSheet_Assets.csv')
                 print('BalanceSheet_Assets exported')
                 #------------------------------
                 # Export Liabilities
@@ -160,6 +191,9 @@ class StockDL(Stock_Data):
                 ballib_name = 'BalanceSheet_Liabilities'
 
                 self.json(from_obj=ballib_df, export_to=p, filename=ballib_name)
+                json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/BalanceSheet_Liabilities'
+                df = pd.read_json(json_path)
+                df.to_csv(f'{path}/BalanceSheet_Liabilities.csv')
                 print('BalanceSheet_Liabilities exported')
                 #------------------------------
             
@@ -171,6 +205,9 @@ class StockDL(Stock_Data):
                 cfsopr_name = 'CashFlow_Operating'
 
                 self.json(from_obj=cfsopr_df, export_to=p, filename=cfsopr_name)
+                json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/CashFlow_Operating'
+                df = pd.read_json(json_path)
+                df.to_csv(f'{path}/CashFlow_Operating.csv')
                 print('CashFlow_Operating exported')
                 #------------------------------
                 # Export Investing Activities
@@ -178,6 +215,9 @@ class StockDL(Stock_Data):
                 cfsinv_name = 'CashFlow_Investing'
 
                 self.json(from_obj=cfsinv_df, export_to=p, filename=cfsinv_name)
+                json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/CashFlow_Investing'
+                df = pd.read_json(json_path)
+                df.to_csv(f'{path}/CashFlow_Investing.csv')
                 print('CashFlow_Investing exported')
                 #------------------------------
                 # Export Financing Activities
@@ -185,6 +225,9 @@ class StockDL(Stock_Data):
                 cfsfin_name = 'CashFlow_Financing'
 
                 self.json(from_obj=cfsfin_df, export_to=p, filename=cfsfin_name)
+                json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/CashFlow_Financing'
+                df = pd.read_json(json_path)
+                df.to_csv(f'{path}/CashFlow_Financing.csv')
                 print('CashFlow_Financing exported')
 
             
@@ -196,6 +239,9 @@ class StockDL(Stock_Data):
                     fiscal_name = 'FiscalYear'
 
                     self.json(from_obj=fiscal_df, export_to=p, filename=fiscal_name)
+                    json_path = f'{DB_PATH}/{exchange_path}/{ticker_index}/{self.ticker}/FiscalYear'
+                    df = pd.read_json(json_path)
+                    df.to_csv(f'{path}/FiscalYear.csv')
                     print('FiscalYear exported')
                 
                 except KeyError:
@@ -302,3 +348,7 @@ Finished Data Download for {self.ticker}.
 
         # Returns whether ticker existed
         return exists
+
+if __name__ == "__main__":
+    dl = StockDL('AAPL')
+    dl.stockdl(r'C:\Users\Gavin\Desktop\FinData', download="ALL")

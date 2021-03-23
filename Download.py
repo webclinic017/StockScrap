@@ -162,6 +162,8 @@ class Downloader:
         time_taken = datetime.now() - start_time
         print(f'---Time taken = {time_taken}---')
 
+
+        
         return None
 
 if __name__ == "__main__":
