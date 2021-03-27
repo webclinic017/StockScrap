@@ -54,7 +54,7 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - PyQt5-Tools
 
 ### GUI Update
-In the most recent update, I have created a GUI using PyQt5 to facilitate an easier time using the program. Simply run *main_ui.py* to run the GUI. Enjoy! :grin:
+In the most recent update, I have created a GUI using PyQt5 to facilitate an easier time using the program. Simply run *main_ui.py* to run the GUI. Enjoy! :grin: Thanks to Wanderson for Circular Splash UI. [Wanderson](https://www.youtube.com/c/WandersonIsMe/)
 
 ### How to use this module and Examples
 *Before starting, pip install all required modules.*
