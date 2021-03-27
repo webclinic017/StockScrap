@@ -36,7 +36,7 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 ### Ongoing Tasks
 - [x] Download stock data to database
 - [x] Create extraction module to pull data from database (in both data and view format)
-- [ ] Create module for installation across folders
+- [x] Create module for installation across folders
 - [x] Remove selenium dependency from code
 - [x] Add analysis and viewing features
 - [x] Calcuate intrinsic value using Discounted Cash Flow (DCF) model
