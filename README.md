@@ -46,18 +46,18 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 ### Required modules
 - pandas
 - numpy
-- BeautifulSoup4
+- bs4
+- requests
 - pandas_market_calendars
 - pprint
 - yfinance
 - PyQt5
-- PyQt5-Tools
 
 ### GUI Update
 In the most recent update, I have created a GUI using PyQt5 to facilitate an easier time using the program. Simply run *main_ui.py* to run the GUI. Enjoy! :grin: Thanks to [Wanderson](https://www.youtube.com/c/WandersonIsMe/) for Circular Splash UI. 
 
 ### How to use this module and Examples
-*Before starting, pip install all required modules.*
+*Before starting, pip install all required modules, or simply run setup.py*
 
 After that, open a new python file in the folder. Then import the **Downloader** class and the **DBExtract** class.
 

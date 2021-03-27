@@ -709,4 +709,5 @@ def window():
     ui.show()
     app.exec_()
 
-window()
+if __name__ == "__main__":
+    window()
