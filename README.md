@@ -8,12 +8,13 @@
     + [Contributing](#contributing)
     + [Ongoing Tasks](#ongoing-tasks)
     + [Required modules](#required-modules)
+    + [GUI Update](#gui-update)
     + [How to use this module and Examples](#how-to-use-this-module-and-examples)
       - [Downloader class](#downloader-class)
       - [DBExtract class](#dbextract-class)
       - [Intrinsic class](#intrinsic-class)
     + [Documentation](#documentation)
-        
+
 ### Introduction
 
 Hey everyone! :wave: This project is a stock data scrapper that I made for my own analysis purposes! It uses **Python** to extract financial and technical data from stocks and stores them into a database on your local computer. :smile:
@@ -37,7 +38,7 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - [x] Create extraction module to pull data from database (in both data and view format)
 - [ ] Create module for installation across folders
 - [x] Remove selenium dependency from code
-- [ ] Add analysis and viewing features
+- [x] Add analysis and viewing features
 - [x] Calcuate intrinsic value using Discounted Cash Flow (DCF) model
 - [x] Add specific documentation of different class methods and their usage
 - [x] Create Graphic User Interface
@@ -51,6 +52,9 @@ All pull requests are welcome! :upside_down_face: However, changes to the code a
 - yfinance
 - PyQt5
 - PyQt5-Tools
+
+### GUI Update
+In the most recent update, I have created a GUI using PyQt5 to facilitate an easier time using the program. Simply run *main_ui.py* to run the GUI. Enjoy! :grin:
 
 ### How to use this module and Examples
 *Before starting, pip install all required modules.*
